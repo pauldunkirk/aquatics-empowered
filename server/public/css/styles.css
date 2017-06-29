@@ -1,4 +1,6 @@
 h1  {
+  padding-top: 50px;
+  text-align: center;
   font-style: oblique;
 }
 
@@ -17,7 +19,7 @@ h1  {
   height: 700px;
   background-image: url(/css/download.jpeg);
   opacity: 0.3;
-  border-bottom: 5px solid rgba(0,0,0,0.2);
+  border-bottom: 22px solid rgba(0,0,0,0.9);
 }
 
 /* This css is only applied when fullscreen is active. */
