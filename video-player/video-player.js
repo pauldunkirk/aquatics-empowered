@@ -1,6 +1,3 @@
-
-
-
 // still need to add a full screen button but this is a detailed HTML5 video player
 
 // Get elements on page
