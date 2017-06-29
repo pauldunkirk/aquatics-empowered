@@ -1,6 +1,9 @@
 h1  {
   font-style: oblique;
 }
+.ng-view-here{
+  padding-top: 300px;
+}
 .player {
   max-width:750px;
   border:5px solid rgba(0,0,0,0.2);
