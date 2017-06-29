@@ -1,5 +1,3 @@
-<<<<<<< HEAD:server/public/scripts/client.js
-=======
 // still need to add a full screen button but this is a detailed HTML5 video player
 
 // Get elements on page
@@ -103,4 +101,3 @@ progress.addEventListener('mousemove', (e) => mousedown && scrub(e)); // When mo
 progress.addEventListener('mousedown', () => mousedown = true);
 progress.addEventListener('mouseup', () => mousedown = false);
 console.log("video-player.js is run");
->>>>>>> pc:video-player/video-player.js
