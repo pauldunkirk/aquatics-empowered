@@ -6,7 +6,7 @@ h1  {
 
 .homeLogoDiv {
   margin: auto;
-  width: 70%;
+  width: 50%;
   height: auto;
 }
 .homeLogo {
@@ -17,6 +17,23 @@ h1  {
 
 .videoDiv {
   background: black;
+  width: 100%;
+}
+
+.videoItself{
+  margin: auto;
+  width: 50%;
+  height: auto;
+}
+
+.slideshowDiv {
+  background: black;
+  width: 1000%;
+}
+
+.slideshowImage {
+  background: black;
+  width: 70%;
 }
 
 .navbar {

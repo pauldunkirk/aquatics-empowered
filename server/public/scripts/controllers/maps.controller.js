@@ -1,4 +1,4 @@
-myApp.controller('MapsController', ['$location', function($location) {
+app.controller('MapsController', ['$location', function($location) {
 var self = this;
 self.myMap = function () {
       myCenter = new google.maps.LatLng(44.9778, -93.2650);
