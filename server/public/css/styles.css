@@ -1,45 +1,24 @@
 h1  {
-  font-style: oblique;
+  font-style: normal;
+  font-size: 50px;
+  color: red;
 }
 
-
-
-
-
-/*.fullscreen-bg {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    z-index: -100;
-    background: black;
+.homeLogoDiv {
+  margin: auto;
+  width: 70%;
+  height: auto;
+}
+.homeLogo {
+  margin: 1em;
+  width: 100%;
+  height: auto;
 }
 
-.fullscreen-bg__video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}*/
+.videoDiv {
+  background: black;
+}
 
-/*video {
-    margin: 0;
-    background: yellow;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-}*/
-
-/*.pics{
-  padding-top: 50px;
-  background-size: 100%;
-  height: 700px;
-  background-image: url(/css/download.jpeg);
-  background-repeat: no-repeat;
-  opacity: 0.3;
-}*/
+.navbar {
+  margin-bottom: 0px !important;
+}
