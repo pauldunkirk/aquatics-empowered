@@ -1,0 +1,37 @@
+<!-- <h1>Home</h1>
+
+<button ng-click="home.logout()" >Logout</button> -->
+
+<!-- Find a faciliy nearby form  -->
+
+<button ng-click="home.openInfoModal()" class="infoButton btn btn-info"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+<br>
+<section class="search">
+<h3>Search for a facility</h3>
+<form name="chartForm" ng-submit="home.getFacilities()">
+      <div class="searchDiv">
+        <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+        <input type="text" ng-model="home.zipcode" placeholder="Zip Code" class="zipcodeInput">
+      </div>
+    <!-- <div class="col-xs-2"> -->
+      <button type="submit" class="submitZipButton btn btn-lg btn-info">Search</button>
+    <!-- </div> -->
+</form>
+</section>
+
+<!-- Facilities List -->
+<section class="homeFacilitiesSection">
+<!-- <ul class="homeFacilitiesList">
+  <li ng-repeat="result in home.facilitieslist">
+    <a href="#" ng-click="home.openListModal(result.id)">{{ result.name + ' - ' + result.city }}</a>
+  </li>
+</ul> -->
+
+<table class="homeFacilitiesList table table-hover .table-responsive" >
+  <tbody>
+    <tr ng-repeat="result in home.facilitieslist">
+      <td><a class="facilityLinks" href="#" ng-click="home.openListModal(result.id)">{{ result.name + ' - ' + result.city }}</a></td>
+    </tr>
+  </tbody>
+</table>
+</section>

@@ -1,0 +1,113 @@
+<body>
+  <header>
+    <span><h2>Admin</h2></span>
+  </header>
+
+
+  <div class="" ng-init="admin.active = 1">
+    <button type="button" class="btn btn-default btn-sm" ng-class="{active: admin.active == 1}" ng-click="admin.active = 1" ng-model="admin.view">Facilities</button>
+    <button type="button" class="btn btn-default btn-sm" ng-class="{active: admin.active == 2}" ng-click="admin.active = 2" ng-model="admin.view">Users</button>
+    <button type="button" class="btn btn-default btn-sm" ng-class="{active: admin.active == 3}" ng-click="admin.active = 3" ng-model="admin.view" ng-show="admin.currentUser.user_type == 'superadmin'">Add new Admin</button>
+  </div>
+
+  <section class="adminTable" ng-show="admin.active == 1">
+    <table class="table table-hover .table-responsive">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- repeat each facility in facilitiesList array into td -->
+        <tr ng-repeat="facility in admin.facilitiesList">
+          <td>{{facility.name}}</td>
+          <td>{{facility.city}}</td>
+          <td>
+            <!-- editable status  -->
+            <span >
+              <!-- add ng-if here -->
+              <p ng-show="!hiddenEntry[$index]">
+                {{facility.status}}
+              </p>
+              <select ng-show="hiddenEntry[$index]" ng-model="facility.approved">
+                <!-- <option value="default"></option> -->
+                <option value="true">Approve</option>
+                <option value="false">Deny</option>
+              </select>
+            </span>
+          </td>
+
+          <td>
+            <!-- editable form hidden, 'save' and 'cancel' hidden on page load-->
+            <form editable-form name="rowform" onbeforesave="saveFacility($data, facility.id)" ng-show="hiddenEntry[$index]" class="form-buttons form-inline">
+              <button type="submit" class="btn btn-primary" ng-click="admin.updateFacility(facility); hiddenEntry[$index] = false">Save</button>
+              <button type="button" class="btn btn-default" ng-click="admin.editEntry($index)">Cancel</button>
+            </form>
+            <div class="buttons" ng-show="!hiddenEntry[$index]">
+              <button class="btn btn-primary" ng-click="admin.editEntry($index)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+              <button class="btn btn-danger delete" ng-click="admin.deleteFacility(facility.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="userList" ng-show="admin.active == 2">
+    <table class="table table-hover .table-responsive">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email/Username</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>User Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in admin.userList">
+          <td>{{user.first_name}} {{user.last_name}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.street_address}} {{user.city}} {{user.state}} {{user.zip}}</td>
+          <td>{{user.phone_number}}</td>
+          <td>{{user.user_type}}</td>
+          <td>
+            <div class="buttons">
+              <button class="btn btn-danger delete" ng-click="admin.deleteUser(user.id)"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="newAdmin" ng-show="admin.active == 3 && admin.currentUser.user_type == 'superadmin'">
+    <h2>Add a New Admin</h2>
+    <form class="" method="post" name="adminForm">
+      <!-- email -->
+      <label for="newAdminEmail">Email:</label>
+      <input type="text" name="username" value="" ng-model="admin.newAdmin.email" placeholder="Valid email required"><p style="color: red; display: inline">*</p><br>
+      <!-- password -->
+      <label for="newAdminpPassword">Password:</label>
+      <input type="password" id="password1" name="password" ng-model="admin.newAdmin.password" placeholder="Password" required/><p style="color: red; display: inline">*</p><br>
+      <label for="newAdminpPassword">Confirm Password:</label>
+      <input type="password" id="password2" name="password" ng-model="admin.newAdmin.password1" placeholder="Confirm password" required/><p style="color: red; display: inline">*</p><br>
+      <!-- fist name -->
+      <label for="newAdminFirstName">First Name:</label>
+      <input type="text" name="firstName" value="" ng-model="admin.newAdmin.firstName" required><p style="color: red; display: inline">*</p><br>
+      <!-- last name -->
+      <label for="newAdminLastName">Last Name:</label>
+      <input type="text" name="lastName" value="" ng-model="admin.newAdmin.lastName" required><p style="color: red; display: inline">*</p><br>
+      <!-- is new admin superadmin? -->
+      <label for="superAdmin">Allow this Admin to add other Admins?</label>
+      <input type="checkbox" name="" value="" ng-model=admin.newAdmin.superadmin><br>
+      <button class="btn btn-success btn-md" type="submit" name="button" ng-click="admin.registerAdmin(admin.newAdmin)">Add Admin</button>
+
+    </form>
+  </section>
+
+
+</body>
