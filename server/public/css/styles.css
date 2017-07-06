@@ -8,6 +8,7 @@ h1  {
   margin: auto;
   width: 50%;
   height: auto;
+  padding-top: 3em;
 }
 .homeLogo {
   margin: 1em;
@@ -16,19 +17,23 @@ h1  {
 }
 
 .videoDiv {
+  /*margin: auto;*/
   background: black;
-  width: 100%;
+  border-top: groove black 20px;
+  /*width: 100%;*/
 }
 
 .videoItself{
+  background: black;
   margin: auto;
   width: 50%;
-  height: auto;
+  /*height: auto;*/
+  /*position: center;*/
 }
 
 .slideshowDiv {
   background: black;
-  width: 1000%;
+  width: 100%;
 }
 
 .slideshowImage {
@@ -37,6 +42,23 @@ h1  {
   width: 70%;
 }
 
+.comingSoonDiv{
+  background: black;
+  position: center;
+  width: 100%;
+  border-top: groove black 15px;
+  border-bottom: groove black 25px;
+
+}
+.comingSoonImage{
+  background: black;
+  position: center;
+  width: 100%;
+}
+
 .navbar {
+  position: fixed !important;
+  /*overflow: hidden !important;*/
+  width: 100%;
   margin-bottom: 0px !important;
 }
