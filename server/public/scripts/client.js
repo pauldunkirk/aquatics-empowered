@@ -1,4 +1,5 @@
-var app = angular.module('myApp', ['ui.router','ui.bootstrap','ngAnimate', 'ngTouch', 'ngFader']);
+var myApp = angular.module('myApp', ['ui.router','ui.bootstrap']);
+// var myApp = angular.module('myApp', ['ui.router','ui.bootstrap','ngAnimate', 'ngTouch', 'ngFader']);
 
 
 // eventually separate routing (config) from app module (client) like in IIMN
