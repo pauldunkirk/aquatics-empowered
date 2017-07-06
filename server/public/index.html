@@ -46,21 +46,26 @@
 
 
 <body ng-app="myApp">
-    <div class="">
 
+    <div class="">
+        <nav ng-include="'views/templates/nav.html'"></nav>
     </div>
+
     <div class="homeLogoDiv">
         <img alt="Aquatics Empowered logo" src="images/logos/aeLogo.png" class="homeLogo">
     </div>
 
-    <nav ng-include="'views/templates/nav.html'"></nav>
 
     <div class="videoDiv">
         <video loop muted autoplay="" class="videoItself">
-        <source src="images/videos/now_this.mp4" type="video/mp4">
-      </video>
+          <source src="images/videos/now_this.mp4" type="video/mp4">
+        </video>
     </div>
-<!-- <img class src="images/slideshow/girlswim.jpg" alt=""> -->
+
+    <!-- <div class="slideshowDiv">
+        <img class="slideshowImage" src="images/slideshow/girlswim.jpg" alt="girl swimming">
+
+    </div> -->
 
 
 
