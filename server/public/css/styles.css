@@ -33,6 +33,7 @@ h1  {
 
 .slideshowImage {
   background: black;
+  position: center;
   width: 70%;
 }
 
