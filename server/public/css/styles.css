@@ -63,6 +63,14 @@ h1  {
   /*margin-bottom: 0px !important;*/
 }
 
+
+.carouselContainer {
+  width: 100%;
+  background: black;
+
+}
+
+
 .search {
   float: right;
   width: 300px;
@@ -75,7 +83,7 @@ h1  {
   padding: 30px;
   background: white;
 
-  h3 {
+h3 {
     background: gray;
     text-transform: uppercase;
     text-align: center;
