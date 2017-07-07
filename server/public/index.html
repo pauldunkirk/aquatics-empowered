@@ -76,8 +76,9 @@
 
 
 
-
-    <section class="container carouselContainer">
+<!-- <div class="carouselAndVideoDiv"> -->
+    <!--CAROUSEL / SLIDESHOW -->
+    <div class="container carouselContainer">
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
@@ -85,33 +86,28 @@
           <li data-target="#myCarousel" data-slide-to="1"></li>
           <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
-
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
-
           <div class="item active">
-            <img src="images/slideshow/girlswim.jpg" alt="Girl Swimming" style="width:100%;">
+            <img class="slideshowImage" src="images/slideshow/girlswim.jpg" alt="Girl Swimming">
             <div class="carousel-caption">
-              <h3>I love to swim!</h3>
+              <!-- <h3>I love to swim!</h3> -->
             </div>
-          </div>
+          </div>  <!-- end first item-->
+          <div class="item">
+            <img class="slideshowImage" src="images/slideshow/motherSon.jpg" alt="Mother and Son">
+            <div class="carousel-caption">
+              <!-- <h3>Swimming is fun!</h3> -->
+            </div>
+          </div> <!-- end second item-->
 
           <div class="item">
-            <img src="images/slideshow/motherSon.jpg" alt="Mother and Son" style="width:100%;">
+            <img class="slideshowImage" src="images/slideshow/motherDaughter.jpeg" alt="Mother and Daughter">
             <div class="carousel-caption">
-              <h3>Swimming is so much fun!</h3>
+              <!-- <h3>Water = Therapy</h3> -->
             </div>
-          </div>
-
-          <div class="item">
-            <img src="images/slideshow/motherDaughter.jpeg" alt="Mother and Daughter" style="width:100%;">
-            <div class="carousel-caption">
-              <h3>Water = Therapy</h3>
-            </div>
-          </div>
-
-        </div>
-
+          </div> <!-- end first item-->
+        </div>   <!-- END SLIDE WRAPPER -->
         <!-- Left and right controls -->
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
           <span class="glyphicon glyphicon-chevron-left"></span>
@@ -122,49 +118,16 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-    </section>
-
-
-
-
-
-
-
-
-
-
-
+    </div>
+    <!-- END CAROUSEL / SLIDESHOW -->
 
     <div class="videoDiv">
         <video loop muted autoplay="" class="videoItself">
           <source src="images/videos/now_this.mp4" type="video/mp4">
         </video>
+    </div>
 
 
-
-    <section class="search">
-    <h3>Find a pool</h3>
-    <form name="chartForm" ng-submit="home.getFacilities()">
-          <div class="searchDiv">
-            <i class="fa fa-search" aria-hidden="true"></i>
-            <input type="text" ng-model="home.zipcode" placeholder="Zip Code" class="zipcodeInput">
-          </div>
-        <div class="col-xs-2">
-          <button type="submit" class="submitZipButton btn btn-lg btn-info">Search</button>
-        <!-- </div> -->
-    </form>
-    </section>
-</div>
-
-
-
-
-
-
-    <!-- <div class="slideshowDiv">
-        <img class="slideshowImage" src="images/slideshow/girlswim.jpg" alt="girl swimming">
-
-    </div> -->
 
 
 
@@ -492,6 +455,24 @@
 
 
 
+    <section class="search">
+    <h3>Find a pool</h3>
+    <form name="chartForm" ng-submit="home.getFacilities()">
+          <div class="searchDiv">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input type="text" ng-model="home.zipcode" placeholder="Zip Code" class="zipcodeInput">
+          </div>
+        <div class="col-xs-2">
+          <button type="submit" class="submitZipButton btn btn-lg btn-info">Search</button>
+        </div>
+    </form>
+    </section>
+
+
+
+
+
+
     <!-- Footer -->
     <footer class="w3-container w3-padding-32 w3-theme-d1 w3-center">
         <h4>Follow Us</h4>
@@ -511,8 +492,6 @@
             }
         }
     </script>
-
-
 
 
 
