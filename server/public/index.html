@@ -58,17 +58,34 @@
         <img alt="Aquatics Empowered logo" src="images/logos/aeLogo.png" class="homeLogo">
     </div>
 
-
+    <div class="comingSoonDiv">
+        <img alt="Coming Soon" src="images/ComingSoon1.png" class="comingSoonImage">
+    </div>
 
     <div class="videoDiv">
         <video loop muted autoplay="" class="videoItself">
           <source src="images/videos/now_this.mp4" type="video/mp4">
         </video>
-    </div>
 
-    <div class="comingSoonDiv">
-        <img alt="Coming Soon" src="images/ComingSoon1.png" class="comingSoonImage">
-    </div>
+
+
+    <section class="search">
+    <h3>Find a pool</h3>
+    <form name="chartForm" ng-submit="home.getFacilities()">
+          <div class="searchDiv">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input type="text" ng-model="home.zipcode" placeholder="Zip Code" class="zipcodeInput">
+          </div>
+        <!-- <div class="col-xs-2"> -->
+          <button type="submit" class="submitZipButton btn btn-lg btn-info">Search</button>
+        <!-- </div> -->
+    </form>
+    </section>
+</div>
+
+
+
+
 
 
     <!-- <div class="slideshowDiv">
@@ -101,7 +118,7 @@
     </script> -->
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&callback=myMap"></script>
-  <div id="gmap" style="width:100%;height:420px;"></div>
+  <div id="gmap" style="width:100%;height:200px;"></div>
 
     <!-- <div id="gmap" style="width:600px; height:400px"></div> -->
 
@@ -421,6 +438,13 @@
             }
         }
     </script>
+
+
+
+
+
+
+
 
 </body>
 

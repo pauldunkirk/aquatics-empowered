@@ -58,7 +58,45 @@ h1  {
 
 .navbar {
   position: fixed !important;
-  /*overflow: hidden !important;*/
   width: 100%;
-  margin-bottom: 0px !important;
+  /*overflow: hidden !important;*/
+  /*margin-bottom: 0px !important;*/
+}
+
+.search {
+  float: right;
+  width: 300px;
+  height: 200px;
+  padding: 40px 40px 40px 40px;
+  margin: 0 auto 0 auto;
+  border: 1px solid #b3afa7;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.22);
+  padding: 30px;
+  background: white;
+
+  h3 {
+    background: gray;
+    text-transform: uppercase;
+    text-align: center;
+    color: $catalina-blue;
+    font-size: 18px;
+    font-weight: 100;
+    padding: 20px;
+    margin: -30px -30px 30px -30px;
+    font-weight: bold;
+    border-radius: 12px 12px 0 0;
+  }
+  .searchDiv {
+    margin-left: 30px;
+  }
+  input[type=text] {
+    border-radius: 25px;
+    text-align: center;
+  }
+    button {
+      text-align: center;
+      padding: 10px 20px 10px 25px;
+      margin-left: 75px;
+    }
 }
