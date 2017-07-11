@@ -1,89 +1,66 @@
-h1  {
-  font-style: normal;
-  font-size: 50px;
-  color: red;
+body {
+  background: #000000 url("../images/water.png") no-repeat fixed center;
+  background-size:cover;
 }
 
 .homeLogoDiv {
-  margin: auto;
-  width: 50%;
-  height: auto;
-  padding-top: 3em;
+  /*margin: auto;
+  width: 100%;
+  height: auto;*/
 }
 .homeLogo {
-  margin: 1em;
   width: 100%;
-  height: auto;
-}
-
-.videoDiv {
-  display: inline-block;
-  margin: auto;
-  background: black;
-  border-top: groove black 20px;
-  width: 50%;
-  float: right;
-  height: 100%;
-}
-
-.videoItself{
-  background: black;
-  /*margin: auto !important;*/
-  width: 84%;
-  height: 30%;
-  /*padding-left: 20px;*/
-  padding-bottom: 45px;
-  margin-left: 30px;
-}
-
-.carouselContainer {
-  display: inline-block;
-  width: 50% !important;
-  background: black;
-
-  margin: auto;
-  float: left;
-  height: 90%;
-  max-height: 999px;
-  overflow: hidden;
-  border-top: groove black 20px;
-  padding-bottom: 50px;
-  /*padding-left: 50px !important;*/
-
-}
-
-.slideshowImage {
- width: 95%;
- margin: auto;
- /*max-height: 350px;*/
- /*overflow: hidden;*/
-}
-
-.carouselAndVideoDiv{
-  display: inline-block;
 }
 
 
 .comingSoonDiv{
-  background: black;
-  position: center;
+  /*background: black;*/
   width: 100%;
-  border-top: groove black 15px;
-  border-bottom: groove black 25px;
+  height: auto;
+  margin: 5% auto 5% auto;
+  /*border-top: groove black 1em;
+  border-bottom: groove black 1.4em;*/
 
 }
 .comingSoonImage{
-  background: black;
-  position: center;
+  margin: auto;
   width: 100%;
+  height: 60%;
 }
 
 .navbar {
-  position: fixed !important;
-  width: 100%;
-  overflow: hidden !important;
-  /*margin-bottom: 0px !important;*/
+  margin-bottom: 0px !important;
+  border-radius: 0px !important;
 }
+
+.carouselAndVideoDiv{
+  background: black;
+
+}
+.carouselContainer {
+  background: black;
+}
+
+.slideshowImage {
+ width: 100%;
+ margin: auto;
+}
+
+.videoDiv {
+  text-align: center;
+  background: black;
+}
+
+.videoItself{
+  width: 100%;
+}
+
+
+
+/*.carouselAndVideoDiv{
+  display: inline-block;
+}*/
+
 
 
 
@@ -136,3 +113,188 @@ h1  {
   width: 100%;
   height: auto;
 }*/
+
+
+
+
+
+
+/*
+ * Start Bootstrap - One Page Wonder (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+/*body {
+    margin-top: 50px; */
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+  /*}*/
+
+.header-image {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: url('http://placehold.it/1900x500') no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.headline {
+    padding: 120px 0;
+}
+
+.headline h1 {
+    font-size: 130px;
+    background: #fff;
+    background: rgba(255,255,255,0.9);
+}
+
+.headline h2 {
+    font-size: 77px;
+    background: #fff;
+    background: rgba(255,255,255,0.9);
+}
+
+.featurette-divider {
+    margin: 80px 0;
+}
+
+.featurette {
+    overflow: hidden;
+}
+
+.featurette-image.pull-left {
+    margin-right: 40px;
+}
+
+.featurette-image.pull-right {
+    margin-left: 40px;
+}
+
+.featurette-heading {
+    font-size: 50px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+@media(max-width:1200px) {
+    .headline h1 {
+        font-size: 140px;
+    }
+
+    .headline h2 {
+        font-size: 63px;
+    }
+
+    .featurette-divider {
+        margin: 50px 0;
+    }
+
+    .featurette-image.pull-left {
+        margin-right: 20px;
+    }
+
+    .featurette-image.pull-right {
+        margin-left: 20px;
+    }
+
+    .featurette-heading {
+        font-size: 35px;
+    }
+}
+
+@media(max-width:991px) {
+    .headline h1 {
+        font-size: 105px;
+    }
+
+    .headline h2 {
+        font-size: 50px;
+    }
+
+    .featurette-divider {
+        margin: 40px 0;
+    }
+
+    .featurette-image {
+        max-width: 50%;
+    }
+
+    .featurette-image.pull-left {
+        margin-right: 10px;
+    }
+
+    .featurette-image.pull-right {
+        margin-left: 10px;
+    }
+
+    .featurette-heading {
+        font-size: 30px;
+    }
+}
+
+@media(max-width:768px) {
+    .container {
+        margin: 0 15px;
+    }
+
+    .featurette-divider {
+        margin: 40px 0;
+    }
+
+    .featurette-heading {
+        font-size: 25px;
+    }
+}
+
+@media(max-width:668px) {
+    .headline h1 {
+        font-size: 70px;
+    }
+
+    .headline h2 {
+        font-size: 32px;
+    }
+
+    .featurette-divider {
+        margin: 30px 0;
+    }
+}
+
+@media(max-width:640px) {
+    .headline {
+        padding: 75px 0 25px 0;
+    }
+
+    .headline h1 {
+        font-size: 60px;
+    }
+
+    .headline h2 {
+        font-size: 30px;
+    }
+}
+
+@media(max-width:375px) {
+    .featurette-divider {
+        margin: 10px 0;
+    }
+
+    .featurette-image {
+        max-width: 100%;
+    }
+
+    .featurette-image.pull-left {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .featurette-image.pull-right {
+        margin-bottom: 10px;
+        margin-left: 0;
+    }
+}

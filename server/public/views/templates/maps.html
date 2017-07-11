@@ -1,303 +1,323 @@
-<div ng-controller="MapsController as map">
-
-<!-- Google Maps -->
-
-
-</div>
-<!--
-To use this code on your website, get a free API key from Google.
-Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
--->
-<script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAA5KwqoW6leOixIPbyel1TRxSiCmTl891AKfj603QeGsPodYS-sxTfoZkreJcTeD80MD3UiV9mCGl1jg"
-        type="text/javascript">
-</script>
-        <script type="text/javascript">
-//<![CDATA[
-
-function addEvent(obj, evType, fn){
- if (obj.addEventListener){
-   obj.addEventListener(evType, fn, false);
-   return true;
- } else if (obj.attachEvent){
-   var r = obj.attachEvent("on"+evType, fn);
-   return r;
- } else {
-   return false;
- }
-}
-addEvent(window, 'load', gmap_load);
-
-
-var map_gmap;
-var geocoder_gmap = new GClientGeocoder();
-var marker_gmap = [];
-
-
-function openMarkerInfoWindow_gmap(num) { GEvent.trigger(marker_gmap[num],"click"); }
-
-function gmap_load() {
-  var center_marker = false;
-  var drag_marker;
-  var drag_point;
-    var bounds = new GLatLngBounds();
-
-  if (GBrowserIsCompatible()) {
-    var div = document.getElementById("gmap");
-    if (!div) return;
-    gBarOptions = {'showOnLoad':false};
-    options = {googleBarOptions:gBarOptions};
-    map_gmap = new GMap2(div,options);    map_gmap.setCenter(new GLatLng(0,0),13);
-    map_gmap.addControl(new GLargeMapControl());
-map_gmap.addControl(new GMapTypeControl());
-    map_gmap.enableGoogleBar();
-    icon0 = new GIcon();
-icon0.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|0065BD|FFFFFF";
-icon0.iconSize = new GSize(20,30);
-icon0.iconAnchor = new GPoint(6,20);
-icon0.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.95083,-93.29869);
-    marker_gmap[0]    = new GMarker(point,{icon:icon0,title:"1) Minneapolis Uptown YWCA"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[0], "click", function() { marker_gmap[0].openInfoWindowHtml('<a href="https://www.ywcampls.org/fitness/swimming_and_aquatics/masters_group_swimming/">1) Minneapolis Uptown YWCA</a><br/>2808 Hennepin Ave. South, Minneapolis, MN 55408');});
-        map_gmap.addOverlay(marker_gmap[0]);
-
-    icon1 = new GIcon();
-icon1.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=2|0065BD|FFFFFF";
-icon1.iconSize = new GSize(20,30);
-icon1.iconAnchor = new GPoint(6,20);
-icon1.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.94964,-93.31544);
-    marker_gmap[1]    = new GMarker(point,{icon:icon1,title:"2) Calhoun Beach Club Of Minneapolis"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[1], "click", function() { marker_gmap[1].openInfoWindowHtml('<a href="http://calhounbeachfitness.com/">2) Calhoun Beach Club Of Minneapolis</a><br/>2925 Dean Pkwy, Minneapolis, MN 55416');});
-        map_gmap.addOverlay(marker_gmap[1]);
-
-    icon2 = new GIcon();
-icon2.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=3|0065BD|FFFFFF";
-icon2.iconSize = new GSize(20,30);
-icon2.iconAnchor = new GPoint(6,20);
-icon2.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.93948,-93.35917);
-    marker_gmap[2]    = new GMarker(point,{icon:icon2,title:"3) Central Community Center"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[2], "click", function() { marker_gmap[2].openInfoWindowHtml('3) Central Community Center<br/>6300 Walker St, St. Louis Park, MN 55416');});
-        map_gmap.addOverlay(marker_gmap[2]);
-
-    icon3 = new GIcon();
-icon3.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=4|0065BD|FFFFFF";
-icon3.iconSize = new GSize(20,30);
-icon3.iconAnchor = new GPoint(6,20);
-icon3.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.96539,-93.33487);
-    marker_gmap[3]    = new GMarker(point,{icon:icon3,title:"4) Sabes JCC"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[3], "click", function() { marker_gmap[3].openInfoWindowHtml('<a href="http://www.sabesjcc.org/club-aquatics-masters.php">4) Sabes JCC</a><br/>4330 S Cedar Lake Road, Minneapolis, MN 55416');});
-        map_gmap.addOverlay(marker_gmap[3]);
-
-    icon4 = new GIcon();
-icon4.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=5|0065BD|FFFFFF";
-icon4.iconSize = new GSize(20,30);
-icon4.iconAnchor = new GPoint(6,20);
-icon4.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.96399,-93.23457);
-    marker_gmap[4]    = new GMarker(point,{icon:icon4,title:"5) Downtown YMCA"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[4], "click", function() { marker_gmap[4].openInfoWindowHtml('<a href="http://www.ymcatwincities.org/locations/minneapolis_downtown_ymca/">5) Downtown YMCA</a><br/>30 South 9th St., Minneapolis, MN 55406');});
-        map_gmap.addOverlay(marker_gmap[4]);
-
-    icon5 = new GIcon();
-icon5.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=6|0065BD|FFFFFF";
-icon5.iconSize = new GSize(20,30);
-icon5.iconAnchor = new GPoint(6,20);
-icon5.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.90363,-93.27932);
-    marker_gmap[5]    = new GMarker(point,{icon:icon5,title:"6) Blaisdell YMCA"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[5], "click", function() { marker_gmap[5].openInfoWindowHtml('<a href="https://www.ymcamn.org/locations/blaisdell_ymca">6) Blaisdell YMCA</a><br/>3335 Blaisdell Ave South, Minneapolis, MN 55419');});
-        map_gmap.addOverlay(marker_gmap[5]);
-
-    icon6 = new GIcon();
-icon6.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=7|0065BD|FFFFFF";
-icon6.iconSize = new GSize(20,30);
-icon6.iconAnchor = new GPoint(6,20);
-icon6.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(45.00510,-93.18094);
-    marker_gmap[6]    = new GMarker(point,{icon:icon6,title:"7) Fairview Community Center"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[6], "click", function() { marker_gmap[6].openInfoWindowHtml('<a href="http://www.isd623.org/commed">7) Fairview Community Center</a><br/>1910 W County Rd B., Roseville, MN 55113');});
-        map_gmap.addOverlay(marker_gmap[6]);
-
-    icon7 = new GIcon();
-icon7.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=8|0065BD|FFFFFF";
-icon7.iconSize = new GSize(20,30);
-icon7.iconAnchor = new GPoint(6,20);
-icon7.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.89962,-93.34567);
-    marker_gmap[7]    = new GMarker(point,{icon:icon7,title:"8) South View Middle School"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[7], "click", function() { marker_gmap[7].openInfoWindowHtml('<a href="http://www.edinaswim.com">8) South View Middle School</a><br/>4725 South View Lane, Edina, MN 55424');});
-        map_gmap.addOverlay(marker_gmap[7]);
-
-    icon8 = new GIcon();
-icon8.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=9|0065BD|FFFFFF";
-icon8.iconSize = new GSize(20,30);
-icon8.iconAnchor = new GPoint(6,20);
-icon8.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.96770,-93.16383);
-    marker_gmap[8]    = new GMarker(point,{icon:icon8,title:"9) Hamline University"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[8], "click", function() { marker_gmap[8].openInfoWindowHtml('<a href="http://www.starswimteam.com">9) Hamline University</a><br/>1536 Hewitt Ave, St. Paul, MN 55104');});
-        map_gmap.addOverlay(marker_gmap[8]);
-
-    icon9 = new GIcon();
-icon9.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=10|0065BD|FFFFFF";
-icon9.iconSize = new GSize(20,30);
-icon9.iconAnchor = new GPoint(6,20);
-icon9.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.94962,-93.14599);
-    marker_gmap[9]    = new GMarker(point,{icon:icon9,title:"10) Great River Water Park - part of Oxford Community Center"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[9], "click", function() { marker_gmap[9].openInfoWindowHtml('<a href="http://stpaul.gov/greatriverwaterpark">10) Great River Water Park - part of Oxford Community Center</a><br/>270 Lexington Parkway N, St. Paul, MN 55104');});
-        map_gmap.addOverlay(marker_gmap[9]);
-
-    icon10 = new GIcon();
-icon10.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=11|0065BD|FFFFFF";
-icon10.iconSize = new GSize(20,30);
-icon10.iconAnchor = new GPoint(6,20);
-icon10.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.96770,-93.16383);
-    marker_gmap[10]    = new GMarker(point,{icon:icon10,title:"11) Hamline University"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[10], "click", function() { marker_gmap[10].openInfoWindowHtml('<a href="http://www.starswimteam.net">11) Hamline University</a><br/>1536 Hewitt Ave, St. Paul, MN 55104');});
-        map_gmap.addOverlay(marker_gmap[10]);
-
-    icon11 = new GIcon();
-icon11.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=12|0065BD|FFFFFF";
-icon11.iconSize = new GSize(20,30);
-icon11.iconAnchor = new GPoint(6,20);
-icon11.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.97955,-93.27616);
-    marker_gmap[11]    = new GMarker(point,{icon:icon11,title:"12) Life Time Fitness - Target Center"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[11], "click", function() { marker_gmap[11].openInfoWindowHtml('<a href="http://clubs.lifetimefitness.com/Target-Center/11247/">12) Life Time Fitness - Target Center</a><br/>600 1st Avenue N., Minneapolis, MN 55403');});
-        map_gmap.addOverlay(marker_gmap[11]);
-
-    icon12 = new GIcon();
-icon12.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=13|0065BD|FFFFFF";
-icon12.iconSize = new GSize(20,30);
-icon12.iconAnchor = new GPoint(6,20);
-icon12.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.95588,-93.17475);
-    marker_gmap[12]    = new GMarker(point,{icon:icon12,title:"13) Midway YMCA"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[12], "click", function() { marker_gmap[12].openInfoWindowHtml('<a href="https://www.ymcatwincities.org/locations/st_paul_midway_ymca/schedules/">13) Midway YMCA</a><br/>1761 University Ave., St. Paul, MN 55104');});
-        map_gmap.addOverlay(marker_gmap[12]);
-
-    icon13 = new GIcon();
-icon13.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=14|0065BD|FFFFFF";
-icon13.iconSize = new GSize(20,30);
-icon13.iconAnchor = new GPoint(6,20);
-icon13.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.94189,-93.16700);
-    marker_gmap[13]    = new GMarker(point,{icon:icon13,title:"14) Macalester Leonard Center "});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[13], "click", function() { marker_gmap[13].openInfoWindowHtml('<a href="https://sites.google.com/a/macalester.edu/mac-masters-swimming/home">14) Macalester Leonard Center </a><br/>Snelling Avenue , St. Paul, MN 55105');});
-        map_gmap.addOverlay(marker_gmap[13]);
-
-    icon14 = new GIcon();
-icon14.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=15|0065BD|FFFFFF";
-icon14.iconSize = new GSize(20,30);
-icon14.iconAnchor = new GPoint(6,20);
-icon14.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.90924,-93.15722);
-    marker_gmap[14]    = new GMarker(point,{icon:icon14,title:"15) Highland Park Aquatic Center"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[14], "click", function() { marker_gmap[14].openInfoWindowHtml('<a href="http://www.stpaul.gov/index.aspx?NID=2673">15) Highland Park Aquatic Center</a><br/>1840 Edgcumbe Road, St. Paul, MN 55116');});
-        map_gmap.addOverlay(marker_gmap[14]);
-
-    icon15 = new GIcon();
-icon15.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=16|0065BD|FFFFFF";
-icon15.iconSize = new GSize(20,30);
-icon15.iconAnchor = new GPoint(6,20);
-icon15.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.95746,-93.41492);
-    marker_gmap[15]    = new GMarker(point,{icon:icon15,title:"16) Hopkins North Jr. High"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[15], "click", function() { marker_gmap[15].openInfoWindowHtml('<a href="http://www.genesisaquatics.org">16) Hopkins North Jr. High</a><br/>10700 Cedar Lake Rd., Hopkins, MN 55305');});
-        map_gmap.addOverlay(marker_gmap[15]);
-
-    icon16 = new GIcon();
-icon16.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=17|0065BD|FFFFFF";
-icon16.iconSize = new GSize(20,30);
-icon16.iconAnchor = new GPoint(6,20);
-icon16.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.93379,-93.41210);
-    marker_gmap[16]    = new GMarker(point,{icon:icon16,title:"17) Eisenhower Community Center - Hopkins"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[16], "click", function() { marker_gmap[16].openInfoWindowHtml('<a href="http://www.genesisaquatics.org">17) Eisenhower Community Center - Hopkins</a><br/>1001 Hwy 7, Hopkins, MN 55305');});
-        map_gmap.addOverlay(marker_gmap[16]);
-
-    icon17 = new GIcon();
-icon17.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=18|0065BD|FFFFFF";
-icon17.iconSize = new GSize(20,30);
-icon17.iconAnchor = new GPoint(6,20);
-icon17.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.86974,-93.31989);
-    marker_gmap[17]    = new GMarker(point,{icon:icon17,title:"18) Southdale YMCA"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[17], "click", function() { marker_gmap[17].openInfoWindowHtml('<a href="https://www.ymcatwincities.org/locations/southdale_ymca/">18) Southdale YMCA</a><br/>7355 York Ave. South, Edina, MN 55435');});
-        map_gmap.addOverlay(marker_gmap[17]);
-
-    icon18 = new GIcon();
-icon18.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=19|0065BD|FFFFFF";
-icon18.iconSize = new GSize(20,30);
-icon18.iconAnchor = new GPoint(6,20);
-icon18.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.88457,-93.33527);
-    marker_gmap[18]    = new GMarker(point,{icon:icon18,title:"19) Edina Aquatic Center"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[18], "click", function() { marker_gmap[18].openInfoWindowHtml('<a href="http://www.edinaswim.com">19) Edina Aquatic Center</a><br/>4300 West 66th Street, Edina, MN 55435');});
-        map_gmap.addOverlay(marker_gmap[18]);
-
-    icon19 = new GIcon();
-icon19.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=20|0065BD|FFFFFF";
-icon19.iconSize = new GSize(20,30);
-icon19.iconAnchor = new GPoint(6,20);
-icon19.infoWindowAnchor = new GPoint(5,1);
-
-    var point = new GLatLng(44.97565,-93.14597);
-    marker_gmap[19]    = new GMarker(point,{icon:icon19,title:"20) Como Regional Park Pool"});
-        bounds.extend(point);
-            GEvent.addListener(marker_gmap[19], "click", function() { marker_gmap[19].openInfoWindowHtml('<a href="http://www.ci.stpaul.mn.us/index.aspx?NID=2672">20) Como Regional Park Pool</a><br/>1151 Como Ave, St. Paul, MN 55103');});
-        map_gmap.addOverlay(marker_gmap[19]);
-
-
-        map_gmap.setCenter(bounds.getCenter(),map_gmap.getBoundsZoomLevel(bounds));
 
 
 
-  }
-}
+        <!-- Google Maps -->
+        <!-- <div id="googleMap" style="width:100%;height:420px;"></div> -->
+        <!-- <nav ng-include="'views/templates/maps.html'"></nav> -->
+        <!-- <script>
+            function myMap() {
+                myCenter = new google.maps.LatLng(44.9778, -93.2650);
+                var mapOptions = {
+                    center: myCenter,
+                    zoom: 12,
+                    scrollwheel: false,
+                    draggable: true,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+
+                var marker = new google.maps.Marker({
+                    position: myCenter,
+                });
+                marker.setMap(map);
+            };
+        </script> -->
+        <!-- Google Maps -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&callback=myMap"></script>
+      <div id="gmap" style="width:100%;height:200px;"></div>
+
+        <!-- <div id="gmap" style="width:600px; height:400px"></div> -->
+
+        <script src="//maps.google.com/maps?file=api&amp;v=2.x&amp;key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o"
+                type="text/javascript">
+        </script>
+                <script type="text/javascript">
+        //<![CDATA[
+
+        function addEvent(obj, evType, fn){
+         if (obj.addEventListener){
+           obj.addEventListener(evType, fn, false);
+           return true;
+         } else if (obj.attachEvent){
+           var r = obj.attachEvent("on"+evType, fn);
+           return r;
+         } else {
+           return false;
+         }
+        }
+        addEvent(window, 'load', gmap_load);
 
 
-//]]>
-</script>
+        var map_gmap;
+        var geocoder_gmap = new GClientGeocoder();
+        var marker_gmap = [];
+
+
+        function openMarkerInfoWindow_gmap(num) { GEvent.trigger(marker_gmap[num],"click"); }
+
+        function gmap_load() {
+          var center_marker = false;
+          var drag_marker;
+          var drag_point;
+            var bounds = new GLatLngBounds();
+
+          if (GBrowserIsCompatible()) {
+            var div = document.getElementById("gmap");
+            if (!div) return;
+            gBarOptions = {'showOnLoad':false};
+            options = {googleBarOptions:gBarOptions};
+            map_gmap = new GMap2(div,options);    map_gmap.setCenter(new GLatLng(0,0),13);
+            map_gmap.addControl(new GLargeMapControl());
+        map_gmap.addControl(new GMapTypeControl());
+            map_gmap.enableGoogleBar();
+            icon0 = new GIcon();
+        icon0.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|0065BD|FFFFFF";
+        icon0.iconSize = new GSize(20,30);
+        icon0.iconAnchor = new GPoint(6,20);
+        icon0.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.95083,-93.29869);
+            marker_gmap[0]    = new GMarker(point,{icon:icon0,title:"1) Minneapolis Uptown YWCA"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[0], "click", function() { marker_gmap[0].openInfoWindowHtml('<a href="https://www.ywcampls.org/fitness/swimming_and_aquatics/masters_group_swimming/">1) Minneapolis Uptown YWCA</a><br/>2808 Hennepin Ave. South, Minneapolis, MN 55408');});
+                map_gmap.addOverlay(marker_gmap[0]);
+
+            icon1 = new GIcon();
+        icon1.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=2|0065BD|FFFFFF";
+        icon1.iconSize = new GSize(20,30);
+        icon1.iconAnchor = new GPoint(6,20);
+        icon1.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.94964,-93.31544);
+            marker_gmap[1]    = new GMarker(point,{icon:icon1,title:"2) Calhoun Beach Club Of Minneapolis"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[1], "click", function() { marker_gmap[1].openInfoWindowHtml('<a href="http://calhounbeachfitness.com/">2) Calhoun Beach Club Of Minneapolis</a><br/>2925 Dean Pkwy, Minneapolis, MN 55416');});
+                map_gmap.addOverlay(marker_gmap[1]);
+
+            icon2 = new GIcon();
+        icon2.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=3|0065BD|FFFFFF";
+        icon2.iconSize = new GSize(20,30);
+        icon2.iconAnchor = new GPoint(6,20);
+        icon2.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.93948,-93.35917);
+            marker_gmap[2]    = new GMarker(point,{icon:icon2,title:"3) Central Community Center"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[2], "click", function() { marker_gmap[2].openInfoWindowHtml('3) Central Community Center<br/>6300 Walker St, St. Louis Park, MN 55416');});
+                map_gmap.addOverlay(marker_gmap[2]);
+
+            icon3 = new GIcon();
+        icon3.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=4|0065BD|FFFFFF";
+        icon3.iconSize = new GSize(20,30);
+        icon3.iconAnchor = new GPoint(6,20);
+        icon3.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.96539,-93.33487);
+            marker_gmap[3]    = new GMarker(point,{icon:icon3,title:"4) Sabes JCC"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[3], "click", function() { marker_gmap[3].openInfoWindowHtml('<a href="http://www.sabesjcc.org/club-aquatics-masters.php">4) Sabes JCC</a><br/>4330 S Cedar Lake Road, Minneapolis, MN 55416');});
+                map_gmap.addOverlay(marker_gmap[3]);
+
+            icon4 = new GIcon();
+        icon4.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=5|0065BD|FFFFFF";
+        icon4.iconSize = new GSize(20,30);
+        icon4.iconAnchor = new GPoint(6,20);
+        icon4.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.96399,-93.23457);
+            marker_gmap[4]    = new GMarker(point,{icon:icon4,title:"5) Downtown YMCA"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[4], "click", function() { marker_gmap[4].openInfoWindowHtml('<a href="http://www.ymcatwincities.org/locations/minneapolis_downtown_ymca/">5) Downtown YMCA</a><br/>30 South 9th St., Minneapolis, MN 55406');});
+                map_gmap.addOverlay(marker_gmap[4]);
+
+            icon5 = new GIcon();
+        icon5.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=6|0065BD|FFFFFF";
+        icon5.iconSize = new GSize(20,30);
+        icon5.iconAnchor = new GPoint(6,20);
+        icon5.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.90363,-93.27932);
+            marker_gmap[5]    = new GMarker(point,{icon:icon5,title:"6) Blaisdell YMCA"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[5], "click", function() { marker_gmap[5].openInfoWindowHtml('<a href="https://www.ymcamn.org/locations/blaisdell_ymca">6) Blaisdell YMCA</a><br/>3335 Blaisdell Ave South, Minneapolis, MN 55419');});
+                map_gmap.addOverlay(marker_gmap[5]);
+
+            icon6 = new GIcon();
+        icon6.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=7|0065BD|FFFFFF";
+        icon6.iconSize = new GSize(20,30);
+        icon6.iconAnchor = new GPoint(6,20);
+        icon6.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(45.00510,-93.18094);
+            marker_gmap[6]    = new GMarker(point,{icon:icon6,title:"7) Fairview Community Center"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[6], "click", function() { marker_gmap[6].openInfoWindowHtml('<a href="http://www.isd623.org/commed">7) Fairview Community Center</a><br/>1910 W County Rd B., Roseville, MN 55113');});
+                map_gmap.addOverlay(marker_gmap[6]);
+
+            icon7 = new GIcon();
+        icon7.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=8|0065BD|FFFFFF";
+        icon7.iconSize = new GSize(20,30);
+        icon7.iconAnchor = new GPoint(6,20);
+        icon7.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.89962,-93.34567);
+            marker_gmap[7]    = new GMarker(point,{icon:icon7,title:"8) South View Middle School"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[7], "click", function() { marker_gmap[7].openInfoWindowHtml('<a href="http://www.edinaswim.com">8) South View Middle School</a><br/>4725 South View Lane, Edina, MN 55424');});
+                map_gmap.addOverlay(marker_gmap[7]);
+
+            icon8 = new GIcon();
+        icon8.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=9|0065BD|FFFFFF";
+        icon8.iconSize = new GSize(20,30);
+        icon8.iconAnchor = new GPoint(6,20);
+        icon8.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.96770,-93.16383);
+            marker_gmap[8]    = new GMarker(point,{icon:icon8,title:"9) Hamline University"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[8], "click", function() { marker_gmap[8].openInfoWindowHtml('<a href="http://www.starswimteam.com">9) Hamline University</a><br/>1536 Hewitt Ave, St. Paul, MN 55104');});
+                map_gmap.addOverlay(marker_gmap[8]);
+
+            icon9 = new GIcon();
+        icon9.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=10|0065BD|FFFFFF";
+        icon9.iconSize = new GSize(20,30);
+        icon9.iconAnchor = new GPoint(6,20);
+        icon9.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.94962,-93.14599);
+            marker_gmap[9]    = new GMarker(point,{icon:icon9,title:"10) Great River Water Park - part of Oxford Community Center"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[9], "click", function() { marker_gmap[9].openInfoWindowHtml('<a href="http://stpaul.gov/greatriverwaterpark">10) Great River Water Park - part of Oxford Community Center</a><br/>270 Lexington Parkway N, St. Paul, MN 55104');});
+                map_gmap.addOverlay(marker_gmap[9]);
+
+            icon10 = new GIcon();
+        icon10.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=11|0065BD|FFFFFF";
+        icon10.iconSize = new GSize(20,30);
+        icon10.iconAnchor = new GPoint(6,20);
+        icon10.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.96770,-93.16383);
+            marker_gmap[10]    = new GMarker(point,{icon:icon10,title:"11) Hamline University"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[10], "click", function() { marker_gmap[10].openInfoWindowHtml('<a href="http://www.starswimteam.net">11) Hamline University</a><br/>1536 Hewitt Ave, St. Paul, MN 55104');});
+                map_gmap.addOverlay(marker_gmap[10]);
+
+            icon11 = new GIcon();
+        icon11.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=12|0065BD|FFFFFF";
+        icon11.iconSize = new GSize(20,30);
+        icon11.iconAnchor = new GPoint(6,20);
+        icon11.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.97955,-93.27616);
+            marker_gmap[11]    = new GMarker(point,{icon:icon11,title:"12) Life Time Fitness - Target Center"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[11], "click", function() { marker_gmap[11].openInfoWindowHtml('<a href="http://clubs.lifetimefitness.com/Target-Center/11247/">12) Life Time Fitness - Target Center</a><br/>600 1st Avenue N., Minneapolis, MN 55403');});
+                map_gmap.addOverlay(marker_gmap[11]);
+
+            icon12 = new GIcon();
+        icon12.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=13|0065BD|FFFFFF";
+        icon12.iconSize = new GSize(20,30);
+        icon12.iconAnchor = new GPoint(6,20);
+        icon12.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.95588,-93.17475);
+            marker_gmap[12]    = new GMarker(point,{icon:icon12,title:"13) Midway YMCA"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[12], "click", function() { marker_gmap[12].openInfoWindowHtml('<a href="https://www.ymcatwincities.org/locations/st_paul_midway_ymca/schedules/">13) Midway YMCA</a><br/>1761 University Ave., St. Paul, MN 55104');});
+                map_gmap.addOverlay(marker_gmap[12]);
+
+            icon13 = new GIcon();
+        icon13.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=14|0065BD|FFFFFF";
+        icon13.iconSize = new GSize(20,30);
+        icon13.iconAnchor = new GPoint(6,20);
+        icon13.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.94189,-93.16700);
+            marker_gmap[13]    = new GMarker(point,{icon:icon13,title:"14) Macalester Leonard Center "});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[13], "click", function() { marker_gmap[13].openInfoWindowHtml('<a href="https://sites.google.com/a/macalester.edu/mac-masters-swimming/home">14) Macalester Leonard Center </a><br/>Snelling Avenue , St. Paul, MN 55105');});
+                map_gmap.addOverlay(marker_gmap[13]);
+
+            icon14 = new GIcon();
+        icon14.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=15|0065BD|FFFFFF";
+        icon14.iconSize = new GSize(20,30);
+        icon14.iconAnchor = new GPoint(6,20);
+        icon14.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.90924,-93.15722);
+            marker_gmap[14]    = new GMarker(point,{icon:icon14,title:"15) Highland Park Aquatic Center"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[14], "click", function() { marker_gmap[14].openInfoWindowHtml('<a href="http://www.stpaul.gov/index.aspx?NID=2673">15) Highland Park Aquatic Center</a><br/>1840 Edgcumbe Road, St. Paul, MN 55116');});
+                map_gmap.addOverlay(marker_gmap[14]);
+
+            icon15 = new GIcon();
+        icon15.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=16|0065BD|FFFFFF";
+        icon15.iconSize = new GSize(20,30);
+        icon15.iconAnchor = new GPoint(6,20);
+        icon15.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.95746,-93.41492);
+            marker_gmap[15]    = new GMarker(point,{icon:icon15,title:"16) Hopkins North Jr. High"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[15], "click", function() { marker_gmap[15].openInfoWindowHtml('<a href="http://www.genesisaquatics.org">16) Hopkins North Jr. High</a><br/>10700 Cedar Lake Rd., Hopkins, MN 55305');});
+                map_gmap.addOverlay(marker_gmap[15]);
+
+            icon16 = new GIcon();
+        icon16.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=17|0065BD|FFFFFF";
+        icon16.iconSize = new GSize(20,30);
+        icon16.iconAnchor = new GPoint(6,20);
+        icon16.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.93379,-93.41210);
+            marker_gmap[16]    = new GMarker(point,{icon:icon16,title:"17) Eisenhower Community Center - Hopkins"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[16], "click", function() { marker_gmap[16].openInfoWindowHtml('<a href="http://www.genesisaquatics.org">17) Eisenhower Community Center - Hopkins</a><br/>1001 Hwy 7, Hopkins, MN 55305');});
+                map_gmap.addOverlay(marker_gmap[16]);
+
+            icon17 = new GIcon();
+        icon17.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=18|0065BD|FFFFFF";
+        icon17.iconSize = new GSize(20,30);
+        icon17.iconAnchor = new GPoint(6,20);
+        icon17.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.86974,-93.31989);
+            marker_gmap[17]    = new GMarker(point,{icon:icon17,title:"18) Southdale YMCA"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[17], "click", function() { marker_gmap[17].openInfoWindowHtml('<a href="https://www.ymcatwincities.org/locations/southdale_ymca/">18) Southdale YMCA</a><br/>7355 York Ave. South, Edina, MN 55435');});
+                map_gmap.addOverlay(marker_gmap[17]);
+
+            icon18 = new GIcon();
+        icon18.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=19|0065BD|FFFFFF";
+        icon18.iconSize = new GSize(20,30);
+        icon18.iconAnchor = new GPoint(6,20);
+        icon18.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.88457,-93.33527);
+            marker_gmap[18]    = new GMarker(point,{icon:icon18,title:"19) Edina Aquatic Center"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[18], "click", function() { marker_gmap[18].openInfoWindowHtml('<a href="http://www.edinaswim.com">19) Edina Aquatic Center</a><br/>4300 West 66th Street, Edina, MN 55435');});
+                map_gmap.addOverlay(marker_gmap[18]);
+
+            icon19 = new GIcon();
+        icon19.image = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=20|0065BD|FFFFFF";
+        icon19.iconSize = new GSize(20,30);
+        icon19.iconAnchor = new GPoint(6,20);
+        icon19.infoWindowAnchor = new GPoint(5,1);
+
+            var point = new GLatLng(44.97565,-93.14597);
+            marker_gmap[19]    = new GMarker(point,{icon:icon19,title:"20) Como Regional Park Pool"});
+                bounds.extend(point);
+                    GEvent.addListener(marker_gmap[19], "click", function() { marker_gmap[19].openInfoWindowHtml('<a href="http://www.ci.stpaul.mn.us/index.aspx?NID=2672">20) Como Regional Park Pool</a><br/>1151 Como Ave, St. Paul, MN 55103');});
+                map_gmap.addOverlay(marker_gmap[19]);
+
+
+                map_gmap.setCenter(bounds.getCenter(),map_gmap.getBoundsZoomLevel(bounds));
+
+
+
+          }
+        }
+
+
+        //]]>
+        </script>
