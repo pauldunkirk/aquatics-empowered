@@ -3,15 +3,12 @@
 
 <nav ng-controller="NavController as nav" class="navbar navbar-inverse">
 <!-- took this out: navbar-toggleable-xs -->
-<!-- this makes it black and shows icon-bars (without it, no bars and navbar is white): navbar-inverse -->
 <!-- this is needed for larger screen: navbar -->
-<!-- this holds it at the top when scroll down: static-top -->
+<!-- if want logo to be a link: <a class="navbar-brand" href="http://www.etc" target="_blank"><img alt="" src="css/asdf.svg" class=""></a> -->
 
-<!-- class="navbar-header" -->
 
-  <!-- if want logo to be a link: <a class="navbar-brand" href="http://www.etc" target="_blank"><img alt="" src="css/asdf.svg" class=""></a> -->
+<!-- Hamburger Menu Toggle Button on small screens-->
 <div>
-  <!-- Hamburger Menu Toggle Button-->
   <button type="button" class="navbar-toggle navbar-right" ng-click="nav.toggleNav()">
     <span class="sr-only">Toggle Navigation</span>
     <span class="icon-bar"></span>
@@ -19,12 +16,12 @@
     <span class="icon-bar"></span>
   </button>
 </div>
-<!-- end navbar header -->
+
 
   <ul class="nav navbar-nav navbar-right list-unstyled navbar-collapse" uib-collapse="nav.isCollapsed">
     <li class="nav-item"><a class="nav-link" href="#!find">Find a Pool</a></li>
     <li class="nav-item"><a class="nav-link" href="#!register">Register a Pool</a></li>
-    <li class="nav-item"><a class="nav-link" href="#!myProfile">Me <i class="fa fa-user"></i></a></li>
+    <li class="nav-item"><a class="nav-link" href="#!myProfile">My Account <i class="fa fa-user"></i></a></li>
     <!-- <i class="fa fa-user"></i>  -->
 </ul>
 </nav>
