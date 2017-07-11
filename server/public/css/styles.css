@@ -12,7 +12,6 @@ body {
   width: 100%;
 }
 
-
 .comingSoonDiv{
   /*background: black;*/
   width: 100%;
@@ -33,6 +32,15 @@ body {
   border-radius: 0px !important;
 }
 
+.navbar-nav li:last-child {
+    background: #DF0000;
+}
+.navbar-nav li:last-child a {
+    color: #cecccc !important;
+}
+.navbar-nav li:last-child a:hover {
+    color: white !important;
+}
 .carouselAndVideoDiv{
   background: black;
 
