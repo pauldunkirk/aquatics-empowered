@@ -52,46 +52,73 @@
 
 
 <!-- https://startbootstrap.com/template-overviews/one-page-wonder/ -->
-        <!-- First Featurette -->
-                <div class="featurette" id="about">
+        <!-- First Featurette id="about"-->
+                <div class="featurette" >
                     <img class="featurette-image img-circle img-responsive pull-right" src="images/slideshow/motherSon.jpg" alt="Mother and Son swimming">
                     <h2 class="featurette-heading">Water =
                         <span class="text-danger">Therapy!!</span>
                     </h2>
-                    <p class="lead">We want to get people in the water! Get some Therapy! Get some Happy!</p>
-                    <p class="lead">Of course our service is free!! But we won't say no to crowd-funding at the link below (and remember to buy stuff from our sponsors :)</p>
+                    <!-- class="lead" -->
+                    <h3>Get in the Water! <br>
+                      Get some Therapy! <br>
+                      Get some Happy! <br>
+                    </h3>
+                      <!-- Of course our service is free!! <br>
+                      But we won't say no to crowd-funding at the link below <br>
+                      (and remember to buy stuff from our sponsors :)</p> -->
 
                 </div>
 
                 <hr class="featurette-divider">
 
-                <!-- Second Featurette -->
-                <div class="featurette" id="services">
+                <!-- Second Featurette id="services"-->
+                <div class="featurette">
                     <img class="featurette-image img-circle img-responsive pull-left" src="images/slideshow/HydroPhysio.jpg" alt="Male water-therapy patient and therapist">
                     <h2 class="featurette-heading">Let's Connect
                         <span class="text-danger">Pools and People</span>
                     </h2>
-                    <p class="lead">Wouldn't it be great to have one place to find every available pool in your area, and connect with therapists and teachers if you want some guidance and support?</p>
+                    <!-- class="lead" -->
+                    <h3>
+                      <!-- People need pools!<br> Pools need people! <br> -->
+                      Find a pool. <br>
+                      Connect with therapists and teachers if you want guidance and support.</h3>
                 </div>
 
                 <hr class="featurette-divider">
 
-                <!-- Third Featurette -->
-                <div class="featurette" id="contact">
-                  <video loop muted autoplay="" class="featurette-image img-circle img-responsive pull-right">
-                      <source src="images/videos/now_this.mp4" type="video/mp4">
+                <!-- Third Featurette id="contact"-->
+                <div class="featurette" >
+                  <video height="500" width="600" loop muted autoplay controls="" id="myVideo" class="featurette-image img-circle img-responsive pull-right">
+                      <source  src="images/videos/now_this.mp4" type="video/mp4">
                   </video>
-                    <h2 class="featurette-heading">Pool of the Month!!
+                    <h2 class="featurette-heading">Pool of the Month!! <br>
                         <span class="text-danger">Morgan's Inspiration Island</span>
                     </h2>
-                    <p class="lead">This month's pool of the month is actually a huge water park in San Antonio. What an amazing place!!</p>
+                    <!-- class="lead" -->
+                    <h3>What an amazing place!!</h3>
                 </div>
 
                 <hr class="featurette-divider">
 
 
 
-            </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vissense/0.10.0/vissense.js">
+    var myVideo = document.getElementById('myVideo');
+
+    VisSense.VisMon.Builder(VisSense(myVideo, {
+            fullyvisible: 0.75
+        }))
+        .on('fullyvisible', function() {
+            myVideo.play();
+        })
+        .on('hidden', function() {
+            myVideo.pause();
+        })
+        .build()
+        .start();
+</script>
 
 <!-- <section class="row">
     <div class="col-md-5 videoDiv">
