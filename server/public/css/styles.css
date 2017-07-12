@@ -18,6 +18,8 @@ body {
   width: 100%;
   height: auto;
   margin: 5% auto 5% auto;
+  opacity: .4;
+
   /*border-top: groove black 1em;
   border-bottom: groove black 1.4em;*/
 
