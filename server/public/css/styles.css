@@ -1,7 +1,7 @@
 body {
   background: #000000 url("../images/water.png") no-repeat fixed center;
   background-size:cover;
-  font-family: 'Junge', serif !important;
+  font-family: 'Oswald', sans-serif !important;
 }
 
 .homeLogoDiv {
@@ -18,7 +18,7 @@ body {
   width: 100%;
   height: auto;
   margin: 5% auto 5% auto;
-  opacity: .4;
+  opacity: .7;
 
   /*border-top: groove black 1em;
   border-bottom: groove black 1.4em;*/
@@ -127,12 +127,12 @@ h3 {
 /*STARTING STYLES FOR LAYOUT TEMPLATE*/
 .featurette-divider {margin: 80px 0;}
 .featurette { overflow: hidden; margin-left: 10px; font-family: 'Junge', serif !important;}
-.feaurette h3 {font-family: 'Junge', serif !important;}
+.feaurette h3 {font-family: 'Oswald', sans-serif !important;}
 /*I ADDED but doesnt work*/
 /*.featurette-image { border-radius: 25px; max-width: 50%; }*/
 .featurette-image.pull-left {margin-right: 40px;}
 .featurette-image.pull-right {margin-left: 40px;}
-.featurette-heading {font-size: 50px; font-family: 'Junge', serif !important;}
+.featurette-heading {font-size: 50px; font-family: 'Oswald', sans-serif !important;}
 
 /*1200 and smaller*/
 @media(max-width:1200px) {
