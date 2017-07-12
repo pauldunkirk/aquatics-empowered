@@ -1,6 +1,7 @@
 body {
   background: #000000 url("../images/water.png") no-repeat fixed center;
   background-size:cover;
+  font-family: 'Junge', serif !important;
 }
 
 .homeLogoDiv {
@@ -54,28 +55,26 @@ body {
  margin: auto;
 }
 
-.videoDiv {
+/*.videoDiv {
   text-align: center;
   background: black;
 }
 
 .videoItself{
-  width: 100%;
+  width: 10%;
+}*/
+
+footer {
+    margin: 50px 0;
+}
+
+.highlightRed {
+  color: #DF0000;
 }
 
 
 
-/*.carouselAndVideoDiv{
-  display: inline-block;
-}*/
-
-
-
-
-
-
 .search {
-
   width: 300px;
   height: 200px;
   padding: 40px 40px 40px 40px;
@@ -112,139 +111,64 @@ body {
     }
 }
 
-/*img-responsive,
-.thumbnail > img,
-.thumbnail a > img,
-.carousel-inner > .item > img,
-.carousel-inner > .item > a > img {
-  display: block;
-  width: 100%;
-  height: auto;
-}*/
 
 
 
 
-
-
-/*
- * Start Bootstrap - One Page Wonder (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
- */
-
-/*body {
-    margin-top: 50px; */
-    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-  /*}*/
-
-
-.featurette-divider {
-    margin: 80px 0;
+h3 {
+  font-family: 'Junge', serif !important;
+}
+.jungeFont {
+  font-family: 'Junge', serif !important;
 }
 
-.featurette {
-    overflow: hidden;
-    margin-left: 10px;
-}
+/*STARTING STYLES FOR LAYOUT TEMPLATE*/
+.featurette-divider {margin: 80px 0;}
+.featurette { overflow: hidden; margin-left: 10px; font-family: 'Junge', serif !important;}
+.feaurette h3 {font-family: 'Junge', serif !important;}
+/*I ADDED but doesnt work*/
+/*.featurette-image { border-radius: 25px; max-width: 50%; }*/
+.featurette-image.pull-left {margin-right: 40px;}
+.featurette-image.pull-right {margin-left: 40px;}
+.featurette-heading {font-size: 50px; font-family: 'Junge', serif !important;}
 
-
-.featurette-image.pull-left {
-    margin-right: 40px;
-}
-
-.featurette-image.pull-right {
-    margin-left: 40px;
-}
-
-.featurette-heading {
-    font-size: 50px;
-}
-
-footer {
-    margin: 50px 0;
-}
-
+/*1200 and smaller*/
 @media(max-width:1200px) {
-
-
-    .featurette-divider {
-        margin: 50px 0;
-    }
-
-  
-    .featurette-image.pull-left {
-        margin-right: 20px;
-    }
-
-    .featurette-image.pull-right {
-        margin-left: 20px;
-    }
-
-    .featurette-heading {
-        font-size: 35px;
-    }
+    .featurette-divider { margin: 50px 0;}
+    .featurette-image.pull-left { margin-right: 20px;}
+    .featurette-image.pull-right {margin-left: 20px;}
+    .featurette-heading { font-size: 35px;}
 }
-
+/*991 and smaller*/
 @media(max-width:991px) {
-
-    .featurette-divider {
-        margin: 40px 0;
-    }
-
-    .featurette-image {
-        max-width: 50%;
-    }
-
-    .featurette-image.pull-left {
-        margin-right: 10px;
-    }
-
-    .featurette-image.pull-right {
-        margin-left: 10px;
-    }
-
-    .featurette-heading {
-        font-size: 30px;
-    }
+    .featurette-divider { margin: 40px 0; }
+    .featurette-image { max-width: 50%; }
+    .featurette-image.pull-left { margin-right: 10px; }
+    .featurette-image.pull-right { margin-left: 10px; }
+    .featurette-heading { font-size: 30px; }
 }
-
+/*768 and smaller*/
 @media(max-width:768px) {
-    .container {
-        margin: 0 15px;
-    }
-
-    .featurette-divider {
-        margin: 40px 0;
-    }
-
-    .featurette-heading {
-        font-size: 25px;
-    }
+    .container { margin: 0 15px; }
+    .featurette-divider { margin: 40px 0; }
+    .featurette-heading { font-size: 25px; }
 }
-
+/*668 and smaller*/
 @media(max-width:668px) {
-    .featurette-divider {
-        margin: 30px 0;
-    }
+    .featurette-divider { margin: 30px 0; }
+}
+/*375 and smaller*/
+@media(max-width:375px) {
+    .featurette-divider { margin: 10px 0; }
+    .featurette-image { max-width: 100%; }
+    .featurette-image.pull-left { margin-right: 0; margin-bottom: 10px; }
+    .featurette-image.pull-right { margin-bottom: 10px; margin-left: 0; }
 }
 
-@media(max-width:375px) {
-    .featurette-divider {
-        margin: 10px 0;
-    }
-
-    .featurette-image {
-        max-width: 100%;
-    }
-
-    .featurette-image.pull-left {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .featurette-image.pull-right {
-        margin-bottom: 10px;
-        margin-left: 0;
-    }
+video  {
+  width: 600px;
+  padding: 20px;
+/*transition:all 0.5s linear;*/
+/*box-shadow: 2px 2px 4px 0px #006773;*/
+/*border-radius:7px 7px 7px 7px;*/
 }
