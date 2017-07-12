@@ -117,16 +117,10 @@ footer {
 
 
 
-h3 {
-  font-family: 'Junge', serif !important;
-}
-.jungeFont {
-  font-family: 'Junge', serif !important;
-}
 
 /*STARTING STYLES FOR LAYOUT TEMPLATE*/
 .featurette-divider {margin: 80px 0;}
-.featurette { overflow: hidden; margin-left: 10px; font-family: 'Junge', serif !important;}
+.featurette { text-align: center; overflow: hidden; margin-left: 10px; font-family: 'Oswald', sans-serif !important;}
 .feaurette h3 {font-family: 'Oswald', sans-serif !important;}
 /*I ADDED but doesnt work*/
 /*.featurette-image { border-radius: 25px; max-width: 50%; }*/
