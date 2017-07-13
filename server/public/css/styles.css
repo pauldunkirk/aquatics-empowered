@@ -3,12 +3,12 @@ body {
   background-size: cover;
   font-family: 'Oswald', sans-serif !important;
 }
-
+/*border: medium solid #0081CC;*/
 footer { margin: 50px 0; }
 video { margin: auto; padding-bottom: 20px; border-radius: 10%}
 /*ELEMENTS*/
 .btn { margin-top: 2%; font-size: 40px !important; width: 90%; }
-.img-circle { margin: auto; border-style: solid;} /*need this for second group of buttons to hug right side*/
+.img-circle { margin: auto; border: thin solid #0081CC;} /*need this for second group of buttons to hug right side*/
 .row { margin-left: 0 !important; margin-right: 0 !important;}
 /*GENERIC STYLES*/
 .highlightRed { color: #DF0000; }
