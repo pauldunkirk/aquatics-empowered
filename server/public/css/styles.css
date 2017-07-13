@@ -1,83 +1,40 @@
 body {
   background: #000000 url("../images/water.png") no-repeat fixed center;
-  background-size:cover;
+  background-size: cover;
   font-family: 'Oswald', sans-serif !important;
 }
 
-.navbar {
-  margin-bottom: 0px !important;
-  border-radius: 0px !important;
-}
+footer { margin: 50px 0; }
+video { margin: auto; padding-bottom: 20px; border-radius: 10%}
+/*ELEMENTS*/
+.btn { margin-top: 2%; font-size: 40px !important; width: 90%; }
+.img-circle { margin: auto; border-style: solid;} /*need this for second group of buttons to hug right side*/
+.row { margin-left: 0 !important; margin-right: 0 !important;}
+/*GENERIC STYLES*/
+.highlightRed { color: #DF0000; }
+.topMargin{ margin-top: 5%; }
 
-.navbar-nav li:last-child {
-    background: #DF0000;
-}
-.navbar-nav li:last-child a {
-    color: #cecccc !important;
-}
-.navbar-nav li:last-child a:hover {
-    color: white !important;
-}
+/*NAVBAR*/
+.navbar { margin-bottom: 0px !important; border-radius: 0px !important; }
+.navbar-nav li:last-child { background: #DF0000;}
+.navbar-nav li:last-child a { color: #cecccc !important;}
+.navbar-nav li:last-child a:hover { color: white !important;}
+/*HOME LOGO*/
+/*.homeLogoDiv { margin: auto; width: 100%; height: auto; }*/
+.homeLogo { width: 100%; }
+/*COMING SOON*/
+.comingSoonDiv{ width: 100%; height: auto; margin: 2% auto 2% auto; opacity: .75; }
+.comingSoonImage{ margin: auto; width: 100%; }
 
-.topMargin{
-  margin-top: 5%;
-}
-
-/*didnt work .verticalAlignMiddle {
-  vertical-align: middle !important;
-}*/
-
-.homeLogoDiv {
-  margin: auto;
-  width: 100%;
-  height: auto;
-}
-.homeLogo {
-  width: 100%;
-}
-
-.comingSoonDiv{
-  width: 100%;
-  height: auto;
-  margin: 2% auto 2% auto;
-  opacity: .75;
-}
-.comingSoonImage{
-  margin: auto;
-  width: 100%;
-}
-
-footer {
-    margin: 50px 0;
-}
-
-.highlightRed {
-  color: #DF0000;
-}
-
-.btn {
-    margin-top: 2%;
-    font-size: 40px !important;
-    width: 90%;
-}
-
-/*need this for second group of buttons to hug right side*/
-.img-circle {
-  margin: auto;
-}
-
-/*STARTING STYLES FOR LAYOUT TEMPLATE*/
-.featurette { text-align: center; overflow: hidden; margin: auto; font-family: 'Oswald', sans-serif !important;}
+/*LAYOUT*/
+.homeIntroHeading { text-align: center; overflow: hidden; margin: auto; font-family: 'Oswald', sans-serif !important;}
 .sectionHeading {text-align: center; font-size: 60px; font-family: 'Oswald', sans-serif !important;}
 
-/*1200 and smaller*/
-@media(max-width:1200px) {
-    .sectionHeading { font-size: 50px;}
-}
+
 /*991 and smaller*/
 @media(max-width:991px) {
     .sectionHeading { font-size: 40px; }
-    .btn { margin-top: 2%; font-size: 30px !important; width: 100%; }
+    .btn {font-size: 30px !important; width: 100%; }
 }
 /*768 and smaller*/
 @media(max-width:768px) {
@@ -86,11 +43,7 @@ footer {
     .img-circle {max-width: 300px !important}
 }
 
-/*375 and smaller*/
-@media(max-width:375px) {
-}
-
-/*
+/* OLD SITE SEARCH:
 .search {
   width: 300px;
   height: 200px;
@@ -119,7 +72,7 @@ footer {
   }
   .input {
     border-radius: 25px;
-    text-align: center;
+    text-align: center;homeIntroHeading
   }
     .button {
       text-align: center;
