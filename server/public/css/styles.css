@@ -4,20 +4,14 @@ body {
   font-family: 'Oswald', sans-serif !important;
 }
 
-.img-circle {
-  /*min-width: 200px;
-  max-width: 300px !important;*/
-  text-align: center;
-  margin: auto;
-}
-
 .topMargin{
   margin-top: 5%;
 }
 
-.verticalAlignMiddle {
+/*didnt work .verticalAlignMiddle {
   vertical-align: middle !important;
-}
+}*/
+
 .homeLogoDiv {
   margin: auto;
   width: 100%;
@@ -84,34 +78,41 @@ footer {
     font-size: 40px !important;
     width: 90%;
 }
+video  {
+  /*width: 500px;*/
+  /*padding: 20px;*/
+}
 
-
+/*need this for second group of buttons to hug right side*/
+.img-circle {
+  margin: auto;
+}
 
 /*STARTING STYLES FOR LAYOUT TEMPLATE*/
 /*text-align: left; */
 .featurette { text-align: center; overflow: hidden; margin: auto; font-family: 'Oswald', sans-serif !important;}
 .featurette-image.pull-left {margin-right: 30px;}
 .featurette-image.pull-right {margin-left: 30px;}
-.featurette-heading {text-align: center; font-size: 60px; font-family: 'Oswald', sans-serif !important;}
+.sectionHeading {text-align: center; font-size: 60px; font-family: 'Oswald', sans-serif !important;}
 
 /*1200 and smaller*/
 @media(max-width:1200px) {
     .featurette-image.pull-left { margin-right: 20px;}
     .featurette-image.pull-right {margin-left: 20px;}
-    .featurette-heading { font-size: 50px;}
+    .sectionHeading { font-size: 50px;}
 }
 /*991 and smaller*/
 @media(max-width:991px) {
     .featurette-image { max-width: 50%; }
     .featurette-image.pull-left { margin-right: 10px; }
     .featurette-image.pull-right { margin-left: 10px; }
-    .featurette-heading { font-size: 40px; }
+    .sectionHeading { font-size: 40px; }
     .btn { margin-top: 2%; font-size: 30px !important; width: 100%; }
 }
 /*768 and smaller*/
 @media(max-width:768px) {
     .container { margin: 0 15px; }
-    .featurette-heading { font-size: 30px; }
+    .sectionHeading { font-size: 30px; }
     .img-circle {max-width: 300px !important}
     /*.btn { margin-top: 2%; font-size: 30px !important; width: 100%; }*/
 }
@@ -122,12 +123,6 @@ footer {
     .featurette-image.pull-left { margin-right: 0; margin-bottom: 10px; }
     .featurette-image.pull-right { margin-bottom: 10px; margin-left: 0; }
 }
-
-video  {
-  width: 500px;
-  /*padding: 20px;*/
-}
-
 
 /*
 .search {
