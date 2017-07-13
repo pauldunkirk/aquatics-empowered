@@ -4,8 +4,9 @@ body {
   font-family: 'Oswald', sans-serif !important;
 }
 
-img {
-  min-width: 300px;
+.img-circle {
+  /*min-width: 200px;
+  max-width: 300px !important;*/
   text-align: center;
   margin: auto;
 }
@@ -18,16 +19,15 @@ img {
   vertical-align: middle !important;
 }
 .homeLogoDiv {
-  /*margin: auto;
+  margin: auto;
   width: 100%;
-  height: auto;*/
+  height: auto;
 }
 .homeLogo {
   width: 100%;
 }
 
 .comingSoonDiv{
-  /*background: black;*/
   width: 100%;
   height: auto;
   margin: 2% auto 2% auto;
@@ -53,14 +53,14 @@ img {
     color: white !important;
 }
 
-.carouselContainer {
+/*.carouselContainer {
   background: black;
 }
 
 .slideshowImage {
  width: 100%;
  margin: auto;
-}
+}*/
 
 /*.videoDiv {
   text-align: center;
@@ -106,12 +106,14 @@ footer {
     .featurette-image.pull-left { margin-right: 10px; }
     .featurette-image.pull-right { margin-left: 10px; }
     .featurette-heading { font-size: 40px; }
+    .btn { margin-top: 2%; font-size: 30px !important; width: 100%; }
 }
 /*768 and smaller*/
 @media(max-width:768px) {
     .container { margin: 0 15px; }
     .featurette-heading { font-size: 30px; }
-    .btn { margin-top: 2%; font-size: 30px !important; width: 100%; }
+    .img-circle {max-width: 300px !important}
+    /*.btn { margin-top: 2%; font-size: 30px !important; width: 100%; }*/
 }
 
 /*375 and smaller*/
@@ -123,7 +125,7 @@ footer {
 
 video  {
   width: 500px;
-  padding: 20px;
+  /*padding: 20px;*/
 }
 
 
