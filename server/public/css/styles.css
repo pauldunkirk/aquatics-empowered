@@ -4,6 +4,21 @@ body {
   font-family: 'Oswald', sans-serif !important;
 }
 
+.navbar {
+  margin-bottom: 0px !important;
+  border-radius: 0px !important;
+}
+
+.navbar-nav li:last-child {
+    background: #DF0000;
+}
+.navbar-nav li:last-child a {
+    color: #cecccc !important;
+}
+.navbar-nav li:last-child a:hover {
+    color: white !important;
+}
+
 .topMargin{
   margin-top: 5%;
 }
@@ -32,39 +47,6 @@ body {
   width: 100%;
 }
 
-.navbar {
-  margin-bottom: 0px !important;
-  border-radius: 0px !important;
-}
-
-.navbar-nav li:last-child {
-    background: #DF0000;
-}
-.navbar-nav li:last-child a {
-    color: #cecccc !important;
-}
-.navbar-nav li:last-child a:hover {
-    color: white !important;
-}
-
-/*.carouselContainer {
-  background: black;
-}
-
-.slideshowImage {
- width: 100%;
- margin: auto;
-}*/
-
-/*.videoDiv {
-  text-align: center;
-  background: black;
-}
-
-.videoItself{
-  width: 10%;
-}*/
-
 footer {
     margin: 50px 0;
 }
@@ -78,10 +60,6 @@ footer {
     font-size: 40px !important;
     width: 90%;
 }
-video  {
-  /*width: 500px;*/
-  /*padding: 20px;*/
-}
 
 /*need this for second group of buttons to hug right side*/
 .img-circle {
@@ -89,23 +67,15 @@ video  {
 }
 
 /*STARTING STYLES FOR LAYOUT TEMPLATE*/
-/*text-align: left; */
 .featurette { text-align: center; overflow: hidden; margin: auto; font-family: 'Oswald', sans-serif !important;}
-.featurette-image.pull-left {margin-right: 30px;}
-.featurette-image.pull-right {margin-left: 30px;}
 .sectionHeading {text-align: center; font-size: 60px; font-family: 'Oswald', sans-serif !important;}
 
 /*1200 and smaller*/
 @media(max-width:1200px) {
-    .featurette-image.pull-left { margin-right: 20px;}
-    .featurette-image.pull-right {margin-left: 20px;}
     .sectionHeading { font-size: 50px;}
 }
 /*991 and smaller*/
 @media(max-width:991px) {
-    .featurette-image { max-width: 50%; }
-    .featurette-image.pull-left { margin-right: 10px; }
-    .featurette-image.pull-right { margin-left: 10px; }
     .sectionHeading { font-size: 40px; }
     .btn { margin-top: 2%; font-size: 30px !important; width: 100%; }
 }
@@ -114,14 +84,10 @@ video  {
     .container { margin: 0 15px; }
     .sectionHeading { font-size: 30px; }
     .img-circle {max-width: 300px !important}
-    /*.btn { margin-top: 2%; font-size: 30px !important; width: 100%; }*/
 }
 
 /*375 and smaller*/
 @media(max-width:375px) {
-    .featurette-image { max-width: 100%; }
-    .featurette-image.pull-left { margin-right: 0; margin-bottom: 10px; }
-    .featurette-image.pull-right { margin-bottom: 10px; margin-left: 0; }
 }
 
 /*
