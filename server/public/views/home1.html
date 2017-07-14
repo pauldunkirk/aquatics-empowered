@@ -1,38 +1,22 @@
-<div class="">
-    <nav ng-include="'views/templates/nav.html'"></nav>
-</div>
+<nav ng-include="'views/templates/nav.html'"></nav>
 
-
+<!-- HOME LOGO -->
 <div class="homeLogoDiv">
     <img alt="Aquatics Empowered logo" src="images/logos/logoAndTag2.png" class="img-responsive homeLogo">
 </div>
 
-
-
+<!-- COMING SOON -->
 <div class="comingSoonDiv">
     <img alt="Coming Soon" src="images/ComingSoonOswald.png" class="img-responsive comingSoonImage">
 </div>
 
-<!-- <section class="search">
-            <h3>Find a pool</h3>
-            <form name="chartForm" ng-submit="home.getFacilities()">
-                  <div class="searchDiv">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    <input type="text" ng-model="home.zipcode" placeholder="Zip Code" class="zipcodeInput">
-                  </div>
-                <div class="col-xs-2">
-                  <button type="submit" class="submitZipButton btn btn-lg btn-info">Search</button>
-                </div>
-            </form>
-            </section> -->
-
-
-<div class="homeIntroHeading">
+<!-- WHAT CAN I DO? -->
+<section class="homeIntroHeading">
     <h2 class="sectionHeading">What can I do here?</h2>
-</div><br>
+</disectionv><br>
 
 <!-- 1st Images/Buttons Section -->
-<div class="row topMargin">
+<section class="row topMargin">
     <div class="col-sm-6 ">
         <button type="button" name="button" class="btn btn-primary btn-xl findAPoolButton">Find a Pool</button> <br>
         <button type="button" name="button" class="btn btn-primary btn-xl findAPoolButton">Find an Aquatic Therapist</button>
@@ -42,42 +26,43 @@
     </div>
     <div class="col-sm-2">
     </div>
-</div>
+</section>
 <!-- END 1st Images/Buttons Section -->
 
 <hr>
 
 <!-- 2nd Images/Buttons Section -->
-<div class="row topMargin">
+<section class="row topMargin">
     <div class="col-sm-2">
     </div>
     <div class="col-sm-4">
         <img class="img-circle img-responsive " src="images/slideshow/HydroPhysio.jpg" alt="Male water-therapy patient and therapist">
     </div>
     <div class="col-sm-6 ">
-        <button type="button" name="button" class="pull-right btn btn-primary btn-xl findAPoolButton">Register a Pool</button> <br>
+        <button type="button" name="button" class="pull-right btn btn-primary btn-xl findAPoolButton">Register your Facility</button> <br>
         <button type="button" name="button" class="pull-right btn btn-primary btn-xl findAPoolButton">Register as a Therapist</button>
     </div>
-</div>
+</section>
 <!-- END 2nd Images/Buttons Section -->
 
 <hr>
 
 <!-- Video Section-->
-<div class="row topMargin">
+<section class="row topMargin">
     <div class="col-sm-6 ">
-        <h2 class="topMargin sectionHeading">Pool of the Month!! <br>
-                        <span class="highlightRed">Morgan's Inspiration Island</span>
-                    </h2>
+        <h2 class="topMargin sectionHeading">Pool of the Month!!
+          <br>
+            <span class="highlightRed">Morgan's Inspiration Island</span>
+        </h2>
     </div>
     <div class="col-sm-4">
         <video loop muted autoplay controls="" id="myVideo" class="topMargin img-responsive">
-                      <source  src="images/videos/now_this.mp4" type="video/mp4" class="">
-                  </video>
+            <source  src="images/videos/now_this.mp4" type="video/mp4" class="">
+        </video>
     </div>
     <div class="col-sm-2">
     </div>
-</div>
+</section>
 <!-- END Video Section-->
 
 
@@ -88,20 +73,4 @@
         </div> -->
 
 
-<!-- SPONSORS -->
-<div class="row">
-    <div class="col-sm-12">
-        <img alt="Sponsors" src="images/SponsorsUSMS.png" class="img-responsive homeLogo">
-    </div>
-</div>
-
-<!-- Add Social Media Footer -->
-
-<!-- Footer -->
-<footer>
-    <div class="row">
-        <div class="col-lg-12">
-            <p>Copyright &copy; Aquatics Empowered 2017</p>
-        </div>
-    </div>
-</footer>
+<nav ng-include="'views/templates/footer.html'"></nav>
