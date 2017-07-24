@@ -6,24 +6,37 @@ var app = angular.module('myApp', ['ngRoute','ui.bootstrap']);
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-         .when ('/login', {
-          templateUrl: '/views/login.html',
-          controller: 'LoginController',
-          controllerAs: 'login'
-        }).when ('/maps', {
-            templateUrl: '/views/templates/maps.html',
-            controller: 'MapsController',
-            controllerAs: 'maps'
-        }).when ('/home1', {
-            templateUrl: '/views/home1.html',
-            controller: 'Home1Controller',
-            controllerAs: 'home1'
-        }).when ('/home2', {
-            templateUrl: '/views/home2.html',
-            controller: 'Home2Controller',
-            controllerAs: 'home2'
-        }).otherwise ({
-            redirectTo: '/home1'
-        });
+   .when('/home1', {
+     templateUrl: '/views/home1.html',
+     controller: 'Home1Controller',
+     controllerAs: 'home1'
+ }).when('/home2', {
+     templateUrl: '/views/home2.html',
+     controller: 'Home2Controller',
+     controllerAs: 'home2'
+ }).when('/surveys', {
+     templateUrl: '/views/surveys.html',
+     controller: 'Home1Controller',
+     controllerAs: 'home1'
+}).when('/survey-facilities', {
+    templateUrl: '/views/survey-facilities.html',
+    controller: 'Home1Controller',
+    controllerAs: 'home1'
+  }).when('/survey-therapists', {
+      templateUrl: '/views/survey-therapists.html',
+      controller: 'Home1Controller',
+      controllerAs: 'home1'
+    }).when('/survey-poolusers', {
+        templateUrl: '/views/survey-facilities.html',
+        controller: 'Home1Controller',
+        controllerAs: 'home1'
+
+ }).when('/maps', {
+     templateUrl: '/views/templates/maps.html',
+     controller: 'MapsController',
+     controllerAs: 'maps'
+ }).otherwise({
+     redirectTo: '/home1'
+ });
 
 }]); //end routeProvider confg
