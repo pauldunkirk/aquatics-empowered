@@ -27,7 +27,7 @@ app.config(['$routeProvider', function($routeProvider) {
       controller: 'Home1Controller',
       controllerAs: 'home1'
     }).when('/survey-poolusers', {
-        templateUrl: '/views/survey-facilities.html',
+        templateUrl: '/views/survey-poolusers.html',
         controller: 'Home1Controller',
         controllerAs: 'home1'
 
