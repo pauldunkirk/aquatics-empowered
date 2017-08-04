@@ -1,3 +1,9 @@
+/* Joel sent me this color pallette: http://paletton.com/#uid=33v0u0kk9V58dZIeSX-oTRstRLh
+Palette UID: 33v0u0kk9V58dZIeSX-oTRstRLh
+example (positive design) and see "TABLES/EXPORT"
+ORANGE: FF6B39, photoshop fail. D4643F close as I got
+old red logo and secondary was DF0000*/
+
 body {
   background: #000000 url("../images/water.png") no-repeat fixed center;
   background-size: cover;
@@ -11,12 +17,12 @@ video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin soli
 .img-circle { margin: auto; border: thin solid #0081CC;}
 .row { margin-left: 0 !important; margin-right: 0 !important;}
 /*GENERIC STYLES*/
-.highlightRed { color: #DF0000; }
+.secondaryColor { color: #D4643F; }
 .topMargin{ margin-top: 5%; }
 
 /*NAVBAR*/
 .navbar { margin-bottom: 0px !important; border-radius: 0px !important; }
-.navbar-nav li:last-child { background: #DF0000;}
+.navbar-nav li:last-child { background: #D4643F;}
 .navbar-nav li:last-child a { color: #cecccc !important;}
 .navbar-nav li:last-child a:hover { color: white !important;}
 /*HOME LOGO*/
