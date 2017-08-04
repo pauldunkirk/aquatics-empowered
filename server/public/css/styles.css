@@ -13,6 +13,7 @@ body {
 footer { margin: 50px 0; }
 video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin solid #0081CC;}
 /*ELEMENTS*/
+.h2 {font-size: 40px !important;}
 .btn { margin-top: 2%; font-size: 40px !important; width: 80%; }
 .img-circle { margin: auto; border: thin solid #0081CC;}
 .row { margin-left: 0 !important; margin-right: 0 !important;}
@@ -43,6 +44,8 @@ video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin soli
     .sectionHeading { font-size: 40px; }
     .btn {font-size: 20px !important; width: 60%; }
     .surveyButton {width: 60% !important;}
+    .explanationHeading {font-size: 20px !important; }
+    .h2 {font-size: 20px;}
 }
 /*768 and smaller*/
 @media(max-width:768px) {
