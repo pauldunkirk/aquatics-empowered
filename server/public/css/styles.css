@@ -16,6 +16,7 @@ video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin soli
 .btn { margin-top: 2%; font-size: 40px !important; width: 90%; }
 .img-circle { margin: auto; border: thin solid #0081CC;}
 .row { margin-left: 0 !important; margin-right: 0 !important;}
+.surveyButton {background-color: #FFE089; width: 70%;}
 /*GENERIC STYLES*/
 .secondaryColor { color: #D4643F; }
 .topMargin{ margin-top: 5%; }
