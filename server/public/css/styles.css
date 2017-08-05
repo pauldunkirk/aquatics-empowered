@@ -37,8 +37,8 @@ video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin soli
 /*LAYOUT*/
 .homeIntroHeading { text-align: center; overflow: hidden; margin: auto; font-family: 'Oswald', sans-serif !important;}
 .sectionHeading {text-align: center; font-size: 60px; font-family: 'Oswald', sans-serif !important;}
-.explanationHeading {background-color: #0199E4; color: white; text-align: center; overflow: hidden; width: 100%; margin: auto; font-family: 'Oswald', sans-serif !important; }
-
+.explanationHeading {background-color: #0199E4; color: white; text-align: center; overflow: hidden; width: 70%; margin: auto; font-family: 'Oswald', sans-serif !important; }
+.explanationHeadingSection {background-color: #0199E4; color: white; text-align: center; overflow: hidden; width: 100%; margin: auto; font-family: 'Oswald', sans-serif !important; }
 /*991 and smaller*/
 @media(max-width:991px) {
     .sectionHeading { font-size: 40px; }
