@@ -1,12 +1,27 @@
-<!-- <div ng-controller="MapsController as map"> -->
-        <!-- <div id="googleMap" style="width:100%;height:420px;"></div> -->
-        <!-- <nav ng-include="'views/templates/maps.html'"></nav> -->
-        <!-- Google Maps -->
-        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&callback=myMap"></script> -->
-      <!-- <div id="gmap" style="width:100%;height:200px;"></div> -->
-      <google-map
-          lat="51.507351"
-          lng="-0.127758"
-          apikey="AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
-      </google-map>
-        <!-- <div id="gmap" style="width:600px; height:400px"></div> -->
+<div class="row">
+
+  <google-map
+    apikey="AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o"
+    lat="45"
+    long="-93"
+    zoom="8"
+    map-type="'satellite'"
+    clickable-icons="false"
+    disable-double-click-zoom="true"
+    disable-default-ui="maps.dummyFalseTwo"
+    draggable="maps.dummyFalseOne"
+    fullscreen-control="false"
+    map-type-control="true"
+    scrollwheel="true"
+    street-view-control="true"
+    zoom-control="true"
+    custom-map-styles="maps.customMapStyles"
+    custom-map-name="'My custom map'"
+    map-type-control-options-style="'HORIZONTAL_BAR'"
+    map-type-control-options-position="'TOP_CENTER'"
+    zoom-control-options="'LEFT_CENTER'"
+    street-view-control-options="'RIGHT_CENTER'"
+    fullscreen-control-options="maps.dummyPosition"
+    custom-css="map"
+  ></google-map>
+</div>

@@ -53,7 +53,12 @@ video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin soli
     .sectionHeading { font-size: 20px; }
     .img-circle {max-width: 300px !important}
 }
+/* MAPS */
 
+.map {
+    width: 600px;
+    height: 400px;
+}
 /* OLD SITE SEARCH:
 .search {
   width: 300px;
