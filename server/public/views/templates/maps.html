@@ -5,36 +5,39 @@
     center='map.center'
     zoom='map.zoom'
   >
-  <ui-gmap-markers
-    models='{expression}'
-    idKey='{expression}'
+  <ui-gmap-marker
+      idKey='{expression}'
+      coords='{expression}'
+      click='{expression}'
+      options='{expression}'
+      events='{}'
+      control='{}'
+      >
+    </ui-gmap-marker>
+    <!-- <ui-gmap-markers
+      models='poolList'
+      type="{expression or string} (spider or cluster or null(default))"
+      typeOptions='{expression}'
+      typeEvents='{expression}'
+      fit="{string or object}"
 
-    doCluster="{string or object}"
-    clusterOptions='{expression}'
-    clusterEvents='{expression}'
-    type="{expression or string} (spider or cluster or null(default))"
-    typeOptions='{expression}'
-    typeEvents='{expression}'
-    fit="{string or object}"
+      coords="'coords'"
+      icon="'{string}'"
+      options="'{string}'"
+      labelContent="'{string or expression}'"
+      labelAnchor="'{string}'"
+      labelClass="'{string}'"
+      click="'{string or expression to a function}'"
+      modelsbyref="{expression}"
 
-    coords="'{string}'"
-    icon="'{string}'"
-    options="'{string}'"
-    labelContent="'{string or expression}'"
-    labelAnchor="'{string}'"
-    labelClass="'{string}'"
-    click="'{string or expression to a function}'"
-    modelsbyref="{expression}"
+      events="{expression}"
 
-    events="{expression}"
-
-    control='{expression}'
-    chunk='{expression}'
-    cleanchunk='{expression}'
-    doRebuildAll="{string or object}"
-    >
-  </ui-gmap-markers>
-    <!-- other ui-gmap-directives here -->
+      control='{expression}'
+      chunk='{expression}'
+      cleanchunk='{expression}'
+      doRebuildAll="{string or object}"
+      >
+    </ui-gmap-markers> -->
 
   </ui-gmap-google-map>
 </div>

@@ -10,8 +10,11 @@ CREATE TABLE facilities (
     handicap_accessibility boolean,
     level integer,
     image_url text,
+    url character varying(255),
     cost boolean,
-    approved boolean
+    approved boolean,
+    lat float(12),
+    lng float(12)
 );
 
 CREATE TABLE facility_availability (
@@ -42,3 +45,9 @@ CREATE TABLE facility_reservation (
     approved boolean,
     user_id integer references users
 );
+
+var point = new google.maps.LatLng(44.95083,-93.29869);
+marker_gmap[0]    = new google.maps.Marker(point,{icon:icon0,title:"1) Minneapolis Uptown YWCA"});
+    bounds.extend(point);
+        google.maps.Event.addListener(marker_gmap[0], "click", function() { marker_gmap[0].openInfoWindowHtml('<a href="https://www.ywcampls.org/fitness/swimming_and_aquatics/masters_group_swimming/">1) Minneapolis Uptown YWCA</a><br/>2808 Hennepin Ave. South, Minneapolis, MN 55408');});
+    map_gmap.addOverlay(marker_gmap[0]);

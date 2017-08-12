@@ -6,6 +6,9 @@ var portDecision = process.env.PORT || 3000;
 // app.listen(3000);
 console.log("app.js is loaded & server listening to port 3000");
 
+var poolList = require('../samples');
+
+
 
  // initializes the server routes
 // var user = require('./routes/user.route.js');
@@ -24,6 +27,10 @@ var bodyParser = require('body-parser');
 
 app.get('/', function(req, res){
   res.sendFile(path.resolve('server/public/index.html'));
+});
+
+app.get('/poolList', function(req, res) {
+  res.send(poolList);
 });
 
 app.use(express.static('server/public'));
