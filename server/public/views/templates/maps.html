@@ -4,40 +4,19 @@
   <ui-gmap-google-map
     center='map.center'
     zoom='map.zoom'
+    draggable='true'
   >
-  <ui-gmap-marker
-      idKey='{expression}'
-      coords='{expression}'
-      click='{expression}'
-      options='{expression}'
-      events='{}'
-      control='{}'
-      >
-    </ui-gmap-marker>
-    <!-- <ui-gmap-markers
-      models='poolList'
-      type="{expression or string} (spider or cluster or null(default))"
-      typeOptions='{expression}'
-      typeEvents='{expression}'
-      fit="{string or object}"
-
+    <!-- <ui-gmap-marker ng-repeat="m in markerList"
+      idKey='idKey'
       coords="'coords'"
-      icon="'{string}'"
-      options="'{string}'"
-      labelContent="'{string or expression}'"
-      labelAnchor="'{string}'"
-      labelClass="'{string}'"
-      click="'{string or expression to a function}'"
-      modelsbyref="{expression}"
-
-      events="{expression}"
-
-      control='{expression}'
-      chunk='{expression}'
-      cleanchunk='{expression}'
-      doRebuildAll="{string or object}"
+      options='options'
       >
-    </ui-gmap-markers> -->
+    </ui-gmap-marker> -->
 
+    <ui-gmap-markers
+      models='markerList'
+      coords="'coords'"
+      options="'options'"
+    />
   </ui-gmap-google-map>
 </div>

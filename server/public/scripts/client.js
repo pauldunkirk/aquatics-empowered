@@ -5,7 +5,7 @@ var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'uiGmapgoogle-maps'
 
 
 app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider
+  $routeProvider
    .when('/home1', {
      templateUrl: '/views/home1.html',
      controller: 'Home1Controller',
@@ -18,25 +18,30 @@ app.config(['$routeProvider', function($routeProvider) {
      templateUrl: '/views/surveys.html',
      controller: 'Home1Controller',
      controllerAs: 'home1'
-}).when('/survey-facilities', {
+ }).when('/survey-facilities', {
     templateUrl: '/views/survey-facilities.html',
     controller: 'Home1Controller',
     controllerAs: 'home1'
-  }).when('/survey-therapists', {
-      templateUrl: '/views/survey-therapists.html',
-      controller: 'Home1Controller',
-      controllerAs: 'home1'
-    }).when('/survey-poolusers', {
-        templateUrl: '/views/survey-poolusers.html',
-        controller: 'Home1Controller',
-        controllerAs: 'home1'
-
+ }).when('/survey-therapists', {
+    templateUrl: '/views/survey-therapists.html',
+    controller: 'Home1Controller',
+    controllerAs: 'home1'
+ }).when('/survey-poolusers', {
+    templateUrl: '/views/survey-poolusers.html',
+    controller: 'Home1Controller',
+    controllerAs: 'home1'
  }).when('/maps', {
-     templateUrl: '/views/templates/maps.html',
-     controller: 'MapsController',
-     controllerAs: 'maps'
+    templateUrl: '/views/templates/maps.html',
+    controller: 'MapsController',
+    controllerAs: 'maps'
  }).otherwise({
-     redirectTo: '/home1'
+    redirectTo: '/home1'
  });
-
-}]); //end routeProvider confg
+}])
+.config(function(uiGmapGoogleMapApiProvider) {
+  uiGmapGoogleMapApiProvider.configure({
+    key: 'AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o',
+    v: '3.27',
+    libraries: 'weather,geometry,visualization'
+  });
+});

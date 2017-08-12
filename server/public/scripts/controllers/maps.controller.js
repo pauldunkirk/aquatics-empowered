@@ -1,30 +1,19 @@
-
-app.config(function(uiGmapGoogleMapApiProvider) {
-  uiGmapGoogleMapApiProvider.configure({
-    key: 'AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o',
-    v: '3.20', //defaults to latest 3.X anyhow
-    libraries: 'weather,geometry,visualization'
-  });
-})
-.controller('MapsController', ['$http', '$location', '$scope', 'uiGmapGoogleMapApi', function($http, $location, $scope, uiGmapGoogleMapApi) {
+app.controller('MapsController', ['$http', '$location', '$scope', 'uiGmapGoogleMapApi', function($http, $location, $scope, uiGmapGoogleMapApi) {
   console.log('maps controller running');
-  var markerList   = [],
-      areaLat      = 45,
-      areaLng      = -93,
-      areaZoom     = 8;
+  $scope.markerList   = [];
+  var areaLat      = 44.9778,
+      areaLng      = -93.2650,
+      areaZoom     = 10;
 
   $scope.map     = {
     center: { latitude: areaLat, longitude: areaLng },
     zoom: areaZoom
   };
-  $scope.options = { scrollwheel: false };
-
   uiGmapGoogleMapApi.then(function(maps) {
   const gIcon = {
     url: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|0065BD|FFFFFF",
     size: new google.maps.Size(20,30),
     anchor: new google.maps.Point(6,20),
-    // infoWindowAnchor: new google.maps.Point(5,1)
   };
 
   function getPools() {
@@ -32,7 +21,8 @@ app.config(function(uiGmapGoogleMapApiProvider) {
     $http.get('/poolList/')
     .then(function(res) {
       console.log('res:', res.data);
-      markerList = createMarkerList(res.data);
+      $scope.markerList = createMarkerList(res.data);
+      console.log('$scope.markerList', $scope.markerList);
     },
     function(res) {
       console.log('get error:', response);
@@ -41,21 +31,12 @@ app.config(function(uiGmapGoogleMapApiProvider) {
   getPools();
 
   function createMarkerList(poolArray) {
-    poolArray.map(pool => {
-      const options = {
-        label: pool.name,
-        icon: gIcon
+    return poolArray.map(pool => {
+      return {
+        id: pool.id, //unique id required 
+        coords: { latitude: pool.lat, longitude: pool.lng },
+        options: { label: pool.name, icon: gIcon }
       };
-      const coords = new google.maps.LatLng(pool.lat, pool.lng);
-      const marker = new google.maps.Marker( {
-        idKey: pool.id,
-        coords,
-        options,
-      } );
-      console.log("marker:", marker);
-      console.log("pool", pool);
-
-      return marker;
     });
   }
 
