@@ -18,9 +18,11 @@ app.config(function(uiGmapGoogleMapApiProvider) {
   };
   $scope.options = { scrollwheel: false };
 
-   uiGmapGoogleMapApi.then(function(maps) {
-     console.log('map ready');
-   });
+
+  
+  uiGmapGoogleMapApi.then(function(maps) {
+    console.log('map ready');
+  });
 
 
 }]);

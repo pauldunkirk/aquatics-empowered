@@ -5,8 +5,36 @@
     center='map.center'
     zoom='map.zoom'
   >
+  <ui-gmap-markers
+    models='{expression}'
+    idKey='{expression}'
 
+    doCluster="{string or object}"
+    clusterOptions='{expression}'
+    clusterEvents='{expression}'
+    type="{expression or string} (spider or cluster or null(default))"
+    typeOptions='{expression}'
+    typeEvents='{expression}'
+    fit="{string or object}"
+
+    coords="'{string}'"
+    icon="'{string}'"
+    options="'{string}'"
+    labelContent="'{string or expression}'"
+    labelAnchor="'{string}'"
+    labelClass="'{string}'"
+    click="'{string or expression to a function}'"
+    modelsbyref="{expression}"
+
+    events="{expression}"
+
+    control='{expression}'
+    chunk='{expression}'
+    cleanchunk='{expression}'
+    doRebuildAll="{string or object}"
+    >
+  </ui-gmap-markers>
     <!-- other ui-gmap-directives here -->
 
-</ui-gmap-google-map>
+  </ui-gmap-google-map>
 </div>
