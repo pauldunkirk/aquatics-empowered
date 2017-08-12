@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'angular-google-map']);
+var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'uiGmapgoogle-maps']);
 // ui.bootstrap allows toggleable nav bar to begin collapsed- see nav.html
 //possibly in the future, use these tools:
 // var myApp = angular.module('myApp', ['ngRoute', 'xeditable', 'firebase', 'ui.bootstrap', 'smart-table', 'angular-touch', 'angular-animate']); //then source in html

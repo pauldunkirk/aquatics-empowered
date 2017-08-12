@@ -1,27 +1,12 @@
 <div class="row">
 
-  <google-map
-    apikey="AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o"
-    lat="45"
-    long="-93"
-    zoom="8"
-    map-type="'satellite'"
-    clickable-icons="false"
-    disable-double-click-zoom="true"
-    disable-default-ui="maps.dummyFalseTwo"
-    draggable="maps.dummyFalseOne"
-    fullscreen-control="false"
-    map-type-control="true"
-    scrollwheel="true"
-    street-view-control="true"
-    zoom-control="true"
-    custom-map-styles="maps.customMapStyles"
-    custom-map-name="'My custom map'"
-    map-type-control-options-style="'HORIZONTAL_BAR'"
-    map-type-control-options-position="'TOP_CENTER'"
-    zoom-control-options="'LEFT_CENTER'"
-    street-view-control-options="'RIGHT_CENTER'"
-    fullscreen-control-options="maps.dummyPosition"
-    custom-css="map"
-  ></google-map>
+
+  <ui-gmap-google-map
+    center='map.center'
+    zoom='map.zoom'
+  >
+
+    <!-- other ui-gmap-directives here -->
+
+</ui-gmap-google-map>
 </div>
