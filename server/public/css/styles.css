@@ -55,9 +55,10 @@ video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin soli
 }
 /* MAPS */
 
-.angular-google-map-container {
-    width: 600px;
-    height: 400px;
+.gMap {
+    height: 600px;
+    margin: 20px;
+    border: 3px solid black;
 }
 /* OLD SITE SEARCH:
 .search {

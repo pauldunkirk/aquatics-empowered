@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'uiGmapgoogle-maps']);
+var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'ngMap']);
 // ui.bootstrap allows toggleable nav bar to begin collapsed- see nav.html
 //possibly in the future, use these tools:
 // var myApp = angular.module('myApp', ['ngRoute', 'xeditable', 'firebase', 'ui.bootstrap', 'smart-table', 'angular-touch', 'angular-animate']); //then source in html
@@ -37,11 +37,4 @@ app.config(['$routeProvider', function($routeProvider) {
  }).otherwise({
     redirectTo: '/home1'
  });
-}])
-.config(function(uiGmapGoogleMapApiProvider) {
-  uiGmapGoogleMapApiProvider.configure({
-    key: 'AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o',
-    v: '3.27',
-    libraries: 'weather,geometry,visualization'
-  });
-});
+}]);

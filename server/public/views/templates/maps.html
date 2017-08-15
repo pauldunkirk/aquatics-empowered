@@ -1,22 +1,27 @@
 <div class="row">
 
+  <div class="col-md-8" map-lazy-load="{{maps.apiUrl}}">
 
-  <ui-gmap-google-map
-    center='map.center'
-    zoom='map.zoom'
-    draggable='true'
-  >
-    <!-- <ui-gmap-marker ng-repeat="m in markerList"
-      idKey='idKey'
-      coords="'coords'"
-      options='options'
-      >
-    </ui-gmap-marker> -->
+    <ng-map class="gMap" center="44.9778,-93.2650" zoom="10">
 
-    <ui-gmap-markers
-      models='markerList'
-      coords="'coords'"
-      options="'options'"
-    />
-  </ui-gmap-google-map>
+      <marker no-watcher="false"
+        ng-repeat="p in maps.markerList"
+        position="{{p.position}}"
+        title="{{p.title}}"
+        on-click="maps.showDetail(p)"
+      ></marker>
+
+      <info-window id="pool-iw" position="{{maps.pool.position}}">
+        <div ng-non-bindable="">
+          <b>{{maps.pool.title}}</b><br/>
+          {{maps.pool.street_address}}<br/>
+          {{maps.pool.city}}, {{maps.pool.state}} {{maps.pool.zip}}<br/>
+          <a href="" ng-click="maps.clicked(maps.pool.website)">Website</a>
+        </div>
+      </info-window>
+
+    </ng-map>
+
+  </div>
+
 </div>
