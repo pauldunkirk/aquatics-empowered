@@ -1,14 +1,13 @@
-app.controller('MapsController', ['$http', 'NgMap', function($http, NgMap) {
+app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
   vm.markerList = [];
-  const apiKey = "AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o";
-  vm.apiUrl = "https://maps.google.com/maps/api/js?key=" + apiKey; 
+  vm.mapCenter = [44.9778, -93.2650]; //Minneapolis coords
+
   const getPools = () => {
     $http.get('/poolList/')
     .then( res => {
       vm.markerList = createMarkerList(res.data);
       vm.pool = vm.markerList[0]; //initialize for infoWindow
-      console.log('vm.markerList', vm.markerList);
     },
       res => console.log('GET pools - error:', res)
     );
@@ -23,14 +22,48 @@ app.controller('MapsController', ['$http', 'NgMap', function($http, NgMap) {
         street_address: pool.street_address,
         city: pool.city,
         state: pool.state,
-        zip: pool.zip }
+        zip: pool.zip,
+        visible: true }
     ) )
   );
 
-  getPools(); //
+  vm.searchLoc = (search) => {
+    if (search.address && vm.map) {   //set new map center coords
+      GeoCoder.geocode({address: search.address}).then( (results, status) => {
+         vm.mapCenter = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+         console.log('new center', vm.mapCenter);
+         hideMarkers(search.radius || 5000);
+      });
+    } else {
+      hideMarkers(search.radius || 5000); //default to large distance for blank field
+    }
+
+  }
+
+  const hideMarkers = (radius) => {
+    for (var i = 0; i < vm.markerList.length; i++) {
+      let inRangeBool = getDistance(vm.markerList[i].position, vm.mapCenter) < radius;
+      vm.markerList[i].visible = inRangeBool;
+    }
+  }
+
+  const getDistance = (c1, c2) => {  //between two lat/lng coordnate arrays
+    const _deg2rad = deg => deg * (Math.PI/180);
+    let R = 3959; // Radius of the earth in miles
+    let dLat = _deg2rad(c2[0]-c1[0]);
+    let dLon = _deg2rad(c2[1]-c1[1]);
+    let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(_deg2rad(c1[0])) * Math.cos(_deg2rad(c2[0])) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    let d = R * c; // Distance in miles
+    return d;
+  }
+
+  getPools(); //init function http GET
 
   vm.showDetail = (e, pool) => {
-    vm.pool = pool; //set the pool that infowindow will display
+    vm.pool = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
   };
 
@@ -38,70 +71,17 @@ app.controller('MapsController', ['$http', 'NgMap', function($http, NgMap) {
 
   NgMap.getMap().then( map => {
     vm.map = map; //to access showInfoWindow etc
-    console.log(map.getCenter());
+    // vm.map.geoCode = GeoCoder.geocode;
+    // console.log('map', map);
     console.log('markers', map.markers);
-    console.log('shapes', map.shapes);
+    // console.log('shapes', map.shapes);
   });
 
+
 }]);
-
-
-
 
 // const urlMain = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=";
 // const urlColor = "|0065BD|FFFFFF";
 // const gIcon = {
 //   size: new google.maps.Size(20,30),
-//   anchor: new google.maps.Point(6,20),
-// };
-
-
-
-
-
-
-
-  //
-  // $scope.markerList   = [];
-  // var areaLat      = 44.9778,
-  //     areaLng      = -93.2650,
-  //     areaZoom     = 10;
-  //
-  // $scope.map     = {
-  //   center: { latitude: areaLat, longitude: areaLng },
-  //   zoom: areaZoom
-  // };
-  // uiGmapGoogleMapApi.then(function(maps) {
-  // const gIcon = {
-  //   url: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|0065BD|FFFFFF",
-  //   size: new google.maps.Size(20,30),
-  //   anchor: new google.maps.Point(6,20),
-  // };
-  //
-  // function getPools() {
-  //   //ajax call to get pools from JSON
-  //   $http.get('/poolList/')
-  //   .then(function(res) {
-  //     console.log('res:', res.data);
-  //     $scope.markerList = createMarkerList(res.data);
-  //     console.log('$scope.markerList', $scope.markerList);
-  //   },
-  //   function(res) {
-  //     console.log('get error:', response);
-  //   });
-  // }
-  // getPools();
-  //
-  // function createMarkerList(poolArray) {
-  //   return poolArray.map(pool => {
-  //     return {
-  //       id: pool.id, //unique id required
-  //       coords: { latitude: pool.lat, longitude: pool.lng },
-  //       options: { label: pool.name, icon: gIcon }
-  //     };
-  //   });
-  // }
-  //
-  //   console.log('map ready');
-  // });
-  //
+//   anchor: new google.maps.Point
