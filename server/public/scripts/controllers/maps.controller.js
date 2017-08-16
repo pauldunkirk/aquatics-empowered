@@ -11,7 +11,9 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     },
       res => console.log('GET pools - error:', res)
     );
-  };
+  }
+
+  getPools(); //initial httm request to server
 
   const createMarkerList = poolArray => (
     poolArray.map( pool => (
@@ -37,7 +39,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     } else {
       hideMarkers(search.radius || 5000); //default to large distance for blank field
     }
-
   }
 
   const hideMarkers = (radius) => {
@@ -60,28 +61,18 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     return d;
   }
 
-  getPools(); //init function http GET
-
   vm.showDetail = (e, pool) => {
     vm.pool = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
-  };
+  }
 
   vm.clicked = url => window.open(url); //open website in new tab
 
   NgMap.getMap().then( map => {
-    vm.map = map; //to access showInfoWindow etc
-    // vm.map.geoCode = GeoCoder.geocode;
-    // console.log('map', map);
+    vm.map = map; //to access gMaps API features
+    console.log('map', map);
     console.log('markers', map.markers);
     // console.log('shapes', map.shapes);
   });
 
-
 }]);
-
-// const urlMain = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=";
-// const urlColor = "|0065BD|FFFFFF";
-// const gIcon = {
-//   size: new google.maps.Size(20,30),
-//   anchor: new google.maps.Point
