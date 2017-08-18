@@ -15,7 +15,7 @@
         ng-repeat="p in maps.markerList"
         position="{{p.position}}"
         title="{{p.title}}"
-        proximityRank="{{p.boop}}"
+        proximityRank="{{p.proximityRank}}"
         on-click="maps.showDetail(p)"
         ng-if="p.visible"
       ></marker>
