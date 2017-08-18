@@ -1,7 +1,28 @@
 app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
+  const defaultCenter = [44.9778, -93.2650];
   vm.markerList = [];
-  vm.mapCenter = [44.9778, -93.2650]; //Minneapolis coords
+  vm.mapCenter = defaultCenter; //Minneapolis coords
+
+  NgMap.getMap().then( map => {
+    vm.map = map; //to access gMaps API features
+    console.log('map', map);
+    console.log('markers', map.markers);
+  });
+  vm.clicked = url => window.open(url); //open website in new tab
+
+  vm.showDetail = (e, pool) => {
+    vm.pool = pool; //set the pool that infoWindow will display on click
+    vm.map.showInfoWindow('pool-iw', pool.id);
+  };
+
+  vm.reset = () => {
+    vm.addr = undefined;
+    vm.radius = undefined;
+    vm.mapCenter = defaultCenter;
+    setMarkerVis();
+  };
+
 
   const getPools = () => {
     $http.get('/poolList/')
@@ -11,9 +32,9 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     },
       res => console.log('GET pools - error:', res)
     );
-  }
+  };
 
-  getPools(); //initial httm request to server
+  getPools(); //run $http request to server
 
   const createMarkerList = poolArray => (
     poolArray.map( pool => (
@@ -29,24 +50,30 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     ) )
   );
 
-  vm.searchLoc = (search) => {
-    if (search.address && vm.map) {   //set new map center coords
-      GeoCoder.geocode({address: search.address}).then( (results, status) => {
-         vm.mapCenter = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
-         console.log('new center', vm.mapCenter);
-         hideMarkers(search.radius || 5000);
+  vm.poolSearch = () => {
+    console.log('poolsearch');
+    if (vm.addr && vm.map) {
+      //determine and set new map center coords
+      GeoCoder.geocode({address: vm.addr})
+      .then( (results, status) => {
+        let coords = results[0].geometry.location;
+        vm.mapCenter = [coords.lat(), coords.lng()];
+        console.log('new center', vm.mapCenter);
+        setMarkerVis(vm.radius);
       });
     } else {
-      hideMarkers(search.radius || 5000); //default to large distance for blank field
+      //default to large distance for blank field
+      setMarkerVis(vm.radius);
     }
-  }
+  };
 
-  const hideMarkers = (radius) => {
+  const setMarkerVis = radius => {
+    console.log('radius', radius);
     for (var i = 0; i < vm.markerList.length; i++) {
       let inRangeBool = getDistance(vm.markerList[i].position, vm.mapCenter) < radius;
-      vm.markerList[i].visible = inRangeBool;
+      vm.markerList[i].visible = inRangeBool || !radius; //make visible if no set radius
     }
-  }
+  };
 
   const getDistance = (c1, c2) => {  //between two lat/lng coordnate arrays
     const _deg2rad = deg => deg * (Math.PI/180);
@@ -59,20 +86,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     let d = R * c; // Distance in miles
     return d;
-  }
-
-  vm.showDetail = (e, pool) => {
-    vm.pool = pool; //set the pool that infoWindow will display on click
-    vm.map.showInfoWindow('pool-iw', pool.id);
-  }
-
-  vm.clicked = url => window.open(url); //open website in new tab
-
-  NgMap.getMap().then( map => {
-    vm.map = map; //to access gMaps API features
-    console.log('map', map);
-    console.log('markers', map.markers);
-    // console.log('shapes', map.shapes);
-  });
+  };
 
 }]);
