@@ -1,13 +1,17 @@
 app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
   const defaultCenter = [44.9778, -93.2650];
+
   vm.markerList = [];
   vm.mapCenter = defaultCenter; //Minneapolis coords
 
   NgMap.getMap().then( map => {
     vm.map = map; //to access gMaps API features
+    vm.distance = google.maps.geometry.spherical.computeDistanceBetween;
     console.log('map', map);
     console.log('markers', map.markers);
+    // vm.mapCenter = new google.maps.LatLng(vm.mapCenter[0], vm.mapCenter[1])
+    getPools(); //run $http request to server
   });
   vm.clicked = url => window.open(url); //open website in new tab
 
@@ -34,8 +38,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     );
   };
 
-  getPools(); //run $http request to server
-
   const createMarkerList = poolArray => (
     poolArray.map( pool => (
       { id: pool.id,
@@ -51,14 +53,12 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   );
 
   vm.poolSearch = () => {
-    console.log('poolsearch');
     if (vm.addr && vm.map) {
       //determine and set new map center coords
       GeoCoder.geocode({address: vm.addr})
       .then( (results, status) => {
         let coords = results[0].geometry.location;
         vm.mapCenter = [coords.lat(), coords.lng()];
-        console.log('new center', vm.mapCenter);
         setMarkerVis(vm.radius);
       });
     } else {
@@ -68,24 +68,21 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   };
 
   const setMarkerVis = radius => {
-    console.log('radius', radius);
-    for (var i = 0; i < vm.markerList.length; i++) {
-      let inRangeBool = getDistance(vm.markerList[i].position, vm.mapCenter) < radius;
-      vm.markerList[i].visible = inRangeBool || !radius; //make visible if no set radius
+    for (key in vm.map.markers) {
+      let dist =
+        vm.distance(vm.map.markers[key].position, vm.map.center) / 1609.3445;
+      let inRangeBool = dist < radius;
+      vm.map.markers[key].setVisible(inRangeBool || !radius); //make visible if no set radius
     }
   };
 
-  const getDistance = (c1, c2) => {  //between two lat/lng coordnate arrays
-    const _deg2rad = deg => deg * (Math.PI/180);
-    let R = 3959; // Radius of the earth in miles
-    let dLat = _deg2rad(c2[0]-c1[0]);
-    let dLon = _deg2rad(c2[1]-c1[1]);
-    let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(_deg2rad(c1[0])) * Math.cos(_deg2rad(c2[0])) *
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    let d = R * c; // Distance in miles
-    return d;
-  };
+  // markers.reduce(function (prev, curr) {
+  //
+  //   var cpos = google.maps.geometry.spherical.computeDistanceBetween(location.position, curr.position);
+  //   var ppos = google.maps.geometry.spherical.computeDistanceBetween(location.position, prev.position);
+  //
+  //   return cpos < ppos ? curr : prev;
+  //
+  // }).position;
 
 }]);
