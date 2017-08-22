@@ -53,6 +53,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         distance: pool.distance,
         state: pool.state,
         zip: pool.zip,
+        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (index+1) + '|0065BD|FFFFFF',
         visible: true }
     ) )
     .slice( 0, numMarkers )
