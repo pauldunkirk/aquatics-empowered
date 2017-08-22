@@ -28,20 +28,23 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     setMarkerVis();
   };
 
+  vm.newCenter = () => {
+    vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+    vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
+  };
+
   const getPools = () => {
     $http.get('/poolList/')
     .then( res => {
       vm.allPools = res.data;
-      vm.sortedList = sortByDistance(vm.allPools, vm.mapCenter);
-      console.log('sortedList', vm.sortedList);
-      vm.markerList = createMarkerList(vm.sortedList, vm.maxMarkers);
+      vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
       vm.pool = vm.markerList[0]; //initialize for infoWindow
     },
       res => console.log('GET pools - error:', res)
     );
   };
 
-  const createMarkerList = (poolArray, numMarkers) => (
+  const createMarkerList = (poolArray, numMarkers, center) => (
     poolArray.map( (pool, index) => (
       { id: pool.id,
         position: [pool.lat, pool.lng],
@@ -50,12 +53,13 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         street_address: pool.street_address,
         city: pool.city,
         proximityRank: index + 1,
-        distance: pool.distance,
+        distance: getDistance([pool.lat, pool.lng], center),
         state: pool.state,
         zip: pool.zip,
         icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (index+1) + '|0065BD|FFFFFF',
         visible: true }
     ) )
+    .sort( (a, b) => a.distance - b.distance )
     .slice( 0, numMarkers )
   );
 
@@ -67,22 +71,13 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         //Note: results[0]==Google's 'best guess'
         let coords = results[0].geometry.location;
         vm.mapCenter = [coords.lat(), coords.lng()];
-        vm.sortedList = sortByDistance(vm.allPools, vm.mapCenter);
-        vm.markerList = createMarkerList(vm.sortedList, vm.maxMarkers);
+        vm.markerList = createMarkerList(vm.sortedList, vm.maxMarkers, vm.mapCenter);
         setMarkerVis(vm.radius);
       });
     } else {
       setMarkerVis(vm.radius);
     }
   };
-
-  const sortByDistance = (list, center) => {
-    for (let i = 0; i < list.length; i++) {
-      list[i].distance = getDistance([list[i].lat, list[i].lng], center);
-    }
-    return list.sort( (a, b) => a.distance - b.distance );
-  };
-
 
   const setMarkerVis = radius => {
     for ( let i=0; i < vm.markerList.length; i++) {
@@ -105,11 +100,5 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     let d = R * c; // Distance in miles
     return d;
   };
-
-  // markers.reduce(function (prev, curr) {
-  //   var cpos = getDistance(location.position, curr.position);
-  //   var ppos = getDistance(location.position, prev.position);
-  //   return cpos < ppos ? curr : prev;
-  // }).position;
 
 }]);
