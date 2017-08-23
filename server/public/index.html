@@ -19,14 +19,15 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <!-- Sweet Alert .CSS and .JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+
+    <script type="text/javascript" src="/vendor/angular.js"></script>
+    <script type="text/javascript" src="/vendor/angular-route.min.js"></script>
+    <script type="text/javascript" src="/vendor/ng-map.min.js"></script>
+    <script type="text/javascript" src="/vendor/ng-map.debug.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
     <!-- VISSENSE FOR VIDEO START WHEN VISIBLE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vissense/0.10.0/vissense.js"></script>
-
-    <!-- AngularJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular.min.js"></script>
-
     <!-- Bootstrap .CSS-->
     <!-- <link rel="stylesheet" href="/vendor/bootstrap.min.css" /> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -35,11 +36,6 @@
 
     <!-- Angular UI Bootstrap .JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
-
-    <!-- ngRoute - Angular Route -->
-    <script type="text/javascript" src="/vendor/angular-route.min.js"></script>
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script> -->
     <!-- Angular UI ROUTER-->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script> -->
 
@@ -62,62 +58,11 @@
     <script src="scripts/controllers/home1.controller.js"></script>
     <script src="scripts/controllers/home2.controller.js"></script>
 
-    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css"> -->
 </head>
 
-<body ng-app="myApp">
-    <main ng-view></main>
+<body ng-app="myApp" class="container">
+  <nav ng-include="'views/templates/nav.html'"></nav>
+  <main ng-view></main>
 </body>
 
 </html>
-
-
-
-
-
-<!-- Sidebar on click -->
-<!-- <nav class="w3-sidebar w3-bar-block w3-white w3-card-2 w3-animate-left w3-xxlarge" style="display:none;z-index:2" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-display-topright w3-text-teal">Close
-    <i class="fa fa-remove"></i>
-  </a>
-  <a href="#" class="w3-bar-item w3-button">Link 1</a>
-  <a href="#" class="w3-bar-item w3-button">Link 2</a>
-  <a href="#" class="w3-bar-item w3-button">Link 3</a>
-  <a href="#" class="w3-bar-item w3-button">Link 4</a>
-  <a href="#" class="w3-bar-item w3-button">Link 5</a>
-</nav> -->
-
-<!-- Navbar -->
-<!-- <div class="w3-top">
- <div class="w3-bar w3-theme-d2 w3-left-align">
-  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Aquatics Empowered</a>
-  <a href="#team" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Team</a>
-  <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Schedule</a>
-  <a href="#pricing" class="w3-bar-item w3-button w3-hide-small w3-hover-white">New Pools</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
-    <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button" title="Notifications">Dropdown <i class="fa fa-caret-down"></i></button>
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-      <a href="#" class="w3-bar-item w3-button">Pools</a>
-      <a href="#" class="w3-bar-item w3-button">Availablility</a>
-      <a href="#" class="w3-bar-item w3-button">Register Pools</a>
-    </div>
-  </div>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
- </div> -->
-
-<!-- Navbar on small screens -->
-<!-- <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium">
-    <a href="#team" class="w3-bar-item w3-button">Team</a>
-    <a href="#work" class="w3-bar-item w3-button">Work</a>
-    <a href="#pricing" class="w3-bar-item w3-button">Price</a>
-    <a href="#contact" class="w3-bar-item w3-button">Contact</a>
-    <a href="#" class="w3-bar-item w3-button">Search</a>
-  </div>
-</div>
-
-
-  <h1 class="title">work will go here line 78</h1>
-<div class="ng-view-here"> -->
