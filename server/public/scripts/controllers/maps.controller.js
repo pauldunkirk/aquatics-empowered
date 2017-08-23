@@ -15,6 +15,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   });
 
   vm.clicked = url => window.open(url); //open website in new tab
+  vm.getIcon = num => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
 
   vm.showDetail = (e, pool) => {
     vm.pool = pool; //set the pool that infoWindow will display on click
@@ -25,6 +26,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     vm.addr = undefined;
     vm.radius = undefined;
     vm.mapCenter = defaultCenter;
+    vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
     setMarkerVis();
   };
 
@@ -70,14 +72,13 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         //Note: results[0]==Google's 'best guess'
         let coords = results[0].geometry.location;
         vm.mapCenter = [coords.lat(), coords.lng()];
-        vm.markerList = createMarkerList(vm.sortedList, vm.maxMarkers, vm.mapCenter);
+        vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
         setMarkerVis(vm.radius);
       });
     } else {
       setMarkerVis(vm.radius);
     }
   };
-  vm.getIcon = (num) => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
 
   const setMarkerVis = radius => {
     for ( let i=0; i < vm.markerList.length; i++) {
