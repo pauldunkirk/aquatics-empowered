@@ -19,12 +19,11 @@
           ng-repeat="p in maps.markerList"
           position="{{p.position}}"
           title="{{p.title}}"
-          proximityRank="{{p.proximityRank}}"
           distance="{{p.distance}}"
-          icon="{{p.icon}}"
+          icon="{{maps.getIcon($index)}}"
           on-click="maps.showDetail(p)"
           ng-if="p.visible"
-        ></marker>
+        />
 
         <info-window id="pool-iw" position="{{maps.pool.position}}">
           <div ng-non-bindable="">
@@ -36,11 +35,12 @@
           </div>
         </info-window>
       </ng-map>
+
     </div>
     <div class="col-md-4 infoList">
       <div class="row poolItem" ng-if="pool.visible" ng-repeat="pool in maps.markerList">
        <div class="col-md-2 rank">
-         <img src="{{pool.icon}}" alt="{{pool.proximityRank}}" ng-click="maps.showDetail(null, pool)" />
+         <img src="{{maps.getIcon($index)}}" alt="{{$index + 1}}" ng-click="maps.showDetail(null, pool)" />
          <p>{{pool.distance.toFixed(2)}}mi</p>
        </div>
        <div class="col-md-10 info">

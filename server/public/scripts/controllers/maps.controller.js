@@ -1,8 +1,8 @@
 app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis coords
-  vm.maxMarkers = 15;
 
+  vm.maxMarkers = 15;
   vm.markerList = [];
   vm.mapCenter = defaultCenter;
 
@@ -29,8 +29,10 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   };
 
   vm.newCenter = () => {
+    vm.map.hideInfoWindow('pool-iw');
     vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
     vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
+    setMarkerVis(vm.radius);
   };
 
   const getPools = () => {
@@ -38,13 +40,12 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     .then( res => {
       vm.allPools = res.data;
       vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
-      vm.pool = vm.markerList[0]; //initialize for infoWindow
     },
-      res => console.log('GET pools - error:', res)
+      err => console.log('GET pools - error:', err)
     );
   };
 
-  const createMarkerList = (poolArray, numMarkers, center) => (
+  const createMarkerList = (poolArray, maxMarkers, center) => (
     poolArray.map( (pool, index) => (
       { id: pool.id,
         position: [pool.lat, pool.lng],
@@ -52,15 +53,13 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         website: pool.url,
         street_address: pool.street_address,
         city: pool.city,
-        proximityRank: index + 1,
         distance: getDistance([pool.lat, pool.lng], center),
         state: pool.state,
         zip: pool.zip,
-        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (index+1) + '|0065BD|FFFFFF',
         visible: true }
     ) )
     .sort( (a, b) => a.distance - b.distance )
-    .slice( 0, numMarkers )
+    .slice( 0, maxMarkers )
   );
 
   vm.poolSearch = () => {
@@ -78,6 +77,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       setMarkerVis(vm.radius);
     }
   };
+  vm.getIcon = (num) => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
 
   const setMarkerVis = radius => {
     for ( let i=0; i < vm.markerList.length; i++) {
