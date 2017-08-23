@@ -25,14 +25,15 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   vm.reset = () => {
     vm.addr = undefined;
     vm.radius = undefined;
+    vm.pool = undefined;
     vm.mapCenter = defaultCenter;
+    vm.map.hideInfoWindow('pool-iw');
     vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
-    setMarkerVis();
   };
 
   vm.newCenter = () => {
-    vm.map.hideInfoWindow('pool-iw');
     vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+    vm.map.hideInfoWindow('pool-iw');
     vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
     setMarkerVis(vm.radius);
   };
