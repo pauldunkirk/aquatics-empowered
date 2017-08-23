@@ -2,7 +2,7 @@
   "name": "bcae",
   "version": "1.0.0",
   "description": "Aquatics Empowered",
-  "main": "server/app .js",
+  "main": "server/app.js",
   "scripts": {
     "test": "nodemon server/app.js",
     "start": "node server/app.js"
