@@ -33,14 +33,15 @@
             {{maps.pool.city}}, {{maps.pool.state}} {{maps.pool.zip}}<br/>
             <a href="" ng-click="maps.clicked(maps.pool.website)">Website</a>
           </div>
+
         </info-window>
       </ng-map>
 
     </div>
     <div class="col-md-4 infoList">
-      <div class="row poolItem" ng-if="pool.visible" ng-repeat="pool in maps.markerList">
+      <div class="row poolItem" ng-class="{'selectedPool':maps.pool.id==pool.id}" ng-if="pool.visible" ng-repeat="pool in maps.markerList" ng-click="maps.showDetail(null, pool)">
        <div class="col-md-2 rank">
-         <img ng-src="{{maps.getIcon($index)}}" alt="{{$index + 1}}" ng-click="maps.showDetail(null, pool)" />
+         <img ng-src="{{maps.getIcon($index)}}" alt="{{$index + 1}}"  />
          <p>{{pool.distance.toFixed(2)}}mi</p>
        </div>
        <div class="col-md-10 info">
