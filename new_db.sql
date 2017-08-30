@@ -1,39 +1,41 @@
 CREATE TABLE facilities (
     id SERIAL PRIMARY KEY,
-    name text,
-    users_id integer,
-    street_address character varying(80),
-    city character varying(80),
-    state character varying(2),
-    zip integer,
+    name text NOT NULL,
+    users_id integer[],
+    street_address text NOT NULL,
+    city text NOT NULL,
+    state character varying(2) NOT NULL,
+    zip text NOT NULL,
+    pool_type text,
     description text,
     handicap_accessibility boolean,
     level integer,
     image_url text,
-    url character varying(255),
-    cost boolean,
+    url text,
     approved boolean,
-    lat float(12),
-    lng float(12)
+    coords float(12)[2] UNIQUE,
+    date_added timestamp NOT NULL DEFAULT(now()),
+    last_updated timestamp,
+    google_place_id text
 );
 
 CREATE TABLE facility_availability (
     id SERIAL PRIMARY KEY,
     facility_id integer references facilities,
     date date,
-    start_time time without time zone,
-    end_time time without time zone
+    start_time time without time zone[],
+    end_time time without time zone[]
 );
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username text NOT NULL,
-    password character varying(255) NOT NULL,
-    user_type character varying(80),
-    first_name character varying(80),
-    last_name character varying(80),
-    street_address character varying(80),
-    city character varying(80),
+    password text NOT NULL,
+    user_type text,
+    first_name text,
+    last_name text,
+    street_address text,
+    city text,
     state character varying(2),
     zip integer,
     phone_number character varying(20)
@@ -45,9 +47,3 @@ CREATE TABLE facility_reservation (
     approved boolean,
     user_id integer references users
 );
-
-var point = new google.maps.LatLng(44.95083,-93.29869);
-marker_gmap[0]    = new google.maps.Marker(point,{icon:icon0,title:"1) Minneapolis Uptown YWCA"});
-    bounds.extend(point);
-        google.maps.Event.addListener(marker_gmap[0], "click", function() { marker_gmap[0].openInfoWindowHtml('<a href="https://www.ywcampls.org/fitness/swimming_and_aquatics/masters_group_swimming/">1) Minneapolis Uptown YWCA</a><br/>2808 Hennepin Ave. South, Minneapolis, MN 55408');});
-    map_gmap.addOverlay(marker_gmap[0]);

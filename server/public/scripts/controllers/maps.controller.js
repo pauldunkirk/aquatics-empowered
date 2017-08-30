@@ -11,7 +11,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     console.log('map', map);
     console.log('markers', map.markers);
     // TODO: set map center to location of user (determined with from browser query)
-    getPools(); //run $http request to server for nearby pools
+    getFacilities(); //run $http request to server for nearby pools
+    // convertAndPostJSON(2, '/poolList/');
   });
 
   vm.clicked = url => window.open(url); //open website in new tab
@@ -38,8 +39,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     setMarkerVis(vm.radius);
   };
 
-  const getPools = () => {
-    $http.get('/poolList/')
+  const getFacilities = () => {
+    $http.get('/facilities/')
     .then( res => {
       vm.allPools = res.data;
       vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
@@ -48,15 +49,26 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     );
   };
 
+  const addFacility = (facility) => {
+    $http({
+      method: 'POST',
+      url: '/facilities/',
+      data: facility,
+      headers: {}
+    }).then(
+      res => console.log('POST success', res),
+      err => console.log("error adding facility: ", err) );
+  };
+
   const createMarkerList = (poolArray, maxMarkers, center) => (
     poolArray.map( (pool, index) => (
       { id: pool.id,
-        position: [pool.lat, pool.lng],
+        position: pool.coords,
         title: pool.name,
         website: pool.url,
         street_address: pool.street_address,
         city: pool.city,
-        distance: getDistance([pool.lat, pool.lng], center),
+        distance: getDistance(pool.coords, center),
         state: pool.state,
         zip: pool.zip,
         visible: true }
@@ -89,7 +101,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     }
   };
 
-  //use this instead of google.maps.geometry.spherical.computeDistance because of API query limit
+  //use this instead of google.maps.geometry.spherical.computeDistance() because of API query limit
   const getDistance = (c1, c2) => {
     const _deg2rad = deg => deg * (Math.PI/180);
     let R = 3959; // Radius of the earth in miles
@@ -104,3 +116,54 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   };
 
 }]);
+
+  //
+  // const addMultipleFacilities = facilities => facilities.map( f => geoCodeAdd(f));
+  //
+  // const geoCodeAdd = facility => {
+  //   let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
+  //   GeoCoder.geocode({address: (addr)})
+  //   .then( (results, status) => {
+  //     var addressComponent = results[0].address_components;
+  //     for (var x = 0 ; x < addressComponent.length; x++) {
+  //       var chk = addressComponent[x];
+  //       if (chk.types[0] == 'postal_code') {zipCode = chk.long_name;}
+  //     }
+  //     if (zipCode) {
+  //       let coords = results[0].geometry.location;
+  //       let place_id = results[0].place_id;
+  //       facility.coords = [coords.lat(), coords.lng()];
+  //       facility.zip = zipCode;
+  //       facility.google_place_id = place_id;
+  //       console.log('geocoded facility:', facility);
+  //       addFacility(facility);
+  //     } else {
+  //       console.log('no zip found:', addr, results);
+  //       debugger;
+  //     }
+  //   });
+  // };
+  //
+  // const convertAndPostJSON = (pulseSize, route) => {
+  //   let index = 0;
+  //   const pulsePost = list => {
+  //     if (index + pulseSize < list.length) {
+  //       setTimeout( () => {
+  //         addMultipleFacilities(list.slice(index, index + pulseSize)),
+  //         pulsePost(list);
+  //         index += pulseSize;
+  //       }, 2100);
+  //     } else {
+  //       addMultipleFacilities(list.slice(index, list.length - 1));
+  //     }
+  //     console.log(list.length - index, 'facilities remaining');
+  //   };
+  //
+  //   $http.get(route)
+  //   .then( res => {
+  //     console.log('JSON facilities to be added', res.data);
+  //     pulsePost(res.data);
+  //   },
+  //     err => console.log('GET JSON facilities - error:', err)
+  //   );
+  // };
