@@ -16,6 +16,7 @@
     "angular-ui-bootstrap": "^2.5.0",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "jquery": "^3.2.1",
     "ngmap": "^1.18.4",
