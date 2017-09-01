@@ -11,10 +11,18 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     console.log('map', map);
     console.log('markers', map.markers);
     // TODO: set map center to location of user (determined with from browser query)
-    getPools(); //run $http request to server for nearby pools
+    getFacilities(); //run $http request to server for nearby pools
+    // convertAndPostJSON(2, '/poolList/');
+    geoCodeAdd(
+      { name: "Abington YMCA",
+        pool_type: "Public Access Swimming Pools",
+        street_address: "1075 Old York Rd.",
+        city: "Abington",
+        state: "PA" }
+    );
   });
 
-  vm.clicked = url => window.open(url); //open website in new tab
+  vm.clicked = url => window.open(url); //open facility website in new tab
   vm.getIcon = num => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
 
   vm.showDetail = (e, pool) => {
@@ -38,8 +46,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     setMarkerVis(vm.radius);
   };
 
-  const getPools = () => {
-    $http.get('/poolList/')
+  const getFacilities = () => {
+    $http.get('/facilities/')
     .then( res => {
       vm.allPools = res.data;
       vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
@@ -48,15 +56,26 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     );
   };
 
+  const addFacility = (facility) => {
+    $http({
+      method: 'POST',
+      url: '/facilities/',
+      data: facility,
+      headers: {}
+    }).then(
+      res => console.log('POST success', res),
+      err => console.log("error adding facility: ", err) );
+  };
+
   const createMarkerList = (poolArray, maxMarkers, center) => (
-    poolArray.map( (pool, index) => (
+    poolArray.map( pool => (
       { id: pool.id,
-        position: [pool.lat, pool.lng],
+        position: pool.coords,
         title: pool.name,
         website: pool.url,
         street_address: pool.street_address,
         city: pool.city,
-        distance: getDistance([pool.lat, pool.lng], center),
+        distance: getDistance(pool.coords, center),
         state: pool.state,
         zip: pool.zip,
         visible: true }
@@ -89,7 +108,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     }
   };
 
-  //use this instead of google.maps.geometry.spherical.computeDistance because of API query limit
+  //use this instead of google.maps.geometry.spherical.computeDistance() because of API query limit
   const getDistance = (c1, c2) => {
     const _deg2rad = deg => deg * (Math.PI/180);
     let R = 3959; // Radius of the earth in miles
@@ -101,6 +120,49 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     let d = R * c; // Distance in miles
     return d;
+  };
+
+
+  const addMultipleFacilities = facilities => facilities.map( f => geoCodeAdd(f));
+
+  const geoCodeAdd = facility => {
+    let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
+    GeoCoder.geocode({address: addr})
+    .then( results => {
+      let zipCmp = results[0].address_components.find(
+        addrCmp => addrCmp.types[0] == 'postal_code');
+      if (zipCmp) {
+        let coords = results[0].geometry.location;
+        facility.coords = [coords.lat(), coords.lng()];
+        facility.zip = zipCmp.long_name;
+        facility.google_place_id = results[0].place_id;
+        console.log('geocoded facility:', facility);
+        addFacility(facility);
+      } else {
+        console.log('no zip found:', addr, results);
+      }
+    });
+  };
+
+  const convertAndPostJSON = (pulseSize, route) => {
+    let index = 0;
+    const pulsePost = list => {
+      if (index + pulseSize < list.length) {
+        setTimeout( () => {
+          addMultipleFacilities(list.slice(index, index + pulseSize)),
+          pulsePost(list);
+          index += pulseSize;
+        }, 2100);
+      } else {
+        addMultipleFacilities(list.slice(index, list.length - 1));
+      }
+      console.log(list.length - index, 'facilities remaining');
+    };
+
+    $http.get(route)
+    .then( res => pulsePost(res.data),
+           err => console.error('GET JSON facilities - error:', err)
+    );
   };
 
 }]);
