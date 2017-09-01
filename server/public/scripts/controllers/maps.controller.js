@@ -12,14 +12,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     console.log('markers', map.markers);
     // TODO: set map center to location of user (determined with from browser query)
     getFacilities(); //run $http request to server for nearby pools
-    // convertAndPostJSON(2, '/poolList/');
-    geoCodeAdd(
-      { name: "Abington YMCA",
-        pool_type: "Public Access Swimming Pools",
-        street_address: "1075 Old York Rd.",
-        city: "Abington",
-        state: "PA" }
-    );
   });
 
   vm.clicked = url => window.open(url); //open facility website in new tab
@@ -166,3 +158,15 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   };
 
 }]);
+
+//examples of using these tools
+
+// convertAndPostJSON(2, '/poolList/');
+
+// geoCodeAdd(
+//   { name: "Abington YMCA",
+//     pool_type: "Public Access Swimming Pools",
+//     street_address: "1079 Old York Rd.",
+//     city: "Abington",
+//     state: "PA" }
+// );
