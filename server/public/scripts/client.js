@@ -35,6 +35,6 @@ app.config(['$routeProvider', function($routeProvider) {
     controller: 'MapsController',
     controllerAs: 'maps'
  }).otherwise({
-    redirectTo: '/home1'
+    redirectTo: '/maps'
  });
 }]);
