@@ -1,60 +1,81 @@
-/* Joel sent me this color pallette: http://paletton.com/#uid=33v0u0kk9V58dZIeSX-oTRstRLh
-Palette UID: 33v0u0kk9V58dZIeSX-oTRstRLh
-example (positive design) and see "TABLES/EXPORT"
-ORANGE: FF6B39, photoshop fail. D4643F close as I got
-old red logo and secondary was DF0000*/
 
 body {
   background: #000000 url("../images/water.png") no-repeat fixed center;
   background-size: cover;
-  font-family: 'Oswald', sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
+  /*ROBOTO not being implemented*/
 }
 
-footer { margin: 50px 0; }
-video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin solid #0081CC;}
+/*footer { margin: 50px 0; }*/
+/*video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin solid #0081CC;}*/
+
 /*ELEMENTS*/
-.h2 {font-size: 40px !important;}
-.btn { margin-top: 2%; font-size: 40px !important; width: 80%; }
-.img-circle { margin: auto; border: thin solid #0081CC;}
+/*.h2 {font-size: 40px;}*/
+.btn {
+      margin-top: 1%;
+      border: 6px solid black !important;
+      font-size: 30px !important;
+      width: 50%;
+}
+/*.img-circle { margin: auto; border: thin solid #0081CC;}*/
 .row { margin-left: 0 !important; margin-right: 0 !important;}
-.surveyButton {background-color: #FFE089; width: 70%;}
+/*.surveyButton {background-color: #FFE089; width: 50%; margin-top: auto;}*/
+
 /*GENERIC STYLES*/
-.secondaryColor { color: #D4643F; }
-.topMargin{ margin-top: 5%; }
+/*.secondaryColor { color: #D4643F; }*/
+/*.topMargin{ margin-top: 5%; }*/
 
 /*NAVBAR*/
-.navbar { margin-bottom: 0px !important; border-radius: 0px !important; }
-.navbar-nav li:last-child { background: #D4643F;}
+.navbar { margin-bottom: 0px !important; }
+/*.navbar-nav li:last-child { background: #D4643F;}
 .navbar-nav li:last-child a { color: #cecccc !important;}
-.navbar-nav li:last-child a:hover { color: white !important;}
+.navbar-nav li:last-child a:hover { color: white !important;}*/
+
 /*HOME LOGO*/
-/*.homeLogoDiv { margin: auto; width: 100%; height: auto; }*/
-.homeLogo { width: 100%; }
+.homeLogoDiv { margin: auto; width: 100%; height: auto; }
+.homeLogo { width: 100%; border: 6px solid black !important;}
+
 /*COMING SOON*/
-.comingSoonDiv{ width: 100%; height: auto; margin: 2% auto 2% auto; opacity: .75; }
-.comingSoonImage{ margin: auto; width: 100%; }
+/*.comingSoonDiv{ width: 100%; height: auto; margin: 2% auto 2% auto; opacity: .75; }
+.comingSoonImage{ margin: auto; width: 100%; }*/
 
 /*LAYOUT*/
-.homeIntroHeading { text-align: center; overflow: hidden; margin: auto; font-family: 'Oswald', sans-serif !important;}
-.sectionHeading {text-align: center; font-size: 60px; font-family: 'Oswald', sans-serif !important;}
-.explanationHeading {background-color: #0199E4; color: white; text-align: center; overflow: hidden; width: 70%; margin: auto; font-family: 'Oswald', sans-serif !important; }
-.explanationHeadingSection {background-color: #0199E4; color: white; text-align: center; overflow: hidden; width: 100%; margin: auto; font-family: 'Oswald', sans-serif !important; }
+/*.homeIntroHeading { text-align: center; overflow: hidden; margin: auto;*/
+  /*font-family: 'Oswald', sans-serif !important;*/
+}
+/*.sectionHeading {text-align: center; font-size: 60px;*/
+  /*font-family: 'Oswald', sans-serif !important;*/
+}
+/*WHY DOES THE MAP REQUIRE .explanationHeading but no actual styling? (without it, the map doesn't show up at all) yet it's not used in maps.html?*/
+.explanationHeading {
+  /*background-color: #0199E4;*/
+  /*color: white;*/
+  /*text-align: center;*/
+  /*overflow: hidden;*/
+  /*width: 70%;*/
+  /*margin: auto;*/
+  /*font-family: 'Oswald', sans-serif !important; */
+}
+/*.explanationHeadingSection {background-color: #0199E4; color: white; text-align: center; overflow: hidden; width: 100%; margin: auto; font-family: 'Oswald', sans-serif !important; }*/
+
 /*991 and smaller*/
 @media(max-width:991px) {
     .sectionHeading { font-size: 40px; }
     .btn {font-size: 20px !important; width: 60%; }
-    .surveyButton {width: 60% !important;}
+    /*.surveyButton {width: 60% !important;}*/
     .explanationHeading {font-size: 20px !important; }
     .h2 {font-size: 20px;}
+    .addressSearch {font-size: 20px !important;}
 }
 /*768 and smaller*/
-@media(max-width:768px) {
+/*@media(max-width:768px) {
     .container { margin: 0 15px; }
     .sectionHeading { font-size: 20px; }
     .img-circle {max-width: 300px !important}
-}
-/* MAPS */
+}*/
 
+
+/* MAPS */
 .gMap {
   height: 600px;
   margin: 20px;
@@ -82,45 +103,14 @@ video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin soli
 .rank {
   padding-top: 5px;
 }
+.mapsform {
+  text-align: center;
+}
 
-#addressSearch {
-  width: 100%;
+.addressSearch {
+  border: 6px solid black;
+  text-align: center;
+  font-size: 30px;
+  width: 50%;
   margin-top: 20px;
 }
-/* OLD SITE SEARCH:
-.search {
-  width: 300px;
-  height: 200px;
-  padding: 40px 40px 40px 40px;
-  margin: 0 auto 0 auto;
-  border: 1px solid #b3afa7;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.22);
-  padding: 30px;
-  background: white;
-}
-  .search h3 {
-    background: gray;
-    text-transform: uppercase;
-    text-align: center;
-    color: white;
-    font-size: 18px;
-    font-weight: 100;
-    padding: 20px;
-    margin: -30px -30px 30px -30px;
-    font-weight: bold;
-    border-radius: 12px 12px 0 0;
-  }
-  .searchDiv {
-    margin-left: 30px;
-  }
-  .input {
-    border-radius: 25px;
-    text-align: center;homeIntroHeading
-  }
-    .button {
-      text-align: center;
-      padding: 10px 20px 10px 25px;
-      margin-left: 75px;
-    }
-}*/
