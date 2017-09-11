@@ -1,10 +1,24 @@
 
-body {
-  background: #000000 url("../images/water.png") no-repeat fixed center;
-  background-size: cover;
-  font-family: 'Roboto', sans-serif !important;
-  /*ROBOTO not being implemented*/
+/* EXAMPLE 3
+
+line height is 20px by default
+so add 30px top and bottom to equal the new .navbar-brand 80px height  */
+
+/*.example3 .navbar-brand {
+  height: 80px;
 }
+
+.example3 .nav li a {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.example3 .navbar-toggle {
+  padding: 10px;
+  margin: 25px 15px 25px 0;
+}
+*/
+
+
 
 /*footer { margin: 50px 0; }*/
 /*video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin solid #0081CC;}*/
@@ -13,8 +27,8 @@ body {
 /*.h2 {font-size: 40px;}*/
 .btn {
       margin-top: 1%;
-      border: 6px solid black !important;
-      font-size: 30px !important;
+      border: 2px solid black !important;
+      font-size: 20px !important;
       width: 50%;
 }
 /*.img-circle { margin: auto; border: thin solid #0081CC;}*/
@@ -26,15 +40,37 @@ body {
 /*.topMargin{ margin-top: 5%; }*/
 
 /*NAVBAR*/
-.navbar { margin-bottom: 0px !important; }
+/*.nav {
+  height: 50%;
+  width: 100%;
+}*/
+
+.navbar-brand {
+  height: 100px !important;
+  padding: 5px !important;
+}
+.navbar {
+  margin-bottom: 0px !important;
+  background-color: #D5E1F9 !important;
+  border: none !important;
+  border-bottom: 2px solid black !important;
+}
+.navbar-nav li a {
+    color: #FF8686 !important;
+    font-size: 1.3em;
+    font-weight: bold;
+    vertical-align: bottom !important;
 /*.navbar-nav li:last-child { background: #D4643F;}
 .navbar-nav li:last-child a { color: #cecccc !important;}
 .navbar-nav li:last-child a:hover { color: white !important;}*/
 
 /*HOME LOGO*/
-.homeLogoDiv { margin: auto; width: 100%; height: auto; }
-.homeLogo { width: 100%; border: 6px solid black !important;}
-
+/*.homeLogoDiv { margin: auto; width: 100%; height: auto; }
+.homeLogo { width: 100%; border: 6px solid black !important;}*/
+/*.logoOnNav {
+  max-width: 100px;
+  max-height: 60px;
+}*/
 /*COMING SOON*/
 /*.comingSoonDiv{ width: 100%; height: auto; margin: 2% auto 2% auto; opacity: .75; }
 .comingSoonImage{ margin: auto; width: 100%; }*/
@@ -60,11 +96,11 @@ body {
 
 /*991 and smaller*/
 @media(max-width:991px) {
-    .sectionHeading { font-size: 40px; }
+    /*.sectionHeading { font-size: 40px; }*/
     .btn {font-size: 20px !important; width: 60%; }
     /*.surveyButton {width: 60% !important;}*/
     .explanationHeading {font-size: 20px !important; }
-    .h2 {font-size: 20px;}
+    /*.h2 {font-size: 20px;}*/
     .addressSearch {font-size: 20px !important;}
 }
 /*768 and smaller*/
@@ -80,14 +116,14 @@ body {
   height: 600px;
   margin: 20px;
   margin-top 5px;
-  border: 6px solid black;
+  border: 2px solid black;
   border-radius: 10px;
 }
 .infoList {
   margin-top: 20px;
   border-radius: 10px;
   max-height: 600px;
-  border: 6px solid black;
+  border: 2px solid black;
   overflow: scroll;
   padding: 0 !important;
 }
@@ -108,9 +144,103 @@ body {
 }
 
 .addressSearch {
-  border: 6px solid black;
+  border: 2px solid black;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   width: 50%;
   margin-top: 20px;
 }
+
+
+/*BOOTSTRAP EXAMPLE 'RED'*/
+.slide-wrapper { position: relative }
+.red { padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;}
+.red-content { width: 100%; height: 300px; background: red; color: #fff; }
+#homepage-feature .carousel-item { overflow: hidden; height: 400px; background-color: transparent; background-size: cover;}
+#homepage-feature .carousel-control { width: 30px; font-size: 40px; color: #fff; text-shadow: none; filter: none; opacity: 1;}
+#homepage-feature .carousel-control span { position: absolute; top: 50%; margin-top: -30px;width: 100%; text-align: center; display: block;}
+
+/*768 and LARGER*/
+@media (min-width: 768px) {
+	.carousel-caption { text-align: left; padding-right: 300px;}
+	.red { position: absolute; left: 50%; top: 0; bottom: 0; padding: 20px 0;
+	    margin-left: -375px; width: 750px; }
+	.red-content { width: 300px; float: left; height: 100%; background: red;
+	    color: #fff; margin-right:15px;}}
+/*769-992*/
+/*@media (min-width: 992px) {
+	.red { width: 970px; margin-left: -485px; }}*/
+/*993-1200 and above*/
+/*@media (min-width: 1200px) {
+	.red { width: 1170px; margin-left: -585px;}}*/
+
+
+
+/*BOOTSTRAP DOCS EXAMPLE **BOOTSTRAP 4!! */
+  /* CUSTOMIZE THE CAROUSEL
+  -------------------------------------------------- */
+  /* Carousel base class */
+  /*.carousel {
+    margin-bottom: 4rem;
+  }*/
+  /* Since positioning the image, we need to help out the caption */
+  /*.carousel-caption {
+    z-index: 10;
+    bottom: 3rem;
+  }*/
+  /* Declare heights because of positioning of img element */
+  /*.carousel-item {
+    height: 32rem;
+    background-color: #777;
+  }*/
+  /*.carousel-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 32rem;
+  }*/
+
+  /* MARKETING CONTENT
+  -------------------------------------------------- */
+  /* Center align the text within the three columns below the carousel */
+  .marketing .col-lg-4 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .marketing h2 {
+    font-weight: normal;
+  }
+  .marketing .col-lg-4 p {
+    margin-right: .75rem;
+    margin-left: .75rem;
+  }
+
+
+  /* Featurettes
+  ------------------------- */
+  .featurette-divider {
+    margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+  }
+  /* Thin out the marketing headings */
+  .featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.05rem;
+  }
+  /* RESPONSIVE CSS
+  -------------------------------------------------- */
+  /*@media (min-width: 40em) {
+    .carousel-caption p { margin-bottom: 1.25rem; font-size: 1.25rem; line-height: 1.4;}
+    .featurette-heading { font-size: 50px; }}
+  @media (min-width: 62em) {
+    .featurette-heading { margin-top: 7rem; }}*/
+
+
+    body {
+      background-color: #D5E1F9 !important;
+      /*background: url("../images/water.png") no-repeat fixed center;*/
+      /*background-size: cover;*/
+      font-family: 'Roboto', sans-serif !important;
+      /*ROBOTO not being implemented*/
+    }
