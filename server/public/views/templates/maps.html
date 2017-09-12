@@ -1,15 +1,9 @@
 
 
-<!-- <div class="">
-  <a href="#!maps">
-      <img alt="Aquatics Empowered logo" src="images/logos/logoAndTag4.png" class="img-responsive homeLogo">
-</a>
-</div> -->
-
-
 
 <div class="row">
 
+  <!-- Form: Input Field and Find Pools Button -->
   <div class="row">
     <div class="col-md-12">
       <form class="mapsform" ng-submit="maps.poolSearch()">
@@ -21,7 +15,8 @@
         <!-- <span>Showing (up to) the nearest {{maps.maxMarkers}} pools.</span> -->
       </form>
     </div>
-  </div>
+  </div> <!-- END of Form: Input Field and Find Pools Button -->
+
 
   <div class="row">
     <div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
@@ -49,29 +44,23 @@
       </ng-map>
 
     </div>
+
+    <!-- Display infoList -->
     <div class="col-md-4 infoList">
       <div class="row poolItem" ng-class="{'selectedPool':maps.pool.id==pool.id}" ng-if="pool.visible" ng-repeat="pool in maps.markerList" ng-click="maps.showDetail(null, pool)">
        <div class="col-md-2 rank">
          <img ng-src="{{maps.getIcon($index)}}" alt="{{$index + 1}}"  />
          <p>{{pool.distance.toFixed(1)}}mi</p>
-       </div>
+       </div> <!-- end ranked icon pin -->
        <div class="col-md-10 info">
          <b>{{pool.title}}</b><br/>
          {{pool.street_address}}<br/>
          {{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
          <a href="" ng-click="maps.clicked(maps.pool.website)">Website</a>
-       </div>
-      </div>
-    </div>
-
-  </div>
+       </div><!-- end pool name, address row -->
+     </div><!-- end poolItem row -->
+    </div> <!-- end infolist row -->
 
 
-
-</div>
-
-<!-- <section class="homeIntroHeading">
-    <a href="#!surveys">
-      <button type="button" name="button" class="btn surveyButton">Please take our survey</button>
-    </a>
-</section> -->
+  </div> <!-- end map and infolist row -->
+</div> <!-- end whole page row -->
