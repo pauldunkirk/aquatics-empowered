@@ -11,6 +11,14 @@ const config = {
   ssl: params.auth ? true : false //use SSL if credentials are supplied
 };
 
+// const config = {
+//   user: '',
+//   host: 'localhost',
+//   port: '5432',
+//   database: 'aquaticsempowered',
+//   ssl: false //use SSL if credentials are supplied
+// };
+
 console.log("\n\nCONFIG: ", config);
 
 module.exports = config;

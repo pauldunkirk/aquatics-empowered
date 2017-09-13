@@ -12,6 +12,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     console.log('markers', map.markers);
     // TODO: set map center to location of user (determined with from browser query)
     getFacilities(); //run $http request to server for nearby pools
+
   });
 
   vm.clicked = url => window.open(url); //open facility website in new tab
@@ -114,9 +115,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     return d;
   };
 
-
-  const addMultipleFacilities = facilities => facilities.map( f => geoCodeAdd(f));
-
   const geoCodeAdd = facility => {
     let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
     GeoCoder.geocode({address: addr})
@@ -136,21 +134,16 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     });
   };
 
-  const convertAndPostJSON = (pulseSize, route) => {
-    let index = 0;
+  const convertAndPostJSON = (route, index=0) => {
     const pulsePost = list => {
-      if (index + pulseSize < list.length) {
+      if (index < list.length - 1) {
         setTimeout( () => {
-          addMultipleFacilities(list.slice(index, index + pulseSize)),
+          geoCodeAdd(list[index++]);
           pulsePost(list);
-          index += pulseSize;
-        }, 2100);
-      } else {
-        addMultipleFacilities(list.slice(index, list.length - 1));
+        }, 1100);
       }
       console.log(list.length - index, 'facilities remaining');
     };
-
     $http.get(route)
     .then( res => pulsePost(res.data),
            err => console.error('GET JSON facilities - error:', err)
@@ -160,13 +153,4 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
 }]);
 
 //examples of using these tools
-
-// convertAndPostJSON(2, '/poolList/');
-
-// geoCodeAdd(
-//   { name: "Abington YMCA",
-//     pool_type: "Public Access Swimming Pools",
-//     street_address: "1079 Old York Rd.",
-//     city: "Abington",
-//     state: "PA" }
-// );
+convertAndPostJSON('/bigList/');

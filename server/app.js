@@ -19,5 +19,5 @@ app.use('/facilities', facilities);
 
 app.listen(portDecision, () => console.log("Listening on port:", portDecision));
 
-// const bigList = require('../bigList');
-// app.get('/bigList', (req,res) => res.send(bigList));
+const bigList = require('../bigList');
+app.get('/bigList', (req,res) => res.send(bigList));
