@@ -153,4 +153,4 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
 }]);
 
 //examples of using these tools
-convertAndPostJSON('/bigList/');
+// convertAndPostJSON('/bigList/');
