@@ -7,6 +7,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   vm.mapCenter = defaultCenter;
 
   NgMap.getMap().then( map => {
+    //ANYTHING REQUIRING ACCESS TO GOOGLE API GOES IN HERE
     vm.map = map; //to access gMaps API features
     console.log('map', map);
     console.log('markers', map.markers);
