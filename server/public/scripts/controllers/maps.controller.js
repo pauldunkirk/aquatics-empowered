@@ -13,7 +13,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     console.log('markers', map.markers);
     // TODO: set map center to location of user (determined with from browser query)
     getFacilities(); //run $http request to server for nearby pools
-
   });
 
   vm.clicked = url => window.open(url); //open facility website in new tab

@@ -1,0 +1,22 @@
+<div class="row">
+  <h2>Admin Page</h2>
+  <label>Chicken or the Egg?</label>
+    <div class="form-group">
+      <div class="radio">
+        <label>
+          <input type="radio" value="google" ng-model="listType">
+          Google
+        </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" value="mapmuse" ng-model="listType">
+          MapMuse
+      </label>
+      </div>
+    </div>
+
+  <button ng-click="admin.convert(listType)">Convert</button>
+  <textarea ng-model="admin.text"></textarea>
+  <h6></h6>
+</div> <!-- end whole page row -->
