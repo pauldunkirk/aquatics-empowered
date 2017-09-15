@@ -1,47 +1,54 @@
 
 /*footer { margin: 50px 0; }*/
 /*video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin solid #0081CC;}*/
-
+/*.row { margin-left: 0 !important; margin-right: 0 !important;}*/
+/*FF777B
+FF4B51*/
 
 body {
-  background-color: #D5E1F9 !important;
+  background-color: #D2E0F9 !important;
   /*background: url("../images/water.png") no-repeat fixed center;*/
   /*background-size: cover;*/
   font-family: 'Roboto', sans-serif !important;
   /*ROBOTO not being implemented??*/
 }
 
-/*.carouselImg {
-width: 100%;
-height: auto;
-}*/
 
-.row { margin-left: 0 !important; margin-right: 0 !important;}
-
+/*---------NAV------------------------------------------------*/
 .navbar-brand {
-  height: 100px !important;
+  height: 120px !important;
   padding: .2em !important;
 }
 .navbar {
   margin-bottom: 0px !important;
-  background-color: #D5E1F9 !important;
-  border: none !important;
-  border-bottom: 1px solid black !important;
+  background-color: #D2E0F9 !important;
+  border-bottom: 2px solid #7D97D0 !important;
+  border-radius: 0 !important;
+}
+.nav-item {
+  padding-bottom: 0 !important;
+
+}
+.nav-link{
+  padding-bottom: 0 !important;
+}
+/*.navbar-header {
+  margin-top: 20px !important;
+}*/
+.navbar > li > a {
+    padding: 20px 15px 0;
 }
 
 .navbar-toggle {
   border-color: transparent !important;
 }
+.icon-bar {
+  color: #FF4B51 !important;
+  font-size: 1.3em;
+  font-weight: bold;
+  vertical-align: bottom !important;
+}
 
-  .icon-bar{
-      color: #FF8686 !important;
-      font-size: 1.3em;
-      font-weight: bold;
-      vertical-align: bottom !important;
-    }
-    .navbar-header {
-      margin-top: 20px !important; //if the logo has a 70px height.
-    }
     /*.navbar-nav li:last-child { background: #D4643F;}
     .navbar-nav li:last-child a { color: #cecccc !important;}
     .navbar-nav li:last-child a:hover { color: white !important;}*/
@@ -57,10 +64,13 @@ height: auto;
       .navbar-nav {
         padding-top: 3em;
         vertical-align: bottom !important;
-        }}
+        /*VERTICAL-ALIGN BOTTOM not working??*/
+      }}
+/*--------------END NAV--------------------------------------------------*/
 
 
-    /* MAPS */
+
+/* -------------MAPS -------------------------------------------------*/
     /*WHY DOES THE MAP REQUIRE .explanationHeading but no actual styling? (without it, the map doesn't show up at all) yet it's not used in maps.html?*/
     .explanationHeading {
     }
@@ -98,6 +108,9 @@ height: auto;
     .rank {
       padding-top: 5px;
     }
+
+
+    /* -------------MAPS SEARCH FORM -------------------------------------------------*/
     .mapsform {
       /*text-align: center;*/
       /*used class="text-center" on maps.html instead, not sure if this is a good idea in terms of organization, but it is a native bootstrap class*/
@@ -123,16 +136,21 @@ height: auto;
       background-color: #F6B201;
     }
 
-  @media(min-width:991px) {
+/* -------------END MAPS SEARCH FORM -------------------------------------------------*/
+/* -------------END MAPS -------------------------------------------------------------*/
+
+/* -------------CAROUSEL and CAPTION -------------------------------------------------*/
+
+  @media(min-width:992px) {
     .carousel-caption {
-      width: 100%;
-      height: auto;
+    padding-right: 280px;
+    padding-left: 0;
+    padding-bottom: 0 !important;
     }}
 
     /*768 and LARGER*/
-    @media (min-width: 768px) {
+    @media (min-width: 768px) and (max-width: 991px){
       .carousel-caption {
-      text-align: left;
       left: 10% !important;
       padding-right: 300px;
       padding-left: 0;
@@ -159,11 +177,18 @@ height: auto;
         display: none;
         /*max-height: 200px !important;*/
 }}
+/* -------------END CAROUSEL and CAPTION -------------------------------------------------*/
 
-/*ADMIN*/
+
+
+
+/*--------------------------ADMIN -----------------------------*/
 #jsonConvert{
   font-size: x-small;
 }
+/*--------------------------END ADMIN ---------------------------*/
+
+
 
 
 
@@ -175,8 +200,9 @@ height: auto;
     .red-content { width: 100%; height: 300px; background: red; color: #fff; }*/
     /*#myCarousel .item { overflow: hidden; height: 400px; background-color: transparent; background-size: cover;}*/
     /*#myCarousel .carousel-control {
-      width: 30px; font-size:
-      40px; color: #fff;
+      width: 30px;
+      font-size: 40px;
+      color: #fff;
       text-shadow: none;
       filter: none;
       opacity: 1;}
@@ -191,11 +217,9 @@ height: auto;
         margin-left: -375px; width: 750px; }
         .red-content { width: 300px; float: left; height: 100%; background: red;
           color: #fff; margin-right:15px;}}*/
-
           /*769-992*/
           /*@media (min-width: 992px) {
           .red { width: 970px; margin-left: -485px; }}*/
-
           /*993-1200 and above*/
           /*@media (min-width: 1200px) {
           .red { width: 1170px; margin-left: -585px;}}*/
