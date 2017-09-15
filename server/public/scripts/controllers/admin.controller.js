@@ -1,13 +1,6 @@
 app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
 
-  NgMap.getMap().then( map => {
-    //ANYTHING REQUIRING ACCESS TO GOOGLE API GOES IN HERE
-    vm.map = map; //to access gMaps API features
-    // TODO: set map center to location of user (determined with from browser query)
-    // getFacilities(); //run $http request to server for nearby pools
-  });
-
   vm.convert = listType => {
     switch (listType) {
       case "google":
@@ -18,80 +11,30 @@ app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http,
           mapMuse(vm.text);
         break;
       default:
-
     }
   }
 
   const mapMuse = (text) => {
-    let arr = text
-    .replace(/, /g, '\n')
-    .split('\n');
-
-    // .replace(/ [A-Z][A-Z]$/g, '\n')
-
+    let arr = text.split('\n');
     arr = arr.filter( entry =>  /\S/.test(entry));
     console.log('arr', arr);
     let musePools = [];
-    for (var i = 0; i < arr.length; i=i+4) {
-      let cityState = arr[i+3].split(/ (?=[A-Z][A-Z]$)/g);
+    for (var i = 0; i < arr.length-3; i=i+3) {
+      let state = arr[i+2].match(/[A-Z][A-Z]$/g)[0];
+      let noState = arr[i+2].slice(0, arr[i+2].length-3);
+      let city = noState.match(/(?!, )(\w *)+(?=$)/g)[0];
+      let street_address = noState.match(/.+(?=(, (\w *)+(?=$)))/g)[0];
       musePools.push( {
         name: arr[i],
         pool_type: arr[i+1],
-        street_address: arr[i+2],
-        city: cityState[0],
-        state: cityState[1]
+        street_address,
+        city,
+        state,
       } )
     }
-
+    vm.text = JSON.stringify(musePools, undefined, 4);;
     console.log('musePools', musePools);
   }
-
-var address = "San Francisco, CA 94129";
-
-function parseAddress(address) {
-    // Make sure the address is a string.
-    if (typeof address !== "string") throw "Address is not a string.";
-
-    // Trim the address.
-    address = address.trim();
-
-    // Make an object to contain the data.
-    var returned = {};
-
-    // Find the comma.
-    var comma = address.indexOf(',');
-
-    // Pull out the city.
-    returned.city = address.slice(0, comma);
-
-    // Get everything after the city.
-    var after = address.substring(comma + 2); // The string after the comma, +2 so that we skip the comma and the space.
-
-    // Find the space.
-    var space = after.lastIndexOf(' ');
-
-    // Pull out the state.
-    returned.state = after.slice(0, space);
-
-    // Pull out the zip code.
-    returned.zip = after.substring(space + 1);
-
-    // Return the data.
-    return returned;
-}
-
-address = parseAddress(address);
-
-// const googleFn = () => {
-//   const regEx =
-//
-//
-//
-// }
-
-  // const regEx = /([A-G](\#|b)?(?=((m\s|maj|dim)|(\d\d?)|(add\d)|(sus)|(\s|\n))))/g;
-  //   return text.replace(regEx, (match) =>
-  //     tonics[(tonics.indexOf(match) + 1) % 12]);
 
   const addFacility = (facility) => {
     $http({
