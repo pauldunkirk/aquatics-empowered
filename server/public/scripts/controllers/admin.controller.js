@@ -1,5 +1,9 @@
-app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
+app.controller('AdminController', ['$http', function($http) {
   const vm = this;
+  const geoBase = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+  const geoEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
+  vm.geocoding = false;
+  vm.remaining = 0;
   getFacilities();
 
 
@@ -23,17 +27,19 @@ app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http,
     }
   }
 
-  const mapMuse = (text) => {
-    let arr = text.split('\n');
-    arr = arr.filter( entry =>  /\S/.test(entry));
-    console.log('arr', arr);
-    musePools = [];
+
+  const mapMuse = text => {
+    let arr = text.split('\n'); //create array element for each line
+    arr = arr.filter( entry =>  /\S/.test(entry)); //remove empty lines
+    arr = arr.map( val => val.trim()); //remove leading/trailing whitespace
+    const musePools = [];
     for (var i = 0; i < arr.length-3; i=i+3) {
       let state = arr[i+2].match(/[A-Z][A-Z]$/g)[0];
       let noState = arr[i+2].slice(0, arr[i+2].length-3);
       let city = noState.match(/(?!, )(\w *)+(?=$)/g)[0];
       let street_address = noState.match(/.+(?=(, (\w *)+(?=$)))/g)[0];
       musePools.push( {
+        source: 'mapmuse',
         name: arr[i],
         pool_type: arr[i+1],
         street_address,
@@ -45,52 +51,69 @@ app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http,
     console.log('musePools', musePools);
   }
 
-  vm.addFacilities = () => {
+  // const addFacilities = () => {
+  //   $http({
+  //     method: 'POST',
+  //     url: '/facilities/many',
+  //     data: JSON.parse(vm.text),
+  //     headers: {}
+  //   }).then(
+  //     res => console.log('POST success', res),
+  //     err => console.log("error adding facility: ", err) );
+  // };
+
+  const addFacility = facility => {
     $http({
       method: 'POST',
-      url: '/facilities/many',
-      data: JSON.parse(vm.text),
+      url: '/facilities/',
+      data: facility,
       headers: {}
     }).then(
       res => console.log('POST success', res),
-      err => console.log("error adding facility: ", err) );
+      err => console.log("error adding facility: ", facility, err) );
   };
 
-
-
   const geoCodeAdd = facility => {
-    let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
-    GeoCoder.geocode({address: addr})
-    .then( results => {
-      let zipCmp = results[0].address_components.find(
-        addrCmp => addrCmp.types[0] == 'postal_code');
-      if (zipCmp) {
-        let coords = results[0].geometry.location;
-        facility.coords = [coords.lat(), coords.lng()];
+    const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
+    const url = geoBase + (address).replace(' ', '+') + geoEnd;
+    //access google API via url
+    $http.get(url).then( res => {
+      console.log('geocode res', res);
+      if (res.data.status == "OK") {
+        const locData = res.data.results[0];
+        const zipCmp = locData.address_components.find(
+          addrCmp => addrCmp.types[0] == 'postal_code');
+        const coords = locData.geometry.location;
+        //assign values from GeoCode query
+        facility.coords = [coords.lat, coords.lng];
         facility.zip = zipCmp.long_name;
-        facility.google_place_id = results[0].place_id;
+        facility.google_place_id = locData.place_id;
+
         console.log('geocoded facility:', facility);
         addFacility(facility);
       } else {
-        console.log('no zip found:', addr, results);
+        console.log('no location found:', url, results);
       }
     });
   };
 
-  const convertAndPostJSON = (route, index=0) => {
-    const pulsePost = list => {
-      if (index < list.length - 1) {
+  vm.convertAndPost = (jsonString, index=0) => {
+    vm.geocoding = true;
+    const json = JSON.parse(jsonString);
+    const list = $.map(json, el => el);
+    console.log('list', list);
+    pulsePost(list);
+    function pulsePost(list) {
+      if (index < list.length) {
         setTimeout( () => {
           geoCodeAdd(list[index++]);
           pulsePost(list);
         }, 1100);
+      } else {
+        vm.geocoding = false;
       }
-      console.log(list.length - index, 'facilities remaining');
+      vm.remaining = list.length - index;
     };
-    $http.get(route)
-    .then( res => pulsePost(res.data),
-           err => console.error('GET JSON facilities - error:', err)
-    );
   };
 
   const getDistance = (c1, c2) => {
