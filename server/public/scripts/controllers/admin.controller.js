@@ -1,5 +1,14 @@
 app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
+  getFacilities();
+
+
+  function getFacilities() {
+    $http.get('/facilities/')
+    .then( res => vm.allPools = res.data,
+           err => console.log('GET pools - error:', err)
+    );
+  };
 
   vm.convert = listType => {
     switch (listType) {
@@ -18,7 +27,7 @@ app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http,
     let arr = text.split('\n');
     arr = arr.filter( entry =>  /\S/.test(entry));
     console.log('arr', arr);
-    let musePools = [];
+    musePools = [];
     for (var i = 0; i < arr.length-3; i=i+3) {
       let state = arr[i+2].match(/[A-Z][A-Z]$/g)[0];
       let noState = arr[i+2].slice(0, arr[i+2].length-3);
@@ -36,18 +45,18 @@ app.controller('AdminController', ['$http', 'NgMap', 'GeoCoder', function($http,
     console.log('musePools', musePools);
   }
 
-  const addFacility = (facility) => {
+  vm.addFacilities = () => {
     $http({
       method: 'POST',
-      url: '/facilities/',
-      data: facility,
+      url: '/facilities/many',
+      data: JSON.parse(vm.text),
       headers: {}
     }).then(
       res => console.log('POST success', res),
       err => console.log("error adding facility: ", err) );
   };
 
-  //use this instead of google.maps.geometry.spherical.computeDistance() because of API query limit
+
 
   const geoCodeAdd = facility => {
     let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
