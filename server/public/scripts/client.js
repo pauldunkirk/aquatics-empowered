@@ -34,6 +34,10 @@ app.config(['$routeProvider', function($routeProvider) {
     templateUrl: '/views/templates/maps.html',
     controller: 'MapsController',
     controllerAs: 'maps'
+ }).when('/admin', {
+    templateUrl: '/views/templates/admin.html',
+    controller: 'AdminController',
+    controllerAs: 'admin'
  }).otherwise({
     redirectTo: '/home1'
  });
