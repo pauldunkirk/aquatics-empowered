@@ -28,15 +28,22 @@ app.controller('AdminController', ['$http', function($http) {
   }
 
 
+
+
+
   const mapMuse = text => {
-    let arr = text.split('\n'); //create array element for each line
+    let arr = text.split('\n'); //create array element for each line of text
     arr = arr.filter( entry =>  /\S/.test(entry)); //remove empty lines
     arr = arr.map( val => val.trim()); //remove leading/trailing whitespace
     const musePools = [];
     for (var i = 0; i < arr.length-3; i=i+3) {
+      //two capital letters followed by end of string = state
       let state = arr[i+2].match(/[A-Z][A-Z]$/g)[0];
+      //remove the last 3 chars (state and preceding space)
       let noState = arr[i+2].slice(0, arr[i+2].length-3);
+      //one or more words (optionally followed by a space) between ", " and end of string = city
       let city = noState.match(/(?!, )(\w *)+(?=$)/g)[0];
+      //everything before the above ", " will be the street address
       let street_address = noState.match(/.+(?=(, (\w *)+(?=$)))/g)[0];
       musePools.push( {
         source: 'mapmuse',
