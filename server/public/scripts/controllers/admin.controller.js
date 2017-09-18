@@ -120,19 +120,6 @@ app.controller('AdminController', ['$http', function($http) {
       )) && text!=''
   )
 
-  const getDistance = (c1, c2) => {
-    const _deg2rad = deg => deg * (Math.PI/180);
-    let R = 3959; // Radius of the earth in miles
-    let dLat = _deg2rad(c2[0]-c1[0]);
-    let dLon = _deg2rad(c2[1]-c1[1]);
-    let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-     Math.cos(_deg2rad(c1[0])) * Math.cos(_deg2rad(c2[0])) *
-     Math.sin(dLon/2) * Math.sin(dLon/2);
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    let d = R * c; // Distance in miles
-    return d;
-  };
-
 }]);
 
 //for bulk posting. not compatable with google geocoding rate limit
