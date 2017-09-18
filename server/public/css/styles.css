@@ -13,21 +13,32 @@ body {
   /*ROBOTO not being implemented??*/
 }
 
+.container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
 /*---------NAV------------------------------------------------*/
-.navbar-brand {
-  height: 120px !important;
-  padding: .2em !important;
-}
+
 .navbar {
-  margin-bottom: 0px !important;
+  margin-bottom: 50px !important;
   background-color: #D2E0F9 !important;
   border-bottom: 2px solid #7D97D0 !important;
   border-radius: 0 !important;
 }
-.nav-item {
-  padding-bottom: 0 !important;
-
+.navbar-brand {
+  height: 120px !important;
+  padding: .2em !important;
+}
+.navbar-nav{
+  margin-top: 40px !important;
+  padding-top: 3em;
+}
+.navbar-nav li a {
+  color: #FF777B !important;
+  font-weight: bold;
+  font-size: 1.3em;
+  /*line-height: inherit !important;*/
 }
 .nav-link{
   padding-bottom: 0 !important;
@@ -35,9 +46,9 @@ body {
 /*.navbar-header {
   margin-top: 20px !important;
 }*/
-.navbar > li > a {
+/*.navbar > li > a {
     padding: 20px 15px 0;
-}
+}*/
 
 .navbar-toggle {
   border-color: transparent !important;
@@ -53,27 +64,34 @@ body {
     .navbar-nav li:last-child a { color: #cecccc !important;}
     .navbar-nav li:last-child a:hover { color: white !important;}*/
 
-    /*768 and larger*/
-    @media(min-width:768px) {
+    /*767 and smaller*/
+    @media(max-width:767px) {
       .navbar-nav li a {
         color: #FF8686 !important;
-        font-size: 1.3em;
+        font-size: 1em;
         line-height: inherit !important;
-        font-weight: bold;
       }
       .navbar-nav {
-        padding-top: 3em;
-        vertical-align: bottom !important;
-        /*VERTICAL-ALIGN BOTTOM not working??*/
-      }}
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+      .navbar-brand {
+        height: 80px !important;
+      }
+    }
+
+
 /*--------------END NAV--------------------------------------------------*/
 
 
 
 /* -------------MAPS -------------------------------------------------*/
-    /*WHY DOES THE MAP REQUIRE .explanationHeading but no actual styling? (without it, the map doesn't show up at all) yet it's not used in maps.html?*/
-    .explanationHeading {
-    }
+    /*WHY DID THE MAP REQUIRE .explanationHeading but no actual styling?
+    (without it, the map didn't show up at all) yet it's not used in maps.html?
+    NO LONGER DOING THAT SO I COMMENTED IT OUT FOR NOW*/
+    /*.explanationHeading {
+    }*/
+
     /*991 and smaller*/
     @media(max-width:991px) {
       /*.btn {font-size: 20px !important; width: 60%; }*/
@@ -110,6 +128,79 @@ body {
     }
 
 
+/* -------------CAROUSEL and CAPTION -------------------------------------------------*/
+
+.carousel-control {
+  width: 3% !important;
+}
+
+/*1200 and larger*/
+@media(min-width:1200px) {
+ .carousel-caption {
+ left: 5% !important;
+ padding-right: 400px;
+ padding-left: 0;
+ padding-bottom: 0 !important;
+ padding-top: 0 !important;
+ height: 460px !important;
+ right: 0 !important;
+ }
+}
+   /*992-1199*/
+  @media(min-width:992px) and (max-width:1199px) {
+    .carousel-caption {
+    left: 5% !important;
+    padding-right: 400px;
+    padding-left: 0;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    height: 391px !important;
+    right: 0 !important;
+    }
+  }
+
+    /*768 and LARGER*/
+    @media (min-width: 768px) and (max-width: 991px){
+      .carousel-caption {
+      left: 5% !important;
+      padding-right: 300px;
+      padding-left: 0;
+      padding-bottom: 0 !important;
+      /*height: 80%;*/
+    }}
+
+    /*767 and SMALLER*/
+    @media (max-width: 767px) {
+      .carousel-caption img{
+        display: block;
+        max-height: 200px !important;
+      /*text-align: left;
+      left: 10% !important;
+      padding-right: 300px;
+      padding-left: 0;
+      padding-bottom: 0 !important;*/
+      /*height: 80%;*/
+      /*width: 100%;
+      height: auto;*/
+    }}
+    @media (max-width: 615px) {
+      .carousel-caption img{
+        display: none;
+        /*max-height: 200px !important;*/
+}}
+/* -------------END CAROUSEL and CAPTION -------------------------------------------------*/
+
+/*----------------whatPeopleSay QUOTES/PICS----------------------------*/
+
+  .whatPeopleSay {
+    text-align: center;
+    font-weight:bolder;
+    font-size: 2em;
+    word-spacing: 10px;
+    padding: 20px;
+  }
+
+
     /* -------------MAPS SEARCH FORM -------------------------------------------------*/
     .mapsform {
       /*text-align: center;*/
@@ -138,47 +229,6 @@ body {
 
 /* -------------END MAPS SEARCH FORM -------------------------------------------------*/
 /* -------------END MAPS -------------------------------------------------------------*/
-
-/* -------------CAROUSEL and CAPTION -------------------------------------------------*/
-
-  @media(min-width:992px) {
-    .carousel-caption {
-    padding-right: 280px;
-    padding-left: 0;
-    padding-bottom: 0 !important;
-    }}
-
-    /*768 and LARGER*/
-    @media (min-width: 768px) and (max-width: 991px){
-      .carousel-caption {
-      left: 10% !important;
-      padding-right: 300px;
-      padding-left: 0;
-      padding-bottom: 0 !important;
-      /*height: 80%;*/
-    }}
-
-    /*767 and SMALLER*/
-    @media (max-width: 767px) {
-      .carousel-caption img{
-        display: block;
-        max-height: 200px !important;
-      /*text-align: left;
-      left: 10% !important;
-      padding-right: 300px;
-      padding-left: 0;
-      padding-bottom: 0 !important;*/
-      /*height: 80%;*/
-      /*width: 100%;
-      height: auto;*/
-    }}
-    @media (max-width: 615px) {
-      .carousel-caption img{
-        display: none;
-        /*max-height: 200px !important;*/
-}}
-/* -------------END CAROUSEL and CAPTION -------------------------------------------------*/
-
 
 
 
