@@ -11,6 +11,7 @@ const config = {
   ssl: params.auth ? true : false //use SSL if credentials are supplied
 };
 
+//FOR LOCAL SERVER
 // const config = {
 //   user: '',
 //   host: 'localhost',

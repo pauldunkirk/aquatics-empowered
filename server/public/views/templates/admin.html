@@ -2,7 +2,7 @@
   <h2>Admin Page</h2>
   <div class="col-md-3">
     <p>Number of pools: {{admin.allPools.length}}</p>
-    <p>Select data source, paste data, then click 'Convert'</p>  
+    <p>Select data source, paste data, then click 'Convert'</p>
     <div class="form-group">
       <div class="radio">
         <label>
@@ -19,16 +19,25 @@
     </div>
 
 
-    <button ng-click="admin.convert(listType)">Convert</button>
-    <button ng-click="admin.convertAndPost(admin.text)">JSON Looks Good:<br />Add to DB!</button>
-    <p ng-if="admin.geocoding">
+    <button class="btn"
+      ng-disabled="admin.validateJson(admin.text)"
+      ng-click="admin.convert(listType)">
+      Convert to JSON
+    </button>
+    <button class="btn"
+      ng-disabled="!admin.validateJson(admin.text)"
+      ng-click="admin.geocodeAndPost(admin.text)">
+      {{admin.validateJson(admin.text) ? "Add to DB!" : "Invalid JSON!"}}
+    </button>
+    <br />
+    <h4 ng-if="admin.geocoding">
       Geocoding and adding to database... <br/>
-      {{admin.remaining}} facilities remaining.
-    </p>
+      {{admin.remaining}} facilities remaining. <br />
+      {{admin.errorCount}} errors.
+    </h4>
   </div>
   <div class="col-md-6">
-
-  <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text"></textarea>
+    <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text"></textarea>
   </div>
   <h6></h6>
 </div> <!-- end whole page row -->

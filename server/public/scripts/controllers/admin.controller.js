@@ -4,8 +4,8 @@ app.controller('AdminController', ['$http', function($http) {
   const geoEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
   vm.geocoding = false;
   vm.remaining = 0;
+  vm.errorCount = 0;
   getFacilities();
-
 
   function getFacilities() {
     $http.get('/facilities/')
@@ -26,9 +26,6 @@ app.controller('AdminController', ['$http', function($http) {
       default:
     }
   }
-
-
-
 
 
   const mapMuse = text => {
@@ -58,17 +55,6 @@ app.controller('AdminController', ['$http', function($http) {
     console.log('musePools', musePools);
   }
 
-  // const addFacilities = () => {
-  //   $http({
-  //     method: 'POST',
-  //     url: '/facilities/many',
-  //     data: JSON.parse(vm.text),
-  //     headers: {}
-  //   }).then(
-  //     res => console.log('POST success', res),
-  //     err => console.log("error adding facility: ", err) );
-  // };
-
   const addFacility = facility => {
     $http({
       method: 'POST',
@@ -77,7 +63,7 @@ app.controller('AdminController', ['$http', function($http) {
       headers: {}
     }).then(
       res => console.log('POST success', res),
-      err => console.log("error adding facility: ", facility, err) );
+      err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
   };
 
   const geoCodeAdd = facility => {
@@ -104,12 +90,14 @@ app.controller('AdminController', ['$http', function($http) {
     });
   };
 
-  vm.convertAndPost = (jsonString, index=0) => {
+  vm.geocodeAndPost = (jsonString, index=0) => {
+    vm.errorCount = 0;
     vm.geocoding = true;
     const json = JSON.parse(jsonString);
     const list = $.map(json, el => el);
     console.log('list', list);
     pulsePost(list);
+
     function pulsePost(list) {
       if (index < list.length) {
         setTimeout( () => {
@@ -123,6 +111,15 @@ app.controller('AdminController', ['$http', function($http) {
     };
   };
 
+  //returns a boolean
+  vm.validateJson = (text='') => (
+    (/^[\],:{}\s]*$/.test(
+        text.replace(/\\["\\\/bfnrtu]/g, '@')
+        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+        .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
+      )) && text!=''
+  )
+
   const getDistance = (c1, c2) => {
     const _deg2rad = deg => deg * (Math.PI/180);
     let R = 3959; // Radius of the earth in miles
@@ -135,7 +132,17 @@ app.controller('AdminController', ['$http', function($http) {
     let d = R * c; // Distance in miles
     return d;
   };
+
 }]);
 
-//examples of using these tools
-// convertAndPostJSON('/bigList/');
+//for bulk posting. not compatable with google geocoding rate limit
+// const addFacilities = () => {
+//   $http({
+//     method: 'POST',
+//     url: '/facilities/many',
+//     data: JSON.parse(vm.text),
+//     headers: {}
+//   }).then(
+//     res => console.log('POST success', res),
+//     err => console.log("error adding facility: ", err) );
+// };
