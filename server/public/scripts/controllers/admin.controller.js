@@ -5,21 +5,29 @@ app.controller('AdminController', ['$http', function($http) {
   const placesBase = api + 'place/nearbysearch/json?query=';
   const textBase = api + 'place/textsearch/json?query=';
   const radarBase = api + 'place/radarsearch/json?location=';
-  const cityCoordsUrl = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  vm.cityCoordsUrl = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
   const gPlaces = new google.maps.places.PlacesService(document.createElement('div'));
 
-  vm.citiesLeft = [0];
+  vm.citiesLeft = [0];//this is an array so it can be passed by reference
   vm.geocodesLeft = 0;
   vm.errorCount = 0;
   getFacilities();
 
 
   vm.findPlaceIds = (num=1) => {
-    $http.get(cityCoordsUrl).then( res => {
+    $http.get(vm.cityCoordsUrl).then( res => {
       pulse(searchCity, res.data, vm.citiesLeft, 1000-num);
     });
   }
+
+  gPlaces.getDetails({placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'}, (place, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      console.log('place', place);
+      vm.text = JSON.stringify(place, undefined, 4);
+    }
+  });
+
 
   function pulse(queryFn, list, remaining, index=0) {
     remaining[0] = list.length - index;
@@ -54,20 +62,6 @@ app.controller('AdminController', ['$http', function($http) {
       }
     );
   };
-
-  // const placesSearch = (place) => {
-  //   let url = placesBase +  + apiKeyEnd;
-  // }
-  // function searchPl() {
-    // const url = textBase + 'public+swimming+pools+near+55407' + apiKeyEnd;
-    // console.log('url', url);
-    // $http( {
-    //   method: 'GET',
-    //   url,
-    // } ).then( res => console.log('results', res));
-  // }
-
-  // setTimeout( () => searchPl(), 3000);
 
   function getFacilities() {
     $http.get('/facilities/')

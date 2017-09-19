@@ -7,7 +7,8 @@
       <div class="radio">
         <label>
           <input type="radio" value="google" ng-model="listType">
-          Google
+          Google parsing<br />
+          not ready yet
         </label>
     </div>
     <div class="radio">
@@ -41,13 +42,13 @@
   </div>
 
   <div class="col-md-4">
-    <h4>Special tools</h4>
-
+    <h3>Special tools</h3>
+    <h4>Takes an array of cities with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
     <form class="specialTools form-group" ng-submit="admin.findPlaceIds(num)">
-      <span>Number of cities to search (1000 max):</span>
-      <input class="form-control" type="number" placeholder="0" min="1" max="1000" ng-model="num">
+      <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
 
-      <input class="form-control" type="text" placeholder="keywords" ng-model="admin.keywords">
+      <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
+      <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
       <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
     </form>
 
