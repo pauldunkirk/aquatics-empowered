@@ -30,14 +30,30 @@
       {{admin.validateJson(admin.text) ? "Add to DB!" : "Invalid JSON!"}}
     </button>
     <br />
-    <h4 ng-if="admin.geocoding">
+    <h4 ng-if="admin.geocodesLeft">
       Geocoding and adding to database... <br/>
-      {{admin.remaining}} facilities remaining. <br />
+      {{admin.geocodesLeft}} facilities remaining. <br />
       {{admin.errorCount}} errors.
     </h4>
   </div>
-  <div class="col-md-6">
-    <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text"></textarea>
+  <div class="col-md-5">
+    <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text" />
   </div>
-  <h6></h6>
+
+  <div class="col-md-4">
+    <h4>Special tools</h4>
+
+    <form class="specialTools form-group" ng-submit="admin.findPlaceIds(num)">
+      <span>Number of cities to search (1000 max):</span>
+      <input class="form-control" type="number" placeholder="0" min="1" max="1000" ng-model="num">
+
+      <input class="form-control" type="text" placeholder="keywords" ng-model="admin.keywords">
+      <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
+    </form>
+
+    <h4 ng-if="admin.citiesLeft[0]">
+      {{admin.citiesLeft[0]}} cities remaining <br />
+      {{admin.errorCount}} errors
+    </h4>
+  </div>
 </div> <!-- end whole page row -->

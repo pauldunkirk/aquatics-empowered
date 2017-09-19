@@ -1,11 +1,73 @@
 app.controller('AdminController', ['$http', function($http) {
   const vm = this;
-  const geoBase = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-  const geoEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
-  vm.geocoding = false;
-  vm.remaining = 0;
+  const api = 'https://maps.googleapis.com/maps/api/';
+  const geoBase = api + 'geocode/json?address=';
+  const placesBase = api + 'place/nearbysearch/json?query=';
+  const textBase = api + 'place/textsearch/json?query=';
+  const radarBase = api + 'place/radarsearch/json?location=';
+  const cityCoordsUrl = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
+  const gPlaces = new google.maps.places.PlacesService(document.createElement('div'));
+
+  vm.citiesLeft = [0];
+  vm.geocodesLeft = 0;
   vm.errorCount = 0;
   getFacilities();
+
+
+  vm.findPlaceIds = (num=1) => {
+    $http.get(cityCoordsUrl).then( res => {
+      pulse(searchCity, res.data, vm.citiesLeft, 1000-num);
+    });
+  }
+
+  function pulse(queryFn, list, remaining, index=0) {
+    remaining[0] = list.length - index;
+    if (index < list.length) {
+      setTimeout( () => {
+        queryFn(list[index++]);
+        pulse(queryFn, list, remaining, index);
+      }, 180);
+    }
+  }
+
+  function searchCity(cityCoords) {
+    //coordinates of city to search
+    const location = new google.maps.LatLng(
+      cityCoords.latitude, cityCoords.longitude);
+    const request = {
+      radius: 50000,
+      keyword: vm.keywords,
+      location: location
+    }
+
+    gPlaces.radarSearch(request, (results, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) {
+        console.error(status);
+        return;
+      }
+      const facilities = results.map( pool => (
+        { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
+          google_place_id: pool.place_id }
+      ) )
+      for (const facility of facilities) addFacility(facility);
+      }
+    );
+  };
+
+  // const placesSearch = (place) => {
+  //   let url = placesBase +  + apiKeyEnd;
+  // }
+  // function searchPl() {
+    // const url = textBase + 'public+swimming+pools+near+55407' + apiKeyEnd;
+    // console.log('url', url);
+    // $http( {
+    //   method: 'GET',
+    //   url,
+    // } ).then( res => console.log('results', res));
+  // }
+
+  // setTimeout( () => searchPl(), 3000);
 
   function getFacilities() {
     $http.get('/facilities/')
@@ -24,6 +86,46 @@ app.controller('AdminController', ['$http', function($http) {
           mapMuse(vm.text);
         break;
       default:
+    }
+  }
+
+  //choose 'paste values only' when pasting to spreadsheet
+  const googleFn = text => {
+    let arr = text.split('\n'); //create array element for each line of text
+    arr = arr.filter( entry =>  /\S/.test(entry)); //remove empty lines
+    arr = arr.map( val => val.trim()); //remove leading/trailing whitespace
+    arr = arr.filter( entry =>  !(/^Reopens/.test(entry))); //remove empty lines
+    arr = arr.filter( entry =>  !(/^Opens/.test(entry))); //remove empty lines
+    arr = arr.filter( entry =>  !(/^Closing/.test(entry))); //remove empty lines
+    arr = arr.filter( entry =>  !(/^\d(.\d)?$/.test(entry))); //remove rating line
+    arr = arr.filter( entry =>  !(/ · /.test(entry))); //remove reviews/pool type line
+
+    const googPools = [];
+    for (var i = 0; i < arr.length-3; i=i+2) {
+      let name = arr[i];
+      let city = arr[i+1].split(', ')[0];
+      let state = arr[i+1].split(', ')[1];
+      googPools.push( {
+        source: 'google',
+        name,
+        city,
+        state,
+      } )
+    }
+    pulsefind(googPools);
+
+    vm.text = JSON.stringify(googPools, undefined, 4);
+    console.log('googPools', googPools);
+
+    function pulseFind(list, index=0) {
+      if (index < list.length) {
+        setTimeout( () => {
+          placesSearch(list[index++]);
+          pulsePost(list, index);
+        }, 1100);
+      } else {
+        vm.searching = false;
+      }
     }
   }
 
@@ -51,7 +153,7 @@ app.controller('AdminController', ['$http', function($http) {
         state,
       } )
     }
-    vm.text = JSON.stringify(musePools, undefined, 4);;
+    vm.text = JSON.stringify(musePools, undefined, 4);
     console.log('musePools', musePools);
   }
 
@@ -59,16 +161,15 @@ app.controller('AdminController', ['$http', function($http) {
     $http({
       method: 'POST',
       url: '/facilities/',
-      data: facility,
-      headers: {}
+      data: facility
     }).then(
-      res => console.log('POST success', res),
+      res => console.log('POST success', res, vm.numAdded++),
       err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
   };
 
   const geoCodeAdd = facility => {
     const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
-    const url = geoBase + (address).replace(' ', '+') + geoEnd;
+    const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;
     //access google API via url
     $http.get(url).then( res => {
       console.log('geocode res', res);
@@ -92,7 +193,6 @@ app.controller('AdminController', ['$http', function($http) {
 
   vm.geocodeAndPost = (jsonString, index=0) => {
     vm.errorCount = 0;
-    vm.geocoding = true;
     const json = JSON.parse(jsonString);
     const list = $.map(json, el => el);
     console.log('list', list);
@@ -104,10 +204,8 @@ app.controller('AdminController', ['$http', function($http) {
           geoCodeAdd(list[index++]);
           pulsePost(list);
         }, 1100);
-      } else {
-        vm.geocoding = false;
       }
-      vm.remaining = list.length - index;
+      vm.geocodesLeft = list.length - index;
     };
   };
 
@@ -123,11 +221,11 @@ app.controller('AdminController', ['$http', function($http) {
 }]);
 
 //for bulk posting. not compatable with google geocoding rate limit
-// const addFacilities = () => {
+// const addFacilities = (facilities) => {
 //   $http({
 //     method: 'POST',
 //     url: '/facilities/many',
-//     data: JSON.parse(vm.text),
+//     data: facilities,
 //     headers: {}
 //   }).then(
 //     res => console.log('POST success', res),
