@@ -13,7 +13,7 @@ body {
   /*ROBOTO not being implemented??*/
 }
 
-.container {
+.container-fluid {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
@@ -192,11 +192,15 @@ body {
 
 /*----------------whatPeopleSay QUOTES/PICS----------------------------*/
 
-  .whatPeopleSay {
+@media (max-width: 767px) {
+.quoteImage {
+  width: auto !important;
+}}
+  #whatPeopleSay {
     text-align: center;
-    font-weight:bolder;
-    font-size: 2em;
-    word-spacing: 10px;
+    font-weight: bolder;
+    font-family: 'Roboto' !important;
+    word-spacing: .3em;
     padding: 20px;
   }
 
