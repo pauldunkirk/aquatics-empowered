@@ -2,6 +2,7 @@ const url = require('url');
 const params = url.parse(process.env.DATABASE_URL);
 const auth = params.auth ? params.auth.split(':') : ['', ''];
 
+//FOR LOCAL SERVER
 const config = {
   user: auth[0],
   password: auth[1],

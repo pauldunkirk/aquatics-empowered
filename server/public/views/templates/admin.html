@@ -1,13 +1,14 @@
 <div class="row">
   <h2>Admin Page</h2>
-  <P>
-    Number of pools: {{admin.allPools.length}}
-  </P>
+  <div class="col-md-3">
+    <p>Number of pools: {{admin.allPools.length}}</p>
+    <p>Select data source, paste data, then click 'Convert'</p>
     <div class="form-group">
       <div class="radio">
         <label>
           <input type="radio" value="google" ng-model="listType">
-          Google
+          Google parsing<br />
+          not ready yet
         </label>
     </div>
     <div class="radio">
@@ -18,8 +19,42 @@
       </div>
     </div>
 
-  <button ng-click="admin.convert(listType)">Convert</button>
-  <button ng-disabled="admin.approve" ng-click="admin.addFacilities(admin.text)">Looks Good!</button>
-  <textarea id="jsonConvert" cols="60" ng-model="admin.text"></textarea>
-  <h6></h6>
+
+    <button class="btn"
+      ng-disabled="admin.validateJson(admin.text)"
+      ng-click="admin.convert(listType)">
+      Convert to JSON
+    </button>
+    <button class="btn"
+      ng-disabled="!admin.validateJson(admin.text)"
+      ng-click="admin.geocodeAndPost(admin.text)">
+      {{admin.validateJson(admin.text) ? "Add to DB!" : "Invalid JSON!"}}
+    </button>
+    <br />
+    <h4 ng-if="admin.geocodesLeft">
+      Geocoding and adding to database... <br/>
+      {{admin.geocodesLeft}} facilities remaining. <br />
+      {{admin.errorCount}} errors.
+    </h4>
+  </div>
+  <div class="col-md-5">
+    <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text" />
+  </div>
+
+  <div class="col-md-4">
+    <h3>Special tools</h3>
+    <h4>Takes an array of cities with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
+    <form class="specialTools form-group" ng-submit="admin.findPlaceIds(num)">
+      <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
+
+      <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
+      <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
+      <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
+    </form>
+
+    <h4 ng-if="admin.citiesLeft[0]">
+      {{admin.citiesLeft[0]}} cities remaining <br />
+      {{admin.errorCount}} errors
+    </h4>
+  </div>
 </div> <!-- end whole page row -->

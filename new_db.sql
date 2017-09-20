@@ -1,11 +1,12 @@
 CREATE TABLE facilities (
     id SERIAL PRIMARY KEY,
-    name text NOT NULL,
+    name text,
     users_id integer[],
-    street_address text NOT NULL,
-    city text NOT NULL,
-    state character varying(2) NOT NULL,
-    zip text NOT NULL,
+    street_address text,
+    city text,
+    state character varying(2),
+    zip text,
+    phone text,
     pool_type text,
     description text,
     handicap_accessibility boolean,
@@ -13,11 +14,12 @@ CREATE TABLE facilities (
     image_url text,
     url text,
     approved boolean,
-    coords float(12)[2] UNIQUE,
+    coords float[2] UNIQUE,
     date_added timestamp NOT NULL DEFAULT(now()),
     last_updated timestamp,
     google_place_id text
 );
+
 
 CREATE TABLE facility_availability (
     id SERIAL PRIMARY KEY,
