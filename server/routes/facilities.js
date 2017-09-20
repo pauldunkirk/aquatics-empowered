@@ -2,34 +2,49 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/config.js');
 const pg = require('pg');
-const format = require('pg-format');
 
 const pool = new pg.Pool(config);
-const columnNames = '(name, pool_type, street_address, city, state, zip, coords, google_place_id)';
 
-router.post('/many', function(req, res) {
-  const bulkFormatted = req.body.map( p => [p.name, p.pool_type, p.street_address, p.city, p.state, p.zip, p.coords, p.google_place_id])
-  console.log('bulk facilities to POST', bulkFormatted);
-  pool.connect( function(err, client, done) {
-    err && res.sendStatus(503);
-    console.log('formnatted', format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted));
-    client.query(
-      format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted),
-      function(err) {
-        done();
-        err ? console.log('POST ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
-      }
-    );
-  });
-});
+const facilitiesColumns = [
+  "google_place_id",
+  "users_id",
+  "name",
+  "street_address",
+  "city",
+  "state",
+  "zip",
+  "phone",
+  "description",
+  "image_url",
+  "url",
+  "coords",
+  "ae_details",
+  "google_places_data"
+];
+
+const postAllProps = (postObj, tableColumns) => {
+  //all of the properties of postObj that are also included in database table
+  let keys = Object.keys(postObj).filter( key => tableColumns.includes(key) );
+  let values = [];
+  let refs = '';
+  let cols = keys.join(', ');
+  for (let i = 0; i < keys.length; i++) {
+    values.push(postObj[keys[i]]);
+    refs += ('$' + (i+1) + ', ');
+  }
+  //remove trailing ', '
+  refs = refs.slice(0, refs.length-2)
+  return { values, refs, cols };
+}
+
 
 router.post('/', function(req, res) {
-  const facil = req.body;
+  const query = postAllProps(req.body, facilitiesColumns);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
     client.query(
-      'INSERT INTO facilities ' + columnNames + ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [facil.name, facil.pool_type, facil.street_address, facil.city, facil.state, facil.zip, facil.coords, facil.google_place_id],
+      'INSERT INTO facilities (' + query.cols + ') VALUES (' + query.refs + ')',
+      query.values,
       function(err) {
         done();
         err ? res.sendStatus(500) : res.sendStatus(201);
@@ -37,6 +52,8 @@ router.post('/', function(req, res) {
     );
   });
 });
+
+
 
 router.get('/', function(req, res) {
   console.log('get facilities');
@@ -49,7 +66,22 @@ router.get('/', function(req, res) {
   });
 });
 
-
+// const format = require('pg-format');
+// router.post('/many', function(req, res) {
+//   const bulkFormatted = req.body.map( p => [p.name, p.pool_type, p.street_address, p.city, p.state, p.zip, p.phone, p.image_url, p.url, p.coords, p.google_place_id, p.google_places_data])
+//   console.log('bulk facilities to POST', bulkFormatted);
+//   pool.connect( function(err, client, done) {
+//     err && res.sendStatus(503);
+//     console.log('formnatted', format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted));
+//     client.query(
+//       format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted),
+//       function(err) {
+//         done();
+//         err ? console.log('POST ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+//       }
+//     );
+//   });
+// });
 
 
 

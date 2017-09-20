@@ -1,51 +1,45 @@
+CREATE OR REPLACE FUNCTION update_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+   NEW.last_updated = now();
+   RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TABLE google_radar_results (
+	id serial primary key,
+	coords float[2],
+	place_id text,
+  coord_list text,
+	search_string text,
+  date_added timestamp with time zone default now(),
+  last_updated timestamp with time zone default now()
+);
+
+CREATE TRIGGER update_google_radar_results_changetimestamp BEFORE UPDATE
+ON google_radar_results FOR EACH ROW EXECUTE PROCEDURE
+update_timestamp();
+
 CREATE TABLE facilities (
     id SERIAL PRIMARY KEY,
-    name text,
+    google_place_id text UNIQUE,
     users_id integer[],
+    name text,
     street_address text,
     city text,
     state character varying(2),
     zip text,
     phone text,
-    pool_type text,
     description text,
-    handicap_accessibility boolean,
-    level integer,
     image_url text,
     url text,
-    approved boolean,
-    coords float[2] UNIQUE,
-    date_added timestamp NOT NULL DEFAULT(now()),
-    last_updated timestamp,
-    google_place_id text
+    coords float[2],
+    ae_details jsonb,
+    google_places_data jsonb,
+    date_added timestamp with time zone NOT NULL DEFAULT now(),
+    last_updated timestamp with time zone default now()
 );
 
-
-CREATE TABLE facility_availability (
-    id SERIAL PRIMARY KEY,
-    facility_id integer references facilities,
-    date date,
-    start_time time without time zone[],
-    end_time time without time zone[]
-);
-
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username text NOT NULL,
-    password text NOT NULL,
-    user_type text,
-    first_name text,
-    last_name text,
-    street_address text,
-    city text,
-    state character varying(2),
-    zip integer,
-    phone_number character varying(20)
-);
-
-CREATE TABLE facility_reservation (
-    id SERIAL PRIMARY KEY,
-    facility_availability_id integer references facility_availability,
-    approved boolean,
-    user_id integer references users
-);
+CREATE TRIGGER update_facilities_changetimestamp BEFORE UPDATE
+ON facilities FOR EACH ROW EXECUTE PROCEDURE
+update_timestamp();

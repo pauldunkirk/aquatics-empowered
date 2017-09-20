@@ -21,13 +21,13 @@
 
 
     <button class="btn"
-      ng-disabled="admin.validateJson(admin.text)"
-      ng-click="admin.convert(listType)">
-      Convert to JSON
+        ng-disabled="admin.validateJson(admin.text)"
+        ng-click="admin.convert(listType)">
+        Convert to JSON
     </button>
     <button class="btn"
-      ng-disabled="!admin.validateJson(admin.text)"
-      ng-click="admin.geocodeAndPost(admin.text)">
+        ng-disabled="!admin.validateJson(admin.text)"
+        ng-click="admin.geocodeAndPost(admin.text)">
       {{admin.validateJson(admin.text) ? "Add to DB!" : "Invalid JSON!"}}
     </button>
     <br />
@@ -43,18 +43,40 @@
 
   <div class="col-md-4">
     <h3>Special tools</h3>
-    <h4>Takes an array of cities with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
-    <form class="specialTools form-group" ng-submit="admin.findPlaceIds(num)">
-      <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
+    <div class="row">
+      <h4>Takes an array of cities with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
+      <form class="specialTools form-group" ng-submit="admin.findPlaceIds(num)">
+        <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
+        <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
+        <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
+        <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
+      </form>
+      <h4 ng-if="admin.citiesLeft[0]">
+        {{admin.citiesLeft[0]}} cities remaining <br />
+        {{admin.errorCount}} errors
+      </h4>
+    </div>
 
-      <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
-      <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
-      <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
-    </form>
+    <div class="row">
+      <h4>Gathers detailed info with the Google place ids from above</h4>
+      <button class="btn"
+        ng-click="admin.getPlaceIdList()">
+        Get PlaceId List
+      </button>
+      <button class="btn"
+          ng-disabled="!admin.gPlaceIdList.length"
+          ng-click="admin.getGoogleInfo(admin.gPlaceIdList[42])">
+        {{admin.gPlaceIdList.length ? "Add Google Info to DB!" : "Get Place Ids First"}}
+      </button>
+      <h4>Number of google place ids: {{admin.gPlaceIdList.length}}</h4>
 
-    <h4 ng-if="admin.citiesLeft[0]">
-      {{admin.citiesLeft[0]}} cities remaining <br />
-      {{admin.errorCount}} errors
-    </h4>
+      <!-- <form class="specialTools form-group" ng-submit="admin.findPlaceIds(num)">
+        <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
+        <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
+        <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
+        <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
+      </form> -->
+    </div>
+
   </div>
 </div> <!-- end whole page row -->

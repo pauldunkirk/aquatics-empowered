@@ -5,29 +5,61 @@ app.controller('AdminController', ['$http', function($http) {
   const placesBase = api + 'place/nearbysearch/json?query=';
   const textBase = api + 'place/textsearch/json?query=';
   const radarBase = api + 'place/radarsearch/json?location=';
-  vm.cityCoordsUrl = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
   const gPlaces = new google.maps.places.PlacesService(document.createElement('div'));
 
-  vm.citiesLeft = [0];//this is an array so it can be passed by reference
+  //a JSON containing the 1000 biggest US cities and their coordinates
+  vm.cityCoordsUrl = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
   vm.geocodesLeft = 0;
   vm.errorCount = 0;
+  vm.gPlaceIdList = [];
   getFacilities();
 
-
   vm.findPlaceIds = (num=1) => {
-    $http.get(vm.cityCoordsUrl).then( res => {
-      pulse(searchCity, res.data, vm.citiesLeft, 1000-num);
-    });
+    $http.get(vm.cityCoordsUrl).then(
+      res => pulse(searchCity, res.data, vm.citiesLeft, 1000-num),
+      err => console.log('could not find cities JSON', err)
+    )
+  }
+  vm.getPlaceIdList = () => {
+    console.log('wgfveragvaertvbwerhrye');
+    $http.get('/placeIds').then(
+      res => vm.gPlaceIdList = res.data.map( obj => obj.place_id ),
+      err => console.log('error accessing place id table', err)
+    )
   }
 
-  gPlaces.getDetails({placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'}, (place, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      console.log('place', place);
-      vm.text = JSON.stringify(place, undefined, 4);
-    }
-  });
+  vm.getGoogleInfo = placeId => {
+    gPlaces.getDetails( {placeId}, (place, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log('place', place);
 
+
+        let adrCmps = {}; //format address components of gmaps for usability
+        $.each(place.address_components, (k,v1) => $.each(v1.types, (k2, v2) =>
+          adrCmps[v2]=v1.short_name)
+        );
+
+        console.log('adrCmps:', adrCmps);
+        const loc = place.geometry.location;
+        const facility = {
+          name: place.name,
+          street_address: adrCmps.street_number + ' ' + adrCmps.route,
+          city: adrCmps.locality,
+          state: adrCmps.administrative_area_level_1,
+          zip: adrCmps.postal_code,
+          phone: place.formatted_phone_number,
+          image_url: place.icon,
+          url: place.website,
+          coords: [loc.lat(), loc.lng()],
+          google_place_id: place.place_id,
+          google_places_data: JSON.stringify(place, undefined, 4)
+        }
+        addFacility(facility);
+      }
+    });
+  }
 
   function pulse(queryFn, list, remaining, index=0) {
     remaining[0] = list.length - index;
@@ -40,7 +72,6 @@ app.controller('AdminController', ['$http', function($http) {
   }
 
   function searchCity(cityCoords) {
-    //coordinates of city to search
     const location = new google.maps.LatLng(
       cityCoords.latitude, cityCoords.longitude);
     const request = {
@@ -159,6 +190,16 @@ app.controller('AdminController', ['$http', function($http) {
     }).then(
       res => console.log('POST success', res, vm.numAdded++),
       err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
+  };
+
+  const addPlaceId = placeId => {
+    $http({
+      method: 'POST',
+      url: '/placeIds/',
+      data: placeId
+    }).then(
+      res => console.log('POST success', res, vm.numAdded++),
+      err => console.log("error adding placeId: ", placeId, err, vm.errorCount++) );
   };
 
   const geoCodeAdd = facility => {
