@@ -9,7 +9,7 @@ app.controller('AdminController', ['$http', function($http) {
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
 
   //a JSON containing the 1000 biggest US cities and their coordinates
-  vm.cityCoordsUrl = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
   vm.placesLeft = [0];
   vm.geocodesLeft = 0;
@@ -33,14 +33,18 @@ app.controller('AdminController', ['$http', function($http) {
     },
     //takes a list of google Ids, gets relevant info, and adds to db
     getInfoFromIds(idList) {
+      idList = idList.filter( n => n );
       return pulse(vm.gPlaces.getDetails, idList, vm.placesLeft, 1100)
     },
     getDetails(placeId) {
+      console.log('THERE SHOULD BE SOMETHING LOGGING HERE', places);
       gPlacesAPI.getDetails( {placeId}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
           const facility = vm.gPlaces.parseDetails(place);
           addPlaceIdToDb(facility);
+        } else {
+          console.log('gPlacesAPI error', status);
         }
       });
     },
@@ -96,7 +100,7 @@ app.controller('AdminController', ['$http', function($http) {
         { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
           google_place_id: pool.place_id }
       ) )
-      for (const facility of facilities) addFacilityToDb(facility);
+      for (const facility of facilities) addPlaceIdToDb(facility);
       }
     );
   };
