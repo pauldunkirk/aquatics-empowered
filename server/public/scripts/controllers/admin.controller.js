@@ -33,14 +33,19 @@ app.controller('AdminController', ['$http', function($http) {
     },
     //takes a list of google Ids, gets relevant info, and adds to db
     getInfoFromIds(idList) {
+      idList = idList.filter( n => n );
       return pulse(vm.gPlaces.getDetails, idList, vm.placesLeft, 1100)
     },
+
     getDetails(placeId) {
+      console.log('THERE SHOULD BE SOMETHING LOGGING HERE', placeId);
       gPlacesAPI.getDetails( {placeId}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
           const facility = vm.gPlaces.parseDetails(place);
-          addPlaceIdToDb(facility);
+          addFacilityToDb(facility);
+        } else {
+          console.log('gPlacesAPI error', status);
         }
       });
     },
@@ -94,9 +99,9 @@ app.controller('AdminController', ['$http', function($http) {
       }
       const facilities = results.map( pool => (
         { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
-          google_place_id: pool.place_id }
+          place_id: pool.place_id }
       ) )
-      for (const facility of facilities) addFacilityToDb(facility);
+      for (const facility of facilities) addPlaceIdToDb(facility);
       }
     );
   };
