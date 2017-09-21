@@ -12,6 +12,7 @@ router.post('/many', function(req, res) {
   console.log('bulk facilities to POST', bulkFormatted);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
+    console.log('formnatted', format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted));
     client.query(
       format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted),
       function(err) {
@@ -24,7 +25,6 @@ router.post('/many', function(req, res) {
 
 router.post('/', function(req, res) {
   const facil = req.body;
-  console.log('facility to POST', facil);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
     client.query(
@@ -32,7 +32,7 @@ router.post('/', function(req, res) {
       [facil.name, facil.pool_type, facil.street_address, facil.city, facil.state, facil.zip, facil.coords, facil.google_place_id],
       function(err) {
         done();
-        err ? console.log('POST ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+        err ? res.sendStatus(500) : res.sendStatus(201);
       }
     );
   });

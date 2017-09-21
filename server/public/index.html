@@ -9,7 +9,6 @@
 
     <link rel="stylesheet" href="/css/reset.css"/>
     <link rel="stylesheet" href="/css/styles.css"/>
-    <link rel="stylesheet" href="/vendor/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -23,6 +22,7 @@
     <script src="/vendor/ui-bootstrap.js"></script>
 
     <script src="scripts/client.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8&libraries=places"></script>
 
     <!-- Controllers -->
     <script src="scripts/controllers/nav.controller.js"></script>
@@ -33,7 +33,7 @@
 
 </head>
 
-<body ng-app="myApp" class="container">
+<body ng-app="myApp" class="container-fluid">
   <nav ng-include="'views/templates/nav.html'"></nav>
   <main ng-view></main>
 </body>

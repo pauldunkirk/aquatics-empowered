@@ -1,10 +1,4 @@
-
-/*footer { margin: 50px 0; }*/
-/*video { margin: auto; margin-bottom: 20px; border-radius: 10%; border: thin solid #0081CC;}*/
-/*.row { margin-left: 0 !important; margin-right: 0 !important;}*/
-/*FF777B
-FF4B51*/
-
+/*FF777B  FF4B51*/
 body {
   background-color: #D2E0F9 !important;
   /*background: url("../images/water.png") no-repeat fixed center;*/
@@ -12,33 +6,41 @@ body {
   font-family: 'Roboto', sans-serif !important;
   /*ROBOTO not being implemented??*/
 }
-
+.container-fluid {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
 /*---------NAV------------------------------------------------*/
-.navbar-brand {
-  height: 120px !important;
-  padding: .2em !important;
-}
 .navbar {
-  margin-bottom: 0px !important;
+  /*margin-bottom: 50px !important;*/
   background-color: #D2E0F9 !important;
   border-bottom: 2px solid #7D97D0 !important;
   border-radius: 0 !important;
 }
-.nav-item {
-  padding-bottom: 0 !important;
-
+.navbar-brand {
+  height: 120px !important;
+  padding: .2em !important;
+}
+.navbar-nav{
+  margin-top: 40px !important;
+  padding-top: 3em;
+}
+.navbar-nav li a {
+  color: #FF777B !important;
+  font-weight: bold;
+  font-size: 1.3em;
+  /*line-height: inherit !important;*/
 }
 .nav-link{
   padding-bottom: 0 !important;
 }
 /*.navbar-header {
-  margin-top: 20px !important;
+margin-top: 20px !important;
 }*/
-.navbar > li > a {
-    padding: 20px 15px 0;
-}
-
+/*.navbar > li > a {
+padding: 20px 15px 0;
+}*/
 .navbar-toggle {
   border-color: transparent !important;
 }
@@ -48,178 +50,124 @@ body {
   font-weight: bold;
   vertical-align: bottom !important;
 }
+/*.navbar-nav li:last-child { background: #D4643F;}
+.navbar-nav li:last-child a { color: #cecccc !important;}
+.navbar-nav li:last-child a:hover { color: white !important;}*/
 
-    /*.navbar-nav li:last-child { background: #D4643F;}
-    .navbar-nav li:last-child a { color: #cecccc !important;}
-    .navbar-nav li:last-child a:hover { color: white !important;}*/
-
-    /*768 and larger*/
-    @media(min-width:768px) {
-      .navbar-nav li a {
-        color: #FF8686 !important;
-        font-size: 1.3em;
-        line-height: inherit !important;
-        font-weight: bold;
-      }
-      .navbar-nav {
-        padding-top: 3em;
-        vertical-align: bottom !important;
-        /*VERTICAL-ALIGN BOTTOM not working??*/
-      }}
+/*767 and smaller*/
+@media(max-width:767px) {
+  .navbar-nav li a {
+    color: #FF8686 !important;
+    font-size: 1em;
+    line-height: inherit !important;
+  }
+  .navbar-nav {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  .navbar-brand {
+    height: 80px !important;
+  }
+}
 /*--------------END NAV--------------------------------------------------*/
 
 
 
 /* -------------MAPS -------------------------------------------------*/
-    /*WHY DOES THE MAP REQUIRE .explanationHeading but no actual styling? (without it, the map doesn't show up at all) yet it's not used in maps.html?*/
-    .explanationHeading {
-    }
-    /*991 and smaller*/
-    @media(max-width:991px) {
-      /*.btn {font-size: 20px !important; width: 60%; }*/
-      /*.addressSearch {font-size: 20px !important;}*/
-    }
-    .gMap {
-      height: 600px;
-      /*margin: 20px;*/
-      margin-top: 5px;
-      /*border: none;*/
-      border: 1px solid black;
-      /*border-radius: 10px;*/
-    }
-    .infoList {
-      margin-top: 5px;
-      max-height: 600px;
-      border: none;
-      /*border: 2px solid black;*/
-      /*border-radius: 10px;*/
-      overflow: scroll;
-      padding: 0 !important;
-    }
-    .poolItem {
-      border: 1px solid black;
-      background-color: #ffffff;
-      padding: 5px;
-      cursor: pointer;
-    }
-    .selectedPool {
-      background-color: #D4643F;
-    }
-    .rank {
-      padding-top: 5px;
-    }
+/*991 and smaller*/
+@media(max-width:991px) {
+  /*.btn {font-size: 20px !important; width: 60%; }*/
+  /*.addressSearch {font-size: 20px !important;}*/
+}
+.gMap {
+  height: 600px;
+  /*margin: 20px;*/
+  margin-top: 5px;
+  /*border: none;*/
+  border: 1px solid black;
+  /*border-radius: 10px;*/
+}
+.infoList {
+  margin-top: 5px;
+  max-height: 600px;
+  border: none;
+  /*border: 2px solid black;*/
+  /*border-radius: 10px;*/
+  overflow: scroll;
+  padding: 0 !important;
+}
+.poolItem {
+  border: 1px solid black;
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+}
+.selectedPool {
+  background-color: #D4643F;
+}
+.rank {
+  padding-top: 5px;
+}
 
-
-    /* -------------MAPS SEARCH FORM -------------------------------------------------*/
-    .mapsform {
-      /*text-align: center;*/
-      /*used class="text-center" on maps.html instead, not sure if this is a good idea in terms of organization, but it is a native bootstrap class*/
-    }
-    .addressSearch {
-      border: 1px solid black;
-      /*text-align: center;*/
-      /*font-size: 18px;*/
-      width: 85%;
-      /*margin-top: 20px;*/
-    }
-    #findPoolButton {
-      /*margin-top: 1%;*/
-      border: 1px solid black !important;
-      /*font-size: 18px !important;*/
-      /*width: 50%;*/
-      background-color: #F6B201;
-    }
-    #useCurrentButton{
-      border: 1px solid black !important;
-      /*font-size: 18px !important;*/
-      /*width: 50%;*/
-      background-color: #F6B201;
-    }
-
+/* -------------MAPS SEARCH FORM -------------------------------------------------*/
+.mapsform {
+  /*text-align: center;*/
+  /*used class="text-center" on maps.html instead, not sure if this is a good idea in terms of organization, but it is a native bootstrap class*/
+}
+.addressSearch {
+  border: 1px solid black;
+  /*text-align: center;*/
+  /*font-size: 18px;*/
+  width: 85%;
+  /*margin-top: 20px;*/
+}
+#findPoolButton {
+  /*margin-top: 1%;*/
+  border: 1px solid black !important;
+  /*font-size: 18px !important;*/
+  /*width: 50%;*/
+  background-color: #F6B201;
+}
+#useCurrentButton{
+  border: 1px solid black !important;
+  /*font-size: 18px !important;*/
+  /*width: 50%;*/
+  background-color: #F6B201;
+}
 /* -------------END MAPS SEARCH FORM -------------------------------------------------*/
 /* -------------END MAPS -------------------------------------------------------------*/
 
-/* -------------CAROUSEL and CAPTION -------------------------------------------------*/
 
-  @media(min-width:992px) {
-    .carousel-caption {
-    padding-right: 280px;
-    padding-left: 0;
-    padding-bottom: 0 !important;
+
+/* -------------CAROUSEL -------------------------------------------------*/
+.carousel-control {
+  width: 3% !important;
+}
+#myCarousel {
+  margin-top: 2em;
+}
+/* -------------END CAROUSEL-------------------------------------------------*/
+
+/*----------------whatPeopleSay QUOTES/PICS----------------------------*/
+
+@media (max-width: 767px) {
+  .quoteImage {
+    width: auto !important;
     }}
-
-    /*768 and LARGER*/
-    @media (min-width: 768px) and (max-width: 991px){
-      .carousel-caption {
-      left: 10% !important;
-      padding-right: 300px;
-      padding-left: 0;
-      padding-bottom: 0 !important;
-      /*height: 80%;*/
-    }}
-
-    /*767 and SMALLER*/
-    @media (max-width: 767px) {
-      .carousel-caption img{
-        display: block;
-        max-height: 200px !important;
-      /*text-align: left;
-      left: 10% !important;
-      padding-right: 300px;
-      padding-left: 0;
-      padding-bottom: 0 !important;*/
-      /*height: 80%;*/
-      /*width: 100%;
-      height: auto;*/
-    }}
-    @media (max-width: 615px) {
-      .carousel-caption img{
-        display: none;
-        /*max-height: 200px !important;*/
-}}
-/* -------------END CAROUSEL and CAPTION -------------------------------------------------*/
-
-
-
+/*(#whatPeopleSay styles also used for "our partners")*/
+#whatPeopleSay {
+  text-align: center;
+  font-weight: bolder;
+  font-family: 'Roboto' !important;
+  word-spacing: .3em;
+  padding: 20px;
+}
 
 /*--------------------------ADMIN -----------------------------*/
 #jsonConvert{
   font-size: x-small;
 }
+/*#numCities {
+  width: 60px;
+}*/
 /*--------------------------END ADMIN ---------------------------*/
-
-
-
-
-
-
-
-    /*BOOTSTRAP EXAMPLE 'RED'*/
-    /*.slide-wrapper { position: relative }
-    .red { padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;}
-    .red-content { width: 100%; height: 300px; background: red; color: #fff; }*/
-    /*#myCarousel .item { overflow: hidden; height: 400px; background-color: transparent; background-size: cover;}*/
-    /*#myCarousel .carousel-control {
-      width: 30px;
-      font-size: 40px;
-      color: #fff;
-      text-shadow: none;
-      filter: none;
-      opacity: 1;}
-    #myCarousel .carousel-control span {
-      position: absolute; top: 50%;
-      margin-top: -30px;
-      width: 100%;
-      text-align: center;
-      display: block;}*/
-      /*@media (max-width: 767px){*/
-      /*.red { position: absolute; left: 50%; top: 0; bottom: 0; padding: 20px 0;
-        margin-left: -375px; width: 750px; }
-        .red-content { width: 300px; float: left; height: 100%; background: red;
-          color: #fff; margin-right:15px;}}*/
-          /*769-992*/
-          /*@media (min-width: 992px) {
-          .red { width: 970px; margin-left: -485px; }}*/
-          /*993-1200 and above*/
-          /*@media (min-width: 1200px) {
-          .red { width: 1170px; margin-left: -585px;}}*/
