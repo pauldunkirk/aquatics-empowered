@@ -9,7 +9,7 @@ app.controller('AdminController', ['$http', function($http) {
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
 
   //a JSON containing the 1000 biggest US cities and their coordinates
-  vm.cityCoordsUrl = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
   vm.placesLeft = [0];
   vm.geocodesLeft = 0;
