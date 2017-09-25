@@ -1,0 +1,10 @@
+Make marker 'distance away' value more intuitive than just to the center of the map
+
+Make map auto focus on user location
+
+Better use of markers
+ - clusters
+ - un-numbered small dot markers for less relevant results
+
+Add ADS-Prime Group Project database display/edit interface
+ - will be effective in filtering out bad pools by certain keywords we learn to associate

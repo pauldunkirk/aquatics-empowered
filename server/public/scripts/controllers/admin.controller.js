@@ -38,7 +38,6 @@ app.controller('AdminController', ['$http', function($http) {
     },
 
     getDetails(placeId) {
-      console.log('THERE SHOULD BE SOMETHING LOGGING HERE', placeId);
       gPlacesAPI.getDetails( {placeId}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
@@ -101,6 +100,7 @@ app.controller('AdminController', ['$http', function($http) {
         { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
           place_id: pool.place_id }
       ) )
+      console.log('placeid facility', facilities);
       for (const facility of facilities) addPlaceIdToDb(facility);
       }
     );

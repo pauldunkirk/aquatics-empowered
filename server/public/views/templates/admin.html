@@ -1,82 +1,82 @@
 <div class="container">
-
-
-<div class="row">
-  <h2>Admin Page</h2>
-  <div class="col-md-3">
-    <p>Number of pools: {{admin.allPools.length}}</p>
-    <p>Select data source, paste data, then click 'Convert'</p>
-    <p>
-      with google results, choose 'paste values only' when pasting to spreadsheet
-    </p>
-    <div class="form-group">
-      <button class="btn form-control"
-          ng-disabled="admin.validateJson(admin.text)"
-          ng-click="admin.toJson.google(admin.text)">
-          Convert google data to JSON
-      </button>
+  <div class="row">
+    <h2>Admin Page</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p>Number of pools: {{admin.allPools.length}}</p>
+      <p>Select data source, paste data, then click 'Convert'</p>
       <p>
-        *** this is very expensive towards our daily API query limit
+        with google results, choose 'paste values only' when pasting to spreadsheet
       </p>
-      <button class="btn form-control"
-          ng-disabled="admin.validateJson(admin.text)"
-          ng-click="admin.toJson.mapMuse(admin.text)">
-          Convert mapMuse data to JSON
-      </button>
-      <button class="btn form-control"
-          ng-disabled="!admin.validateJson(admin.text)"
-          ng-click="admin.geocodeAndPost(admin.text)">
-        {{admin.validateJson(admin.text) ? "Add to DB!" : "Invalid JSON!"}}
-      </button>
-      <br />
-      <h4 ng-if="admin.geocodesLeft">
-        Geocoding and adding to database... <br/>
-        {{admin.geocodesLeft}} facilities remaining. <br />
-        {{admin.errorCount}} errors.
-      </h4>
+      <div class="form-group">
+        <button class="btn form-control"
+            ng-disabled="admin.validateJson(admin.text)"
+            ng-click="admin.toJson.google(admin.text)">
+            Convert google data to JSON
+        </button>
+        <p>
+          *** this is very expensive towards our daily API query limit
+        </p>
+        <button class="btn form-control"
+            ng-disabled="admin.validateJson(admin.text)"
+            ng-click="admin.toJson.mapMuse(admin.text)">
+            Convert mapMuse data to JSON
+        </button>
+        <button class="btn form-control"
+            ng-disabled="!admin.validateJson(admin.text)"
+            ng-click="admin.geocodeAndPost(admin.text)">
+          {{admin.validateJson(admin.text) ? "Add to DB!" : "Invalid JSON!"}}
+        </button>
+        <br />
+        <h4 ng-if="admin.geocodesLeft">
+          Geocoding and adding to database... <br/>
+          {{admin.geocodesLeft}} facilities remaining. <br />
+          {{admin.errorCount}} errors.
+        </h4>
+      </div>
+
+    </div>
+    <div class="col-md-5">
+      <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text" />
     </div>
 
-  </div>
-  <div class="col-md-5">
-    <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text" />
-  </div>
+    <div class="col-md-4">
+      <h3>Automation tools</h3>
+      <div class="row">
+        <h4>Takes an array of cities (at specified URL) with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
+        <form class="specialTools form-group" ng-submit="admin.gPlaces.findIds(num)">
+          <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
+          <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
+          <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
+          <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
+        </form>
+        <h4 ng-if="admin.citiesLeft[0]">
+          {{admin.citiesLeft[0]}} cities remaining <br />
+          {{admin.errorCount}} errors
+        </h4>
+      </div>
 
-  <div class="col-md-4">
-    <h3>Automation tools</h3>
-    <div class="row">
-      <h4>Takes an array of cities (at specified URL) with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
-      <form class="specialTools form-group" ng-submit="admin.gPlaces.findIds(num)">
-        <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
-        <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
-        <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
-        <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
-      </form>
-      <h4 ng-if="admin.citiesLeft[0]">
-        {{admin.citiesLeft[0]}} cities remaining <br />
-        {{admin.errorCount}} errors
-      </h4>
+      <div class="row">
+        <h4>Gathers detailed info with the Google place ids from above</h4>
+        <button class="btn"
+          ng-click="admin.gPlaces.getIdList()">
+          Get PlaceId List
+        </button>
+        <button class="btn"
+            ng-disabled="!admin.gPlaceIdList.length"
+            ng-click="admin.gPlaces.getInfoFromIds(admin.gPlaceIdList)">
+          {{admin.gPlaceIdList.length ? "Add Google Info for ALL Place IDs to DB!" : "Get Place Ids First"}}
+        </button>
+        <br />
+        <span>You will probably hit your API making all these places queries</span>
+        <h4>Number of google place ids: {{admin.gPlaceIdList.length}}</h4>
+        <h4 ng-if="admin.placesLeft[0]">
+          {{admin.placesLeft[0]}} places remaining <br />
+          {{admin.errorCount}} errors
+        </h4>
+      </div>
+
     </div>
-
-    <div class="row">
-      <h4>Gathers detailed info with the Google place ids from above</h4>
-      <button class="btn"
-        ng-click="admin.gPlaces.getIdList()">
-        Get PlaceId List
-      </button>
-      <button class="btn"
-          ng-disabled="!admin.gPlaceIdList.length"
-          ng-click="admin.gPlaces.getInfoFromIds(admin.gPlaceIdList)">
-        {{admin.gPlaceIdList.length ? "Add Google Info for ALL Place IDs to DB!" : "Get Place Ids First"}}
-      </button>
-      <br />
-      <span>You will probably hit your API making all these places queries</span>
-      <h4>Number of google place ids: {{admin.gPlaceIdList.length}}</h4>
-      <h4 ng-if="admin.placesLeft[0]">
-        {{admin.placesLeft[0]}} places remaining <br />
-        {{admin.errorCount}} errors
-      </h4>
-    </div>
-
-  </div>
-</div> <!-- end whole page row -->
+  </div> <!-- end whole page row -->
 </div>
