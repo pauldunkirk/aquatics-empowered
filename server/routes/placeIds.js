@@ -44,6 +44,17 @@ router.delete('/allDuplicates', function(req, res) {
   });
 });
 
+router.delete('/all', function(req, res) {
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('DELETE * FROM google_radar_results;',
+    function(err, result) {
+      done();
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+    });
+  });
+});
+
 router.delete('/byId/:place_id', function(req, res) {
   const place_id = req.params.place_id;
   console.log('delete google_radar_result', place_id);

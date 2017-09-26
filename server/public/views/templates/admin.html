@@ -42,7 +42,7 @@
     <div class="col-md-4">
       <h3>Automation tools</h3>
       <div class="row">
-        <button class="btn-primary" ng-click="admin.abort=true">
+        <button class="btn" ng-disabled="!admin.pulsing" ng-click="admin.abort=true">
           Stop pulsing all Google queries
         </button>
       </div>
@@ -58,8 +58,11 @@
           {{admin.citiesLeft[0]}} cities remaining <br />
           {{admin.errorCount}} errors
         </h4>
-        <button class="btn-primary" ng-click="admin.cleanIdList">
-          Delete placeId entries table that exist within facilities table
+        <button class="btn-danger" ng-click="admin.cleanIdList()">
+          Delete placeId entries that exist within facilities table
+        </button>
+        <button class="btn-danger" ng-click="admin.deleteIdList()">
+          Delete ALL placeId entries
         </button>
       </div>
 

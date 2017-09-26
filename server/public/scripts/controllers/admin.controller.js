@@ -3,8 +3,6 @@ app.controller('AdminController', ['$http', function($http) {
   const api = 'https://maps.googleapis.com/maps/api/';
   const geoBase = api + 'geocode/json?address=';
   const placesBase = api + 'place/nearbysearch/json?query=';
-  const textBase = api + 'place/textsearch/json?query=';
-  const radarBase = api + 'place/radarsearch/json?location=';
   const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
 
@@ -16,6 +14,7 @@ app.controller('AdminController', ['$http', function($http) {
   vm.errorCount = 0;
   vm.gPlaceIdList = [];
   vm.abort = false;
+  vm.pulsing = false;
   getFacilities();
 
   //methods making heavy use of google places
@@ -76,11 +75,13 @@ app.controller('AdminController', ['$http', function($http) {
 
   function pulse(queryFn, list, remaining, delay, index=0) {
     if((list.length > index) && !vm.abort){
+      vm.pulsing = true;
       setTimeout( () => {
         if (vm.abort) {
           console.log('aborting');
           remaining[0] = 0;
           vm.abort = false;
+          vm.pulsing = false;
           return;
         }
         queryFn(list[index++]);
@@ -189,6 +190,15 @@ app.controller('AdminController', ['$http', function($http) {
       err => console.log("error deleting form placeId list: ", err) );
   };
 
+  vm.deleteIdList = () => {
+    $http({
+      method: 'DELETE',
+      url: '/placeIds/all/',
+    }).then(
+      res => console.log('DELETE success'),
+      err => console.log("error deleting form placeId list: ", err) );
+  };
+  
   vm.deleteFacility = id => {
     $http({
       method: 'DELETE',
