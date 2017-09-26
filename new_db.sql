@@ -9,9 +9,9 @@ $$ language 'plpgsql';
 CREATE TABLE google_radar_results (
 	id serial primary key,
 	coords float[2],
-	place_id text,
+	place_id text UNIQUE,
   coord_list text,
-	search_string text,
+	keyword text,
   date_added timestamp with time zone default now(),
   last_updated timestamp with time zone default now()
 );
@@ -34,6 +34,7 @@ CREATE TABLE facilities (
     image_url text,
     url text,
     coords float[2],
+    keyword text,
     ae_details jsonb,
     google_places_data jsonb,
     date_added timestamp with time zone NOT NULL DEFAULT now(),

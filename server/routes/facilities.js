@@ -5,6 +5,7 @@ const pg = require('pg');
 
 const pool = new pg.Pool(config);
 
+//UPDATE THIS WHEN UPDATING TABLE LAYOUT
 const facilitiesColumns = [
   "google_place_id",
   "users_id",
@@ -17,6 +18,7 @@ const facilitiesColumns = [
   "description",
   "image_url",
   "url",
+  "keyword",
   "coords",
   "ae_details",
   "google_places_data"
@@ -37,6 +39,18 @@ const postAllProps = (postObj, tableColumns) => {
   return { values, refs, cols };
 }
 
+router.delete('/byId/:id', function(req, res) {
+  const id = req.params.id;
+  console.log('delete facility', id);
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('DELETE FROM facilities WHERE id = $1;', [id],
+    function(err, result) {
+      done();
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+    });
+  });
+});
 
 router.post('/', function(req, res) {
   const query = postAllProps(req.body, facilitiesColumns);
@@ -52,8 +66,6 @@ router.post('/', function(req, res) {
     );
   });
 });
-
-
 
 router.get('/', function(req, res) {
   console.log('get facilities');

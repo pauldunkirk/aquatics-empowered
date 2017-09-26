@@ -42,3 +42,38 @@ app.config(['$routeProvider', function($routeProvider) {
     redirectTo: '/home1'
  });
 }]);
+
+/***************************ANGULAR SEARCH FILTERS***************************/
+app.filter('startFrom', function() {
+  return function(input, start) {
+    start = +start; //parse to int
+    return input.slice(start);
+  };
+});
+
+app.filter('excludeByStatus', function () {
+  return function (items, excludedList) {
+    var ret = [];
+    angular.forEach(items, function (item) {
+      if (excludedList.indexOf(item.status) === -1) {
+          ret.push(item);
+      }
+    });
+    return ret;
+  };
+});
+
+app.filter('true_false', function() {
+    return function(text, length, end) {
+        if (text) {
+            return 'Yes';
+        }
+        return 'No';
+    };
+});
+
+function removeObjById(arr, id) {
+  var idx = arr.findIndex(item => item.id === id);
+  ~idx && arr.splice(idx, 1);
+  return idx;
+}

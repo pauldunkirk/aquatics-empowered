@@ -15,33 +15,34 @@ app.controller('AdminController', ['$http', function($http) {
   vm.geocodesLeft = 0;
   vm.errorCount = 0;
   vm.gPlaceIdList = [];
+  vm.abort = false;
   getFacilities();
 
   //methods making heavy use of google places
   vm.gPlaces = {
     findIds(num=1) {
       $http.get(vm.cityCoordsUrl).then(
-        res => pulse(searchCity, res.data, vm.citiesLeft, 180, 1000-num),
+        res => pulse(searchCity, res.data, vm.citiesLeft, 1100, 1000-num),
         err => console.log('could not find cities JSON', err)
       )
     },
     getIdList() {
       $http.get('/placeIds').then(
-        res => vm.gPlaceIdList = res.data.map( obj => obj.place_id ),
+        res => vm.gPlaceIdList = res.data,
         err => console.log('error accessing place id table', err)
       )
     },
     //takes a list of google Ids, gets relevant info, and adds to db
     getInfoFromIds(idList) {
-      idList = idList.filter( n => n );
-      return pulse(vm.gPlaces.getDetails, idList, vm.placesLeft, 1100)
+      idList = idList.filter( n => n ); //remove empty list items
+      return pulse(vm.gPlaces.getDetails, idList, vm.placesLeft, 1100, 0)
     },
-
-    getDetails(placeId) {
-      gPlacesAPI.getDetails( {placeId}, (place, status) => {
+    getDetails(basicPlace) {
+      console.log('basicPlace', basicPlace);
+      gPlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
-          const facility = vm.gPlaces.parseDetails(place);
+          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword);
           addFacilityToDb(facility);
         } else {
           console.log('gPlacesAPI error', status);
@@ -49,7 +50,7 @@ app.controller('AdminController', ['$http', function($http) {
       });
     },
     //put google place details into format for our DB
-    parseDetails(pResult) {
+    parseDetails(pResult, keyword) {
       let adrCmps = {}; //format address components of gmaps for usability
       $.each(pResult.address_components, (k,v1) => $.each(v1.types, (k2, v2) =>
         adrCmps[v2]=v1.short_name)
@@ -65,6 +66,7 @@ app.controller('AdminController', ['$http', function($http) {
         image_url: pResult.icon,
         url: pResult.website,
         coords: [loc.lat(), loc.lng()],
+        keyword,
         google_place_id: pResult.place_id,
         //ALL of the google details are kept in this JSON
         google_places_data: JSON.stringify(pResult, undefined, 4)
@@ -73,10 +75,16 @@ app.controller('AdminController', ['$http', function($http) {
   }
 
   function pulse(queryFn, list, remaining, delay, index=0) {
-    remaining[0] = list.length - index;
-    if (index < list.length) {
+    if((list.length > index) && !vm.abort){
       setTimeout( () => {
+        if (vm.abort) {
+          console.log('aborting');
+          remaining[0] = 0;
+          vm.abort = false;
+          return;
+        }
         queryFn(list[index++]);
+        remaining[0] = list.length - index;
         pulse(queryFn, list, remaining, delay, index);
       }, delay);
     }
@@ -88,7 +96,7 @@ app.controller('AdminController', ['$http', function($http) {
     const request = {
       radius: 50000,
       keyword: vm.keywords,
-      location: location
+      location,
     }
 
     gPlacesAPI.radarSearch(request, (results, status) => {
@@ -96,14 +104,14 @@ app.controller('AdminController', ['$http', function($http) {
         console.error(status);
         return;
       }
-      const facilities = results.map( pool => (
+      const idList = results.map( pool => (
         { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
-          place_id: pool.place_id }
+          place_id: pool.place_id,
+          keyword: request.keyword}
       ) )
-      console.log('placeid facility', facilities);
-      for (const facility of facilities) addPlaceIdToDb(facility);
-      }
-    );
+      console.log('idlist', idList);
+      for (const idObject of idList) addPlaceIdToDb(idObject);
+    } );
   };
 
   function getFacilities() {
@@ -159,15 +167,52 @@ app.controller('AdminController', ['$http', function($http) {
     }
   }
 
-  const addFacilityToDb = facility => {
+  const addFacilityToDb = (facility) => {
     $http({
       method: 'POST',
       url: '/facilities/',
       data: facility
     }).then(
-      res => console.log('POST success', res, vm.numAdded++),
+      res => {
+        console.log('POST success', res, vm.numAdded++);
+      },
       err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
   };
+
+  // removes entries with place Ids that exist in facilities table
+  vm.cleanIdList = () => {
+    $http({
+      method: 'DELETE',
+      url: '/placeIds/allDuplicates/',
+    }).then(
+      res => console.log('DELETE success'),
+      err => console.log("error deleting form placeId list: ", err) );
+  };
+
+  vm.deleteFacility = id => {
+    $http({
+      method: 'DELETE',
+      url: '/facilities/byId/' + id,
+    }).then(
+      res => {
+        console.log('DELETE success')
+        removeObjById(vm.allPools, id);
+
+    },
+      err => console.log("error deleting form placeId list: ", err) );
+  };
+
+
+
+  const deleteFromIdList = (placeId) => {
+    $http({
+      method: 'DELETE',
+      url: '/placeIds/byId/' + placeId,
+    }).then(
+      res => console.log('DELETE success'),
+      err => console.log("error deleting form placeId list: ", placeId) );
+  };
+
 
   const addPlaceIdToDb = placeId => {
     $http({
@@ -175,11 +220,11 @@ app.controller('AdminController', ['$http', function($http) {
       url: '/placeIds/',
       data: placeId
     }).then(
-      res => console.log('POST success', res, vm.numAdded++),
+      res => vm.numAdded++,
       err => console.log("error adding placeId: ", placeId, err, vm.errorCount++) );
   };
 
-  const geoCodeAdd = facility => {
+  const geocodeAdd = facility => {
     const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
     const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;
     //access google API via url
@@ -212,7 +257,7 @@ app.controller('AdminController', ['$http', function($http) {
     function pulsePost(list) {
       if (index < list.length) {
         setTimeout( () => {
-          geoCodeAdd(list[index++]);
+          geocodeAdd(list[index++]);
           pulsePost(list);
         }, 1100);
       }
@@ -228,6 +273,45 @@ app.controller('AdminController', ['$http', function($http) {
         .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
       )) && text!=''
   )
+
+/***************************ANGULAR SEARCH FILTER ***************************/
+
+
+  vm.currentPage = 0;
+  vm.pageSize = 20;
+  vm.filtered = [];
+  vm.loading = false;
+  vm.sortType = 'id'; // set the default sort type
+  vm.sortReverse = true;  // set the default sort order
+  vm.show = {
+    options: ['Pending', 'Dispatched', 'Completed', 'Declined'],
+    statuses: [true, true, true, true],
+    text: function () {
+      var ret = [];
+      var pendBool = (!this.statuses[0] && this.options[0]);
+      var dispBool = (!this.statuses[1] && this.options[1]);
+      var compBool = (!this.statuses[2] && this.options[2]);
+      var decBool = (!this.statuses[3] && this.options[3]);
+      if (compBool) { ret.push(compBool); }
+      if (decBool) { ret.push(decBool); }
+      if (dispBool) { ret.push(dispBool); }
+      if (pendBool) { ret.push(pendBool); }
+      return ret;
+    }
+  };
+  vm.pageCheck = function(numResults) {
+    var total = vm.totalPages(numResults);
+    if (vm.currentPage >= total || ((vm.currentPage == -1) && total)) {
+      vm.currentPage = total -1 ;
+    }
+  };
+  vm.totalPages = function (num) {
+    var total = 0;
+    if (num) {
+      total = parseInt(((num - 1) / vm.pageSize) + 1);
+    }
+    return total;
+  };
 
 }]);
 

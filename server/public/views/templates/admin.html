@@ -10,14 +10,12 @@
         with google results, choose 'paste values only' when pasting to spreadsheet
       </p>
       <div class="form-group">
-        <button class="btn form-control"
-            ng-disabled="admin.validateJson(admin.text)"
+        <button ng-hide="true" class="btn form-control"
+            ng-disabled="true"
             ng-click="admin.toJson.google(admin.text)">
             Convert google data to JSON
+
         </button>
-        <p>
-          *** this is very expensive towards our daily API query limit
-        </p>
         <button class="btn form-control"
             ng-disabled="admin.validateJson(admin.text)"
             ng-click="admin.toJson.mapMuse(admin.text)">
@@ -44,10 +42,15 @@
     <div class="col-md-4">
       <h3>Automation tools</h3>
       <div class="row">
+        <button class="btn-primary" ng-click="admin.abort=true">
+          Stop pulsing all Google queries
+        </button>
+      </div>
+      <div class="row">
         <h4>Takes an array of cities (at specified URL) with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
         <form class="specialTools form-group" ng-submit="admin.gPlaces.findIds(num)">
           <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
-          <input class="form-control" type="text" placeholder="keywords" required ng-model="admin.keywords">
+          <input class="form-control" type="text" placeholder="keywords" required ng-disabled="admin.citiesLeft[0]" ng-model="admin.keywords">
           <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
           <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
         </form>
@@ -55,6 +58,9 @@
           {{admin.citiesLeft[0]}} cities remaining <br />
           {{admin.errorCount}} errors
         </h4>
+        <button class="btn-primary" ng-click="admin.cleanIdList">
+          Delete placeId entries table that exist within facilities table
+        </button>
       </div>
 
       <div class="row">
@@ -78,5 +84,84 @@
       </div>
 
     </div>
-  </div> <!-- end whole page row -->
+  </div>
+  <div class="row">
+    <div layout="row">
+          <form flex="50" id="surveySearch">
+            <label>Search Pools in Database</label>
+            <input ng-model="query" aria-invalid="false" ng-change="admin.pageCheck((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)"/>
+            <div class="errors-spacer"></div>
+          </form>
+          <h3 flex="25" id="surveySearchResults">Results: {{(admin.allPools  | filter: query | excludeByStatus: admin.show.text()).length}} </h3>
+        </div>
+
+        <!-- <div id="filterBoxes" layout="row">
+          <h3 id="dashFilterBy">Filter By</h3>
+          <div layout="column" class="filterBox" ng-repeat="status in admin.show.options">
+            <checkbox ng-model="admin.show.statuses[$index]" ng-change="admin.pageCheck((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)">
+              {{status}}
+            </checkbox>
+          </div>
+        </div> -->
+      </div>
+    <div layout="row">
+    <table cellspacing="0">
+      <thead>
+        <tr id="headerRow">
+          <th class="columnSort" ng-click="admin.sortType = 'id'; admin.sortReverse = !admin.sortReverse">Id #
+            <span ng-class="{'fa fa-caret-down': admin.sortType == 'id' && !admin.sortReverse, 'fa fa-caret-up': admin.sortType == 'id' && admin.sortReverse}"></span>
+          </th>
+          <th class="columnSort" ng-click="admin.sortType = 'name'; admin.sortReverse = !admin.sortReverse">Name
+            <span ng-class="{'fa fa-caret-down': admin.sortType == 'name' && !admin.sortReverse, 'fa fa-caret-up': admin.sortType == 'name' && admin.sortReverse}"></span>
+          </th>
+          <th class="columnSort" ng-click="admin.sortType = 'city'; admin.sortReverse = !admin.sortReverse">City
+            <span ng-class="{'fa fa-caret-down': admin.sortType == 'city' && !admin.sortReverse, 'fa fa-caret-up': admin.sortType == 'city' && admin.sortReverse}"></span>
+          </th>
+          <th class="columnSort" ng-click="admin.sortType = 'status'; admin.sortReverse = !admin.sortReverse">Status
+            <span ng-class="{'fa fa-caret-down': admin.sortType == 'status' && !admin.sortReverse, 'fa fa-caret-up': admin.sortType == 'status' && admin.sortReverse}"></span>
+          </th>
+          <th class="columnSort" ng-click="admin.sortType = 'last_updated'; admin.sortReverse = !admin.sortReverse">Last Modified
+            <span ng-class="{'fa fa-caret-down': admin.sortType == 'last_updated' && !admin.sortReverse, 'fa fa-caret-up': admin.sortType == 'last_updated' && admin.sortReverse}"></span>
+          </th>
+          <th class="columnSort" ng-click="admin.sortType = 'date_added'; admin.sortReverse = !admin.sortReverse">Date Added
+            <span ng-class="{'fa fa-caret-down': admin.sortType == 'date_added' && !admin.sortReverse, 'fa fa-caret-up': admin.sortType == 'date_added' && admin.sortReverse}"></span>
+          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="tableBody">
+        <tr class="tableBodyRow" data-ng-repeat="result in admin.allPools | excludeByStatus: admin.show.text() | orderBy:admin.sortType:admin.sortReverse | filter: query | startFrom:admin.currentPage*admin.pageSize | limitTo:admin.pageSize" data-ng-class="{toastColorRed: admin.redId == result.id, noToastColor: admin.redId != result.id}">
+          <td>{{result.id}}</td>
+          <td>{{result.name}}</td>
+          <td id="row{{result.id}}">{{result.city}}</td>
+          <td data-ng-class="{toastColorGreen: admin.greenId == result.id, noToastColor: admin.greenId != result.id}"><select ng-model="result.status" placeholder="{{result.status}}" ng-change="admin.changeStatus(result.id, result.status)" class="status-update">
+            <option ng-repeat="status in admin.show.options">{{status}}</option>
+          </select></td>
+          <td id="row{{result.id}}" >{{result.last_updated | date:'medium'}}</td>
+          <td>{{result.date_added | date:'medium' }}</td>
+          <td><div class="i-button ink-ripple itemBtn removeIconPadding" aria-label="view">
+            <i ng-click="admin.deleteFacility(result.id)" class="fa fa-trash"></i>
+          </div></td>
+          <td><div class="i-button ink-ripple itemBtn removeIconPadding" aria-label="edit">
+            <i ng-click="admin.area(result.id)" svg-i="./img/edit.svg"></i>
+          </div></td>
+          <td><div ng-click="admin.showConfirm($event, result.id)" class="i-button primary itemBtn removeIconPadding" aria-label="delete">
+            <i svg-i="../../img/delete.svg">
+          </div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div layout="row" ng-show="admin.totalPages((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)" layout-align="center center" layout-wrap>
+    <button ng-class="mini" ng-disabled="admin.currentPage == 0" ng-click="admin.currentPage=admin.currentPage-1">
+      Previous
+    </button>
+      {{admin.currentPage+1}}/{{admin.totalPages((admin.allPools  | filter: query | excludeByStatus: admin.show.text()).length)}}
+    <button ng-class="mini" ng-disabled="admin.currentPage >= ((admin.allPools  | filter: query | excludeByStatus: admin.show.text()).length / admin.pageSize - 1)" ng-click="admin.currentPage=admin.currentPage+1">
+      Next
+    </button>
+  </div>
+  </div>
 </div>
