@@ -17,6 +17,7 @@ body {
   background-color: #D2E0F9 !important;
   border-bottom: 2px solid #7D97D0 !important;
   border-radius: 0 !important;
+  margin-bottom: 0 !important;
 }
 .navbar-brand {
   height: 120px !important;
@@ -144,7 +145,7 @@ padding: 20px 15px 0;
   width: 3% !important;
 }
 #myCarousel {
-  margin-top: 2em;
+  margin-top: 0;
 }
 /* -------------END CAROUSEL-------------------------------------------------*/
 
