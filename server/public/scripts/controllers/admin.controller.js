@@ -198,7 +198,7 @@ app.controller('AdminController', ['$http', function($http) {
       res => console.log('DELETE success'),
       err => console.log("error deleting form placeId list: ", err) );
   };
-  
+
   vm.deleteFacility = id => {
     $http({
       method: 'DELETE',
