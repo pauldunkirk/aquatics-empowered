@@ -19,9 +19,12 @@ app.controller('AdminController', ['$http', function($http) {
 
   //methods making heavy use of google places
   vm.gPlaces = {
-    findIds(num=1) {
+    findIds(num=1, startLetter='A') {
       $http.get(vm.cityCoordsUrl).then(
-        res => pulse(searchCity, res.data, vm.citiesLeft, 1100, 1000-num),
+        res => {
+          console.log('cities', res.data);
+          pulse(searchCity, res.data, vm.citiesLeft, 1000, 1000-num);
+        },
         err => console.log('could not find cities JSON', err)
       )
     },
@@ -309,6 +312,10 @@ app.controller('AdminController', ['$http', function($http) {
       return ret;
     }
   };
+  vm.setSort = column => {
+    vm.sortReverse = !vm.sortReverse;
+    vm.sortType = column;
+  }
   vm.pageCheck = function(numResults) {
     var total = vm.totalPages(numResults);
     if (vm.currentPage >= total || ((vm.currentPage == -1) && total)) {
