@@ -64,5 +64,12 @@
 
 
   </div> <!-- end map and infolist row -->
+  <div class="row">
+    <button type="button" name="button" ng-click="maps.logPool()">click to log pool infoList</button>
+    <p ng-repeat="review in maps.pool.reviews">
+      {{review}}
+    </p>
+  </div>
 </div> <!-- end whole page row -->
+
 </div>
