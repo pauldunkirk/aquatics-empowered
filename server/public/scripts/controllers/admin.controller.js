@@ -3,7 +3,7 @@ app.controller('AdminController', ['$http', function($http) {
   const api = 'https://maps.googleapis.com/maps/api/';
   const geoBase = api + 'geocode/json?address=';
   const placesBase = api + 'place/nearbysearch/json?query=';
-  const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
+  const apiKeyEnd = '&key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8';
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
 
   //a JSON containing the 1000 biggest US cities and their coordinates
