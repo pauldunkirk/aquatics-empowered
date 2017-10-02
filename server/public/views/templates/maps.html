@@ -1,75 +1,58 @@
-
-
 <div class="container">
-<div class="row">
+    <div class="row">
 
-  <!-- Form: Input Field and Find Pools Button -->
-  <div class="row">
-    <div class="col-sm-4">
-      <form class="mapsform text-center" ng-submit="maps.poolSearch()">
-        <input class="addressSearch text-center" type="text" ng-model="maps.addr" placeholder="City or Zip Code"/>
-        <!-- <p/> -->
-        <!-- <input type="number" ng-model="maps.radius" placeholder="Search radius (mi)"/> -->
-        <button type="submit" class="btn btn-md" id="useCurrentButton">Use Current Location</button>
-        <button type="submit" class="btn btn-md" id="findPoolButton">FIND POOLS</button>
-        <!-- <button class="btn-default" type="reset" ng-click="maps.reset()">Reset</button> -->
-        <!-- <span>Showing (up to) the nearest {{maps.maxMarkers}} pools.</span> -->
-      </form>
-    </div>
-  </div> <!-- END of Form: Input Field and Find Pools Button -->
+        <!-- Form: Input Field and Find Pools Button -->
+        <div class="row">
+            <div class="col-sm-4">
+                <form class="mapsform text-center" ng-submit="maps.poolSearch()">
+                    <input class="addressSearch text-center" type="text" ng-model="maps.addr" placeholder="City or Zip Code" />
+                    <!-- <p/> -->
+                    <!-- <input type="number" ng-model="maps.radius" placeholder="Search radius (mi)"/> -->
+                    <button type="submit" class="btn btn-md" id="useCurrentButton">Use Current Location</button>
+                    <button type="submit" class="btn btn-md" id="findPoolButton">FIND POOLS</button>
+                    <!-- <button class="btn-default" type="reset" ng-click="maps.reset()">Reset</button> -->
+                    <!-- <span>Showing (up to) the nearest {{maps.maxMarkers}} pools.</span> -->
+                </form>
+            </div>
+        </div>  <!-- END of Form: Input Field and Find Pools Button -->
 
+        <div class="row"> <!-- map and infolist -->
+            <!-- Display map -->
+            <div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
+                <ng-map class="gMap" center="{{maps.mapCenter}}" zoom="11" on-dragend="maps.newCenter()">
+                    <marker no-watcher="false" ng-repeat="p in maps.markerList" position="{{p.position}}" title="{{p.title}}" distance="{{p.distance}}" icon="{{maps.getIcon($index)}}" on-click="maps.showDetail(p)" ng-if="p.visible" />
+                    <info-window id="pool-iw" position="{{maps.pool.position}}">
+                        <div ng-non-bindable="">
+                            <b>{{maps.pool.title}}</b><br/> {{maps.pool.distance.toFixed(1)}} miles away<br/> {{maps.pool.street_address}}
+                            <br/> {{maps.pool.city}}, {{maps.pool.state}} {{maps.pool.zip}}<br/>
+                            <a href="" ng-click="maps.clicked(maps.pool.website)">Website</a>
+                        </div>
+                    </info-window>
+                </ng-map>
+            </div> <!-- end map-->
 
-  <div class="row">
-    <div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
-      <ng-map class="gMap" center="{{maps.mapCenter}}" zoom="11" on-dragend="maps.newCenter()">
-        <marker no-watcher="false"
-          ng-repeat="p in maps.markerList"
-          position="{{p.position}}"
-          title="{{p.title}}"
-          distance="{{p.distance}}"
-          icon="{{maps.getIcon($index)}}"
-          on-click="maps.showDetail(p)"
-          ng-if="p.visible"
-        />
+            <!-- Display infoList -->
+            <div class="col-md-4 infoList">
+                <div class="row poolItem" ng-class="{'selectedPool':maps.pool.id==pool.id}" ng-if="pool.visible" ng-repeat="pool in maps.markerList" ng-click="maps.showDetail(null, pool)">
+                    <div class="col-md-2 rank">
+                        <img ng-src="{{maps.getIcon($index)}}" alt="{{$index + 1}}" />
+                        <p>{{pool.distance.toFixed(1)}}mi</p>
+                    </div> <!-- end ranked icon pin -->
+                    <div class="col-md-10 info">
+                        <b>{{pool.title}}</b><br/> {{pool.street_address}}
+                        <br/> {{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
+                        <a href="" ng-click="maps.clicked(maps.pool.website)">Website</a>
+                    </div> <!-- end pool name, address row -->
+                </div>  <!-- end poolItem row -->
+            </div>  <!-- end infolist -->
 
-        <info-window id="pool-iw" position="{{maps.pool.position}}">
-          <div ng-non-bindable="">
-            <b>{{maps.pool.title}}</b><br/>
-            {{maps.pool.distance.toFixed(1)}} miles away<br/>
-            {{maps.pool.street_address}}<br/>
-            {{maps.pool.city}}, {{maps.pool.state}} {{maps.pool.zip}}<br/>
-            <a href="" ng-click="maps.clicked(maps.pool.website)">Website</a>
-          </div>
+        </div> <!-- end map and infolist row -->
 
-        </info-window>
-      </ng-map>
-
-    </div>
-
-    <!-- Display infoList -->
-    <div class="col-md-4 infoList">
-      <div class="row poolItem" ng-class="{'selectedPool':maps.pool.id==pool.id}" ng-if="pool.visible" ng-repeat="pool in maps.markerList" ng-click="maps.showDetail(null, pool)">
-       <div class="col-md-2 rank">
-         <img ng-src="{{maps.getIcon($index)}}" alt="{{$index + 1}}"  />
-         <p>{{pool.distance.toFixed(1)}}mi</p>
-       </div> <!-- end ranked icon pin -->
-       <div class="col-md-10 info">
-         <b>{{pool.title}}</b><br/>
-         {{pool.street_address}}<br/>
-         {{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
-         <a href="" ng-click="maps.clicked(maps.pool.website)">Website</a>
-       </div><!-- end pool name, address row -->
-     </div><!-- end poolItem row -->
-    </div> <!-- end infolist row -->
-
-
-  </div> <!-- end map and infolist row -->
-  <div class="row">
-    <button type="button" name="button" ng-click="maps.logPool()">click to log pool infoList</button>
-    <p ng-repeat="review in maps.pool.reviews">
-      {{review}}
-    </p>
-  </div>
-</div> <!-- end whole page row -->
-
-</div>
+        <div class="row">
+            <button type="button" name="button" ng-click="maps.logPool()">click to log pool infoList</button>
+            <p ng-repeat="review in maps.pool.reviews">
+                {{review}}
+            </p>
+        </div>
+    </div> <!-- end whole page row -->
+</div> <!-- end container>

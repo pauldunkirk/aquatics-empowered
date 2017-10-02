@@ -2,7 +2,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   const vm = this;
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis coords
 
-  vm.maxMarkers = 15;
+  vm.maxMarkers = 50;
   vm.markerList = [];
   vm.mapCenter = defaultCenter;
 
@@ -75,9 +75,10 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         zip: pool.zip,
         visible: true,
         googleJson: pool.google_places_data,
-        reviews: (pool.google_places_data.reviews || []).map(
-          review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name
-        ) )}
+        // reviews: (pool.google_places_data.reviews || []).map(
+        //   review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name
+        // ) )
+      }
     ) )
     .sort( (a, b) => a.distance - b.distance )
     .slice( 0, maxMarkers )
