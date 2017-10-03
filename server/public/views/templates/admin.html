@@ -50,12 +50,12 @@
         <h4>Takes an array of cities (at specified URL) with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
         <form class="specialTools form-group" ng-submit="admin.gPlaces.findIds(num)">
           <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
-          <input class="form-control" type="text" placeholder="keywords" required ng-disabled="admin.citiesLeft[0]" ng-model="admin.keywords">
+          <input class="form-control" type="text" placeholder="keywords" required ng-disabled="admin.citiesLeft" ng-model="admin.keywords">
           <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
           <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
         </form>
-        <h4 ng-if="admin.citiesLeft[0]">
-          {{admin.citiesLeft[0]}} cities remaining <br />
+        <h4 ng-if="admin.citiesLeft">
+          {{admin.citiesLeft}} cities remaining <br />
           {{admin.errorCount}} errors
         </h4>
         <button class="btn-danger" ng-click="admin.cleanIdList()">
@@ -80,8 +80,8 @@
         <br />
         <span>You will probably hit your API making all these places queries</span>
         <h4>Number of google place ids: {{admin.gPlaceIdList.length}}</h4>
-        <h4 ng-if="admin.placesLeft[0]">
-          {{admin.placesLeft[0]}} places remaining <br />
+        <h4 ng-if="admin.placesLeft">
+          {{admin.placesLeft}} places remaining <br />
           {{admin.errorCount}} errors
         </h4>
       </div>

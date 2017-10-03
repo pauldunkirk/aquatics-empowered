@@ -100,8 +100,11 @@ app.controller('AdminController', ['$http', function($http) {
         //run the function on the data in the current index location of the list
         //increment the index
         queryFn(list[index++]);
-
+        //stores relevant data for items remaining at position zero of array
+        //using array to pass by reference to location in memory, so the value at that location is altered.
+        //only necessary for displaying amount remaining on DOM
         remaining[0] = list.length - index;
+        //recursively calls itself with new incremented index
         pulse(queryFn, list, remaining, delay, index);
       }, delay);
     }
@@ -129,12 +132,14 @@ app.controller('AdminController', ['$http', function($http) {
         console.error('google places service error:', status);
         return;
       }
+      //makes array of objects with these three properties from the google radar results
       const idList = results.map( pool => (
         { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
           place_id: pool.place_id,
           keyword: request.keyword}
       ) )
       console.log('idlist', idList);
+      //ES6 for loop functionality. look up "for of loop"
       for (const idObject of idList) addPlaceIdToDb(idObject);
     } );
   };
