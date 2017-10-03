@@ -3,7 +3,10 @@ app.controller('AdminController', ['$http', function($http) {
   const api = 'https://maps.googleapis.com/maps/api/';
   const geoBase = api + 'geocode/json?address=';
   const placesBase = api + 'place/nearbysearch/json?query=';
+  //jakes api key
   const apiKeyEnd = '&key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8';
+  //directly using google places API instead of NgMap because NgMap has no access to the google radar (bulk) search
+  //'gPlacesAPI' is instead names 'service' in some google examples. Too generic for our purposes
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
 
   //a JSON containing the 1000 biggest US cities and their coordinates
@@ -18,6 +21,7 @@ app.controller('AdminController', ['$http', function($http) {
   getFacilities();
 
   //methods making heavy use of google places
+  //placed into one object for code readability/organization/collapsibility
   vm.gPlaces = {
     findIds(num=1, startLetter='A') {
       $http.get(vm.cityCoordsUrl).then(
@@ -34,11 +38,16 @@ app.controller('AdminController', ['$http', function($http) {
         err => console.log('error accessing place id table', err)
       )
     },
-    //takes a list of google Ids, gets relevant info, and adds to db
+    //takes a list of google Ids, gets google info for EACH id, adds to db
     getInfoFromIds(idList) {
       idList = idList.filter( n => n ); //remove empty list items
+      //calls vm.gPlaces.getDetails for each iteration/item in idList
+      //tallies remaining places in vm.placesLeft[0]
+      //waits 1100ms between each iteration
+      //starts at position 0 (beginning) of idList
       return pulse(vm.gPlaces.getDetails, idList, vm.placesLeft, 1100, 0)
     },
+    //gets the google details of an item with a google places id property
     getDetails(basicPlace) {
       console.log('basicPlace', basicPlace);
       gPlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
@@ -54,6 +63,7 @@ app.controller('AdminController', ['$http', function($http) {
     //put google place details into format for our DB
     parseDetails(pResult, keyword) {
       let adrCmps = {}; //format address components of gmaps for usability
+      //this jQuery magic to reformat the result was copied from the internet:
       $.each(pResult.address_components, (k,v1) => $.each(v1.types, (k2, v2) =>
         adrCmps[v2]=v1.short_name)
       );
@@ -68,7 +78,7 @@ app.controller('AdminController', ['$http', function($http) {
         image_url: pResult.icon,
         url: pResult.website,
         coords: [loc.lat(), loc.lng()],
-        keyword,
+        keyword: keyword,
         google_place_id: pResult.place_id,
         //ALL of the google details are kept in this JSON
         google_places_data: JSON.stringify(pResult, undefined, 4)
@@ -81,13 +91,16 @@ app.controller('AdminController', ['$http', function($http) {
       vm.pulsing = true;
       setTimeout( () => {
         if (vm.abort) {
-          console.log('aborting');
+          console.log('aborting pulse');
           remaining[0] = 0;
           vm.abort = false;
           vm.pulsing = false;
           return;
         }
+        //run the function on the data in the current index location of the list
+        //increment the index
         queryFn(list[index++]);
+
         remaining[0] = list.length - index;
         pulse(queryFn, list, remaining, delay, index);
       }, delay);
@@ -95,17 +108,25 @@ app.controller('AdminController', ['$http', function($http) {
   }
 
   function searchCity(cityCoords) {
+  //create gMaps LatLng object (required for radar search) with city coords
     const location = new google.maps.LatLng(
       cityCoords.latitude, cityCoords.longitude);
     const request = {
+      //max radius allowed by google. will top out at 200 nearest results
       radius: 50000,
+      //search term
       keyword: vm.keywords,
+      //LatLng object from above
       location,
     }
-
+  //params documentation:
+    //https://developers.google.com/places/web-service/search#RadarSearchRequests
+    //JS example:
+    //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
+    //(i do not use service.radarSearch because 'service' is too generic for a real webapp)
     gPlacesAPI.radarSearch(request, (results, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
-        console.error(status);
+        console.error('google places service error:', status);
         return;
       }
       const idList = results.map( pool => (
@@ -125,7 +146,7 @@ app.controller('AdminController', ['$http', function($http) {
     );
   };
 
-  //methods for parcing datasets from different sources into usable JSON
+  //methods for parsing datasets from different sources into usable JSON
   vm.toJson = {
     mapMuse(text) {
       let arr = text.split('\n'); //create array element for each line of text
@@ -154,21 +175,21 @@ app.controller('AdminController', ['$http', function($http) {
       console.log('musePools', musePools);
     },
     //this section is incomplete
-    google(text) {
-      let arr = text.split('\n'); //create array element for each line of text
-      const googPools = [];
-      for (var i = 0; i < arr.length-3; i=i+2) {
-        let name = arr[i];
-        let city = arr[i+1].split(', ')[0];
-        let state = arr[i+1].split(', ')[1];
-        googPools.push( {
-          source: 'google',
-          name,
-          city,
-          state,
-        } )
-      }
-    }
+    // google(text) {
+    //   let arr = text.split('\n'); //create array element for each line of text
+    //   const googPools = [];
+    //   for (var i = 0; i < arr.length-3; i=i+2) {
+    //     let name = arr[i];
+    //     let city = arr[i+1].split(', ')[0];
+    //     let state = arr[i+1].split(', ')[1];
+    //     googPools.push( {
+    //       source: 'google',
+    //       name,
+    //       city,
+    //       state,
+    //     } )
+    //   }
+    // }
   }
 
   const addFacilityToDb = (facility) => {
@@ -214,8 +235,6 @@ app.controller('AdminController', ['$http', function($http) {
     },
       err => console.log("error deleting form placeId list: ", err) );
   };
-
-
 
   const deleteFromIdList = (placeId) => {
     $http({
