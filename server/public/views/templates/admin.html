@@ -23,13 +23,18 @@
           {{admin.citiesLeft[0]}} cities remaining <br />
           {{admin.errorCount}} errors
         </h4>
-        <h4><br />{{admin.dbType}} Database, GOOGLE_RADAR table:</h4>
+        <h4><br />{{admin.dbType}} Database, GOOGLE_RADAR_RESULTS table:</h4>
         <button class="btn-danger" ng-click="admin.cleanIdList()">
            Delete NULL placeId entries and <br />placeIds that exist within facilities table
         </button>
         <button class="btn-danger" ng-click="admin.deleteIdList()">
           Delete ALL entries
         </button>
+        <h4><br />{{admin.dbType}} Database, FACILITIES table:</h4>
+        <button class="btn-danger" ng-click="admin.cleanFacilities()">
+           Delete facilities with no google_places_data
+        </button>
+
 
       </div>
 

@@ -192,6 +192,15 @@ app.controller('AdminController', ['$http', function($http) {
       err => console.log("error deleting form placeId list: ", err) );
   };
 
+  vm.cleanFacilities = () => {
+    $http({
+      method: 'DELETE',
+      url: '/facilities/nullGData',
+    }).then(
+      res => console.log('DELETE null facilities success', res),
+      err => console.log("error deleting form placeId list: ", err) );
+  };
+
   vm.deleteFacility = id => {
     $http({
       method: 'DELETE',

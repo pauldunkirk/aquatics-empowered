@@ -20,7 +20,6 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
   const facil = req.body;
-  console.log('PlaceID facil', facil);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
     client.query(

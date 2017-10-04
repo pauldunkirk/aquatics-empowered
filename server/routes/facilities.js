@@ -52,6 +52,17 @@ router.delete('/byId/:id', function(req, res) {
   });
 });
 
+router.delete('/nullGData', function(req, res) {
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('DELETE FROM facilities WHERE google_places_data IS NULL;',
+    function(err, result) {
+      done();
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+    });
+  });
+});
+
 router.post('/', function(req, res) {
   const query = postAllProps(req.body, facilitiesColumns);
   pool.connect( function(err, client, done) {
