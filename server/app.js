@@ -6,9 +6,10 @@ const portDecision = process.env.PORT || 3000;
 const facilities = require('./routes/facilities');
 const placeIds = require('./routes/placeIds');
 const bodyParser = require('body-parser');
+const local = require('./config/config.js').local;
 
 app.get('/', (req, res) => res.sendFile(path.resolve('server/public/index.html')));
-
+app.get('/local', (req,res) => res.send(local));
 app.use(express.static('server/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

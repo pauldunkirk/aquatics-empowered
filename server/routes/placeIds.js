@@ -19,7 +19,8 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  const facil = req.params;
+  const facil = req.body;
+  console.log('PlaceID facil', facil);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
     client.query(
@@ -39,10 +40,22 @@ router.delete('/allDuplicates', function(req, res) {
     client.query('DELETE FROM google_radar_results WHERE place_id in (SELECT DISTINCT google_place_id FROM facilities);',
     function(err, result) {
       done();
-      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : deleteEmpties(res);
     });
   });
 });
+
+function deleteEmpties(res) {
+  console.log('deleting empties');
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('DELETE FROM google_radar_results WHERE place_id IS NULL;',
+    function(err, result) {
+      done();
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+    });
+  });
+}
 
 router.delete('/all', function(req, res) {
   pool.connect(function(err, client, done) {

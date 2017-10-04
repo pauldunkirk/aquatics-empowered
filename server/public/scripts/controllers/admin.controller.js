@@ -19,11 +19,12 @@ app.controller('AdminController', ['$http', function($http) {
   vm.abort = false;
   vm.pulsing = false;
   getFacilities();
+  getDbType();
 
   //methods making heavy use of google places
   //placed into one object for code readability/organization/collapsibility
   vm.gPlaces = {
-    findIds(num=1, startLetter='A') {
+    findIds(num=1) {
       $http.get(vm.cityCoordsUrl).then(
         res => {
           console.log('cities', res.data);
@@ -146,56 +147,19 @@ app.controller('AdminController', ['$http', function($http) {
 
   function getFacilities() {
     $http.get('/facilities/')
-    .then( res => vm.allPools = res.data,
+    .then( res => { vm.allPools = res.data;},
            err => console.log('GET pools - error:', err)
     );
   };
 
-  //methods for parsing datasets from different sources into usable JSON
-  vm.toJson = {
-    mapMuse(text) {
-      let arr = text.split('\n'); //create array element for each line of text
-      arr = arr.filter( entry =>  /\S/.test(entry)); //remove empty lines
-      arr = arr.map( val => val.trim()); //remove leading/trailing whitespace
-      const musePools = [];
-      for (var i = 0; i < arr.length-3; i=i+3) {
-        //two capital letters followed by end of string = state
-        let state = arr[i+2].match(/[A-Z][A-Z]$/g)[0];
-        //remove the last 3 chars (state and preceding space)
-        let noState = arr[i+2].slice(0, arr[i+2].length-3);
-        //one or more words (optionally followed by a space) between ", " and end of string = city
-        let city = noState.match(/(?!, )(\w *)+(?=$)/g)[0];
-        //everything before the above ", " will be the street address
-        let street_address = noState.match(/.+(?=(, (\w *)+(?=$)))/g)[0];
-        musePools.push( {
-          source: 'mapmuse',
-          name: arr[i],
-          pool_type: arr[i+1],
-          street_address,
-          city,
-          state,
-        } )
-      }
-      vm.text = JSON.stringify(musePools, undefined, 4);
-      console.log('musePools', musePools);
-    },
-    //this section is incomplete
-    // google(text) {
-    //   let arr = text.split('\n'); //create array element for each line of text
-    //   const googPools = [];
-    //   for (var i = 0; i < arr.length-3; i=i+2) {
-    //     let name = arr[i];
-    //     let city = arr[i+1].split(', ')[0];
-    //     let state = arr[i+1].split(', ')[1];
-    //     googPools.push( {
-    //       source: 'google',
-    //       name,
-    //       city,
-    //       state,
-    //     } )
-    //   }
-    // }
-  }
+  function getDbType() {
+    $http.get('/local/')
+    .then( res => res.data ? vm.dbType = 'LOCAL' : vm.dbType = 'HEROKU' ,
+           err => console.log('GET local - error:', err)
+    );
+  };
+
+
 
   const addFacilityToDb = (facility) => {
     $http({
@@ -251,14 +215,14 @@ app.controller('AdminController', ['$http', function($http) {
   };
 
 
-  const addPlaceIdToDb = placeId => {
+  const addPlaceIdToDb = placeObject => {
     $http({
       method: 'POST',
       url: '/placeIds/',
-      data: placeId
+      data: placeObject
     }).then(
       res => vm.numAdded++,
-      err => console.log("error adding placeId: ", placeId, err, vm.errorCount++) );
+      err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
   };
 
   const geocodeAdd = facility => {
