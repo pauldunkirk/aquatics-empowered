@@ -47,7 +47,7 @@ router.delete('/byId/:id', function(req, res) {
     client.query('DELETE FROM facilities WHERE id = $1;', [id],
     function(err, result) {
       done();
-      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(200);
     });
   });
 });
@@ -58,7 +58,7 @@ router.delete('/nullGData', function(req, res) {
     client.query('DELETE FROM facilities WHERE google_places_data IS NULL;',
     function(err, result) {
       done();
-      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(200);
     });
   });
 });
