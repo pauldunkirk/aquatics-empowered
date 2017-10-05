@@ -2,7 +2,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   const vm = this;
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis coords
 
-  vm.maxMarkers = 15;
+  vm.maxMarkers = 30;
   vm.markerList = [];
   vm.mapCenter = defaultCenter;
 
@@ -13,7 +13,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     console.log('markers', map.markers);
     // TODO: set map center to location of user (determined with from browser query)
     getFacilities(); //run $http request to server for nearby pools
-  });
+  }); //end NgMap
 
   vm.logPool = () => console.log('selected pool:', vm.pool);
 

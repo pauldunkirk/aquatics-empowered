@@ -20,6 +20,7 @@ app.controller('AdminController', ['$http', function($http) {
   vm.pulsing = false;
   getFacilities();
   getDbType();
+
   //methods making heavy use of google places
   //placed into one object for code readability/organization/collapsibility
 
@@ -76,7 +77,7 @@ app.controller('AdminController', ['$http', function($http) {
         state: adrCmps.administrative_area_level_1,
         zip: adrCmps.postal_code,
         phone: pResult.formatted_phone_number,
-        image_url: pResult.icon,
+        image_url: pResult.photos,
         url: pResult.website,
         coords: [loc.lat(), loc.lng()],
         keyword: keyword,

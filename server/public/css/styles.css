@@ -161,7 +161,7 @@ padding: 20px 15px 0;
   font-weight: bolder;
   font-family: 'Roboto' !important;
   word-spacing: .3em;
-  padding: 20px;
+  /*padding: 20px;*/
 }
 
 /*--------------------------ADMIN -----------------------------*/
@@ -264,3 +264,10 @@ tr.headerRow{
   padding-top: 5px;
 }
 /*--------------------------END ADMIN ---------------------------*/
+
+
+hr {
+  border-top: 1px solid black !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
