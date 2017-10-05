@@ -22,17 +22,11 @@ app.controller('AdminController', ['$http', function($http) {
   getDbType();
   //methods making heavy use of google places
   //placed into one object for code readability/organization/collapsibility
-  vm.selectCities = () => {
-    $http.get(vm.cityCoordsUrl).then(
-      res => {
-        console.log('cities', res.data);
-        vm.c.cityList = res.data;
-      },
-      err => console.log('could not find cities JSON', err)
-    )
-  }
-  vm.log = () => console.log(vm.c.cityList);
-  vm.selectCities();
+
+  $http.get(vm.cityCoordsUrl).then(
+    res => vm.c.cityList = res.data,
+    err => console.log('could not find cities JSON', err)
+  );
   vm.gPlaces = {
     findIds(num=1) {
       const filteredCityList = vm.c.cityList.filter(c => c.include);

@@ -4,7 +4,7 @@
     <h3><b>Running on {{admin.dbType}} database</b></h3>
   </div>
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
       <h2>Cities to search</h2>
       <form flex="50" id="surveySearch">
         <input placeholder="filter" ng-model="cityQuery" ng-change="admin.c.pageCheck((admin.c.cityList  | filter: cityQuery |  excludeByStatus: admin.c.show.text()).length)"/>
@@ -14,18 +14,22 @@
       <table cellspacing="0">
         <thead>
           <tr id="headerRow">
-            <th class="columnSort" ng-click="admin.c.setSort('selected')">Id #
-              <span ng-class="{'fa fa-caret-down': admin.c.sortType == 'selected' && !admin.c.sortReverse, 'fa fa-caret-up': admin.c.sortType == 'selected' && admin.c.sortReverse}" />
+            <th class="columnSort" ng-click="admin.c.setSort('include')">Select&nbsp
+              <span ng-class="{'fa fa-caret-down': admin.c.sortType == 'include' && !admin.c.sortReverse, 'fa fa-caret-up': admin.c.sortType == 'include' && admin.c.sortReverse}" />
             </th>
-            <th class="columnSort" ng-click="admin.c.setSort('city')">Name
+            <th class="columnSort" ng-click="admin.c.setSort('city')">City
               <span ng-class="{'fa fa-caret-down': admin.c.sortType == 'city' && !admin.c.sortReverse, 'fa fa-caret-up': admin.c.sortType == 'city' && admin.c.sortReverse}" />
+            </th>
+            <th class="columnSort" ng-click="admin.c.setSort('state')">State
+              <span ng-class="{'fa fa-caret-down': admin.c.sortType == 'state' && !admin.c.sortReverse, 'fa fa-caret-up': admin.c.sortType == 'state' && admin.c.sortReverse}" />
             </th>
           </tr>
         </thead>
         <tbody class="tableBody">
-          <tr class="tableBodyRow" data-ng-repeat="res in admin.c.cityList | excludeByStatus: admin.c.show.text() | orderBy:admin.c.sortType:admin.c.sortReverse | filter: cityQuery | startFrom:admin.c.currentPage*admin.c.pageSize | limitTo:admin.c.pageSize" data-ng-class="{toastColorRed: admin.c.redId == res.id, noToastColor: admin.c.redId != res.id}">
-            <td><input type="checkbox" ng-model="res.include" ng-change="admin.log()"/></td>
+          <tr class="tableBodyRow" data-ng-repeat="res in admin.c.cityList | excludeByStatus: admin.c.show.text() | orderBy:admin.c.sortType:admin.c.sortReverse | filter: cityQuery | startFrom:admin.c.currentPage*admin.c.pageSize | limitTo:admin.c.pageSize" >
+            <td><input type="checkbox" ng-model="res.include" /></td>
             <td>{{res.city}}</td>
+            <td>{{res.state}}</td>
           </tr>
         </tbody>
       </table>
@@ -138,7 +142,7 @@
         </tr>
       </thead>
       <tbody class="tableBody">
-        <tr class="tableBodyRow" data-ng-repeat="result in admin.allPools | excludeByStatus: admin.show.text() | orderBy:admin.sortType:admin.sortReverse | filter: query | startFrom:admin.currentPage*admin.pageSize | limitTo:admin.pageSize" data-ng-class="{toastColorRed: admin.redId == result.id, noToastColor: admin.redId != result.id}">
+        <tr class="tableBodyRow" data-ng-repeat="result in admin.allPools | excludeByStatus: admin.show.text() | orderBy:admin.sortType:admin.sortReverse | filter: query | startFrom:admin.currentPage*admin.pageSize | limitTo:admin.pageSize">
           <td>{{result.id}}</td>
           <td>{{result.name}}</td>
           <td id="row{{result.id}}">{{result.city}}</td>
