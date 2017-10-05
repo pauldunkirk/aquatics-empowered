@@ -1,5 +1,4 @@
 app.controller('AdminController', ['$http', function($http) {
-
   const vm = this;
   const api = 'https://maps.googleapis.com/maps/api/';
   const geoBase = api + 'geocode/json?address=';
@@ -87,7 +86,7 @@ app.controller('AdminController', ['$http', function($http) {
         google_places_data: JSON.stringify(pResult, undefined, 4)
       }
     }
-
+  }
 
   function pulse(queryFn, list, remaining, delay, index=0) {
     if((list.length > index) && !vm.abort){
@@ -111,7 +110,7 @@ app.controller('AdminController', ['$http', function($http) {
         pulse(queryFn, list, remaining, delay, index);
       }, delay);
     }
-
+  }
 
   function searchCity(cityCoords) {
   //create gMaps LatLng object (required for radar search) with city coords
@@ -172,37 +171,37 @@ app.controller('AdminController', ['$http', function($http) {
   };
 
 
-    const addFacilityToDb = (facility) => {
-        $http({
-            method: 'POST',
-            url: '/facilities/',
-            data: facility
-        }).then(
-            res => {
-                console.log('POST success', res, vm.numAdded++);
-            },
-            err => console.log("error adding facility: ", facility, err, vm.errorCount++));
-    };
 
-    // removes entries with place Ids that exist in facilities table
-    vm.cleanIdList = () => {
-        $http({
-            method: 'DELETE',
-            url: '/placeIds/allDuplicates/',
-        }).then(
-            res => console.log('DELETE success'),
-            err => console.log("error deleting form placeId list: ", err));
-    };
+  const addFacilityToDb = (facility) => {
+    $http({
+      method: 'POST',
+      url: '/facilities/',
+      data: facility
+    }).then(
+      res => {
+        console.log('POST success', res, vm.numAdded++);
+      },
+      err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
+  };
 
-    vm.deleteIdList = () => {
-        $http({
-            method: 'DELETE',
-            url: '/placeIds/all/',
-        }).then(
-            res => console.log('DELETE success'),
-            err => console.log("error deleting form placeId list: ", err));
-    };
+  // removes entries with place Ids that exist in facilities table
+  vm.cleanIdList = () => {
+    $http({
+      method: 'DELETE',
+      url: '/placeIds/allDuplicates/',
+    }).then(
+      res => console.log('DELETE success'),
+      err => console.log("error deleting form placeId list: ", err) );
+  };
 
+  vm.deleteIdList = () => {
+    $http({
+      method: 'DELETE',
+      url: '/placeIds/all/',
+    }).then(
+      res => console.log('DELETE success'),
+      err => console.log("error deleting form placeId list: ", err) );
+  };
 
   vm.cleanFacilities = () => {
     $http({
@@ -221,9 +220,10 @@ app.controller('AdminController', ['$http', function($http) {
       res => {
         console.log('DELETE success')
         removeObjById(vm.allPools, id);
-            },
-            err => console.log("error deleting form placeId list: ", err));
-    };
+
+    },
+      err => console.log("error deleting form placeId list: ", err) );
+  };
 
   const deleteFromIdList = (placeId) => {
     $http({
@@ -258,33 +258,32 @@ app.controller('AdminController', ['$http', function($http) {
     });
   };
 
-    vm.geocodeAndPost = (jsonString, index = 0) => {
-        vm.errorCount = 0;
-        const json = JSON.parse(jsonString);
-        const list = $.map(json, el => el);
-        console.log('list', list);
-        pulsePost(list);
+  vm.geocodeAndPost = (jsonString, index=0) => {
+    vm.errorCount = 0;
+    const json = JSON.parse(jsonString);
+    const list = $.map(json, el => el);
+    console.log('list', list);
+    pulsePost(list);
 
-        function pulsePost(list) {
-            if (index < list.length) {
-                setTimeout(() => {
-                    geocodeAdd(list[index++]);
-                    pulsePost(list);
-                }, 1100);
-            }
-            vm.geocodesLeft = list.length - index;
-        };
+    function pulsePost(list) {
+      if (index < list.length) {
+        setTimeout( () => {
+          geocodeAdd(list[index++]);
+          pulsePost(list);
+        }, 1100);
+      }
+      vm.geocodesLeft = list.length - index;
     };
+  };
 
-    //returns a boolean
-    vm.validateJson = (text = '') => (
-        (/^[\],:{}\s]*$/.test(
-            text.replace(/\\["\\\/bfnrtu]/g, '@')
-            .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-            .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
-        )) && text != ''
-    )
-
+  //returns a boolean
+  vm.validateJson = (text='') => (
+    (/^[\],:{}\s]*$/.test(
+        text.replace(/\\["\\\/bfnrtu]/g, '@')
+        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+        .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
+      )) && text!=''
+  )
 
 /***************************CITY SEARCH FILTER ***************************/
 
@@ -330,7 +329,6 @@ vm.c = {
   },
 }
 
-
 /****************************DB SEARCH FILTER************************************/
   vm.currentPage = 0;
   vm.pageSize = 20;
@@ -368,21 +366,9 @@ vm.c = {
     var total = 0;
     if (num) {
       total = parseInt(((num - 1) / vm.c.pageSize) + 1);
-
     }
-    vm.pageCheck = function(numResults) {
-        var total = vm.totalPages(numResults);
-        if (vm.currentPage >= total || ((vm.currentPage == -1) && total)) {
-            vm.currentPage = total - 1;
-        }
-    };
-    vm.totalPages = function(num) {
-        var total = 0;
-        if (num) {
-            total = parseInt(((num - 1) / vm.pageSize) + 1);
-        }
-        return total;
-    };
+    return total;
+  };
 
 }]);
 
