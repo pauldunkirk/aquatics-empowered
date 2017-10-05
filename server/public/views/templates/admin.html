@@ -4,7 +4,46 @@
     <h3><b>Running on {{admin.dbType}} database</b></h3>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-3">
+      <h2>Cities to search</h2>
+      <form flex="50" id="surveySearch">
+        <input placeholder="filter" ng-model="cityQuery" ng-change="admin.c.pageCheck((admin.c.cityList  | filter: cityQuery |  excludeByStatus: admin.c.show.text()).length)"/>
+        <div class="errors-spacer"></div>
+      </form>
+      <h3 flex="25" id="surveySearchResults">Results: {{(admin.c.cityList  | filter: cityQuery | excludeByStatus: admin.c.show.text()).length}} </h3>
+      <table cellspacing="0">
+        <thead>
+          <tr id="headerRow">
+            <th class="columnSort" ng-click="admin.c.setSort('include')">Select&nbsp
+              <span ng-class="{'fa fa-caret-down': admin.c.sortType == 'include' && !admin.c.sortReverse, 'fa fa-caret-up': admin.c.sortType == 'include' && admin.c.sortReverse}" />
+            </th>
+            <th class="columnSort" ng-click="admin.c.setSort('city')">City
+              <span ng-class="{'fa fa-caret-down': admin.c.sortType == 'city' && !admin.c.sortReverse, 'fa fa-caret-up': admin.c.sortType == 'city' && admin.c.sortReverse}" />
+            </th>
+            <th class="columnSort" ng-click="admin.c.setSort('state')">State
+              <span ng-class="{'fa fa-caret-down': admin.c.sortType == 'state' && !admin.c.sortReverse, 'fa fa-caret-up': admin.c.sortType == 'state' && admin.c.sortReverse}" />
+            </th>
+          </tr>
+        </thead>
+        <tbody class="tableBody">
+          <tr class="tableBodyRow" data-ng-repeat="res in admin.c.cityList | excludeByStatus: admin.c.show.text() | orderBy:admin.c.sortType:admin.c.sortReverse | filter: cityQuery | startFrom:admin.c.currentPage*admin.c.pageSize | limitTo:admin.c.pageSize" >
+            <td><input type="checkbox" ng-model="res.include" /></td>
+            <td>{{res.city}}</td>
+            <td>{{res.state}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row" ng-show="admin.c.totalPages((admin.c.cityList  | filter: query |  excludeByStatus: admin.c.show.text()).length)" >
+        <button ng-class="mini" ng-disabled="admin.c.currentPage == 0" ng-click="admin.c.currentPage=admin.c.currentPage-1">
+          Previous
+        </button>
+          {{admin.c.currentPage+1}}/{{admin.c.totalPages((admin.c.cityList  | filter: query | excludeByStatus: admin.c.show.text()).length)}}
+        <button ng-class="mini" ng-disabled="admin.c.currentPage >= ((admin.c.cityList  | filter: cityQuery | excludeByStatus: admin.c.show.text()).length / admin.c.pageSize - 1)" ng-click="admin.c.currentPage=admin.c.currentPage+1">
+          Next
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6">
       <h3>Automation tools</h3>
       <div class="row">
         <button class="btn" ng-disabled="!admin.pulsing" ng-click="admin.abort=true">
@@ -14,10 +53,9 @@
       <div class="row">
         <h4>Takes an array of cities (at specified URL) with coordinate-properties and retrieves google place id for up to 200 places per city</h4>
         <form class="specialTools form-group" ng-submit="admin.gPlaces.findIds(num)">
-          <input class="form-control" type="number" placeholder="Number of cities to search (1000 max)" min="1" max="1000" ng-model="num">
           <input class="form-control" type="text" placeholder="keywords" required ng-disabled="admin.citiesLeft[0]" ng-model="admin.keywords">
           <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
-          <input class="btn" type="submit" ng-disabled="!(num && admin.keywords)">
+          <input class="btn" type="submit" value="query selected cities" ng-disabled="!(admin.keywords)">
         </form>
         <h4 ng-if="admin.citiesLeft[0]">
           {{admin.citiesLeft[0]}} cities remaining <br />
@@ -57,19 +95,19 @@
           {{admin.errorCount}} errors
         </h4>
       </div>
-
     </div>
+
   </div>
   <div class="row">
     <h2>Database View</h2>
     <form flex="50" id="surveySearch">
       <label>Search Pools in Database</label>
-      <input ng-model="query" aria-invalid="false" ng-change="admin.pageCheck((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)"/>
+      <input ng-model="query" ng-change="admin.pageCheck((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length, admin.current)"/>
       <div class="errors-spacer"></div>
     </form>
     <h3 flex="25" id="surveySearchResults">Results: {{(admin.allPools  | filter: query | excludeByStatus: admin.show.text()).length}} </h3>
 
-    <!-- <div id="filterBoxes" layout="row">
+    <!-- <div id="filterBoxes" class="row">
       <h3 id="dashFilterBy">Filter By</h3>
       <div layout="column" class="filterBox" ng-repeat="status in admin.show.options">
         <checkbox ng-model="admin.show.statuses[$index]" ng-change="admin.pageCheck((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)">
@@ -78,7 +116,7 @@
       </div>
     </div> -->
   </div>
-  <div layout="row">
+  <div class="row">
     <table cellspacing="0">
       <thead>
         <tr id="headerRow">
@@ -101,12 +139,10 @@
             <span ng-class="{'fa fa-caret-down': admin.sortType == 'date_added' && !admin.sortReverse, 'fa fa-caret-up': admin.sortType == 'date_added' && admin.sortReverse}" />
           </th>
           <th></th>
-          <th></th>
-          <th></th>
         </tr>
       </thead>
       <tbody class="tableBody">
-        <tr class="tableBodyRow" data-ng-repeat="result in admin.allPools | excludeByStatus: admin.show.text() | orderBy:admin.sortType:admin.sortReverse | filter: query | startFrom:admin.currentPage*admin.pageSize | limitTo:admin.pageSize" data-ng-class="{toastColorRed: admin.redId == result.id, noToastColor: admin.redId != result.id}">
+        <tr class="tableBodyRow" data-ng-repeat="result in admin.allPools | excludeByStatus: admin.show.text() | orderBy:admin.sortType:admin.sortReverse | filter: query | startFrom:admin.currentPage*admin.pageSize | limitTo:admin.pageSize">
           <td>{{result.id}}</td>
           <td>{{result.name}}</td>
           <td id="row{{result.id}}">{{result.city}}</td>
@@ -118,17 +154,11 @@
           <td><div class="i-button ink-ripple itemBtn removeIconPadding" aria-label="view">
             <i ng-click="admin.deleteFacility(result.id)" class="fa fa-trash"></i>
           </div></td>
-          <td><div class="i-button ink-ripple itemBtn removeIconPadding" aria-label="edit">
-            <i ng-click="admin.area(result.id)" svg-i="./img/edit.svg"></i>
-          </div></td>
-          <td><div ng-click="admin.showConfirm($event, result.id)" class="i-button primary itemBtn removeIconPadding" aria-label="delete">
-            <i svg-i="../../img/delete.svg">
-          </div></td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div layout="row" ng-show="admin.totalPages((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)" layout-align="center center" layout-wrap>
+  <div class="row" ng-show="admin.totalPages((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)" layout-align="center center" layout-wrap>
     <button ng-class="mini" ng-disabled="admin.currentPage == 0" ng-click="admin.currentPage=admin.currentPage-1">
       Previous
     </button>
