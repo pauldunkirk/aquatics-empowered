@@ -47,7 +47,18 @@ router.delete('/byId/:id', function(req, res) {
     client.query('DELETE FROM facilities WHERE id = $1;', [id],
     function(err, result) {
       done();
-      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(200);
+    });
+  });
+});
+
+router.delete('/nullGData', function(req, res) {
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('DELETE FROM facilities WHERE google_places_data IS NULL;',
+    function(err, result) {
+      done();
+      err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(200);
     });
   });
 });
@@ -61,7 +72,7 @@ router.post('/', function(req, res) {
       query.values,
       function(err) {
         done();
-        err ? res.sendStatus(500) : res.sendStatus(201);
+        err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(200);
       }
     );
   });

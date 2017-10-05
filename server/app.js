@@ -6,8 +6,29 @@ const portDecision = process.env.PORT || 3000;
 const facilities = require('./routes/facilities');
 const placeIds = require('./routes/placeIds');
 const bodyParser = require('body-parser');
-
+let isLocal = require('./config/config.js').local;
+// console.log('locals', app.locals);
+// if (portDecision == 3000) {
+//   console.log('localhost detected: setting local database...');
+//   app.res.locals.configPath = './config/local.js';
+//   isLocal = true;
+// } else {
+//   console.log('no localhost detected: setting heroku database...');
+//   app.res.locals.configPath = './config/heroku.js';
+//   isLocal = false;
+// }
 app.get('/', (req, res) => res.sendFile(path.resolve('server/public/index.html')));
+
+// app.set('/setLocal', () => {
+//   res.locals.configPath = './config/local.js';
+//   isLocal = true;
+// });
+//
+// app.set('/setHeroku', () => {
+//   res.locals.configPath = './config/heroku.js';
+//   isLocal = false;
+// });
+app.get('/local', (req,res) => res.send(isLocal));
 
 app.use(express.static('server/public'));
 app.use(bodyParser.json());
