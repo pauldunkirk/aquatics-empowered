@@ -20,18 +20,24 @@ app.controller('AdminController', ['$http', function($http) {
   vm.pulsing = false;
   getFacilities();
   getDbType();
-
   //methods making heavy use of google places
   //placed into one object for code readability/organization/collapsibility
+  vm.selectCities = () => {
+    $http.get(vm.cityCoordsUrl).then(
+      res => {
+        console.log('cities', res.data);
+        vm.c.cityList = res.data;
+      },
+      err => console.log('could not find cities JSON', err)
+    )
+  }
+  vm.log = () => console.log(vm.c.cityList);
+  vm.selectCities();
   vm.gPlaces = {
     findIds(num=1) {
-      $http.get(vm.cityCoordsUrl).then(
-        res => {
-          console.log('cities', res.data);
-          pulse(searchCity, res.data, vm.citiesLeft, 1000, 1000-num);
-        },
-        err => console.log('could not find cities JSON', err)
-      )
+      const filteredCityList = vm.c.cityList.filter(c => c.include);
+      console.log('filtered list', filteredCityList);
+      pulse(searchCity, filteredCityList, vm.citiesLeft, 1100, 0);
     },
     getIdList() {
       $http.get('/placeIds').then(
@@ -123,11 +129,11 @@ app.controller('AdminController', ['$http', function($http) {
       //LatLng object from above
       location,
     }
-  //params documentation:
-    //https://developers.google.com/places/web-service/search#RadarSearchRequests
-    //JS example:
-    //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
-    //(i do not use service.radarSearch because 'service' is too generic for a real webapp)
+    //params documentation:
+      //https://developers.google.com/places/web-service/search#RadarSearchRequests
+      //JS example:
+      //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
+      //(i do not use service.radarSearch because 'service' is too generic for a real webapp)
     gPlacesAPI.radarSearch(request, (results, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
         console.error('google places service error:', status);
@@ -143,6 +149,16 @@ app.controller('AdminController', ['$http', function($http) {
       //ES6 for loop functionality. look up "for of loop"
       for (const idObject of idList) addPlaceIdToDb(idObject);
     } );
+  };
+
+  const addPlaceIdToDb = placeObject => {
+    $http({
+      method: 'POST',
+      url: '/placeIds/',
+      data: placeObject
+    }).then(
+      res => vm.numAdded++,
+      err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
   };
 
   function getFacilities() {
@@ -224,16 +240,6 @@ app.controller('AdminController', ['$http', function($http) {
   };
 
 
-  const addPlaceIdToDb = placeObject => {
-    $http({
-      method: 'POST',
-      url: '/placeIds/',
-      data: placeObject
-    }).then(
-      res => vm.numAdded++,
-      err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
-  };
-
   const geocodeAdd = facility => {
     const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
     const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;
@@ -284,14 +290,56 @@ app.controller('AdminController', ['$http', function($http) {
       )) && text!=''
   )
 
-/***************************ANGULAR SEARCH FILTER ***************************/
+/***************************CITY SEARCH FILTER ***************************/
 
+vm.c = {
+  currentPage: 0,
+  pageSize: 25,
+  filtered: [],
+  loading: false,
+  sortType: 'city', // set the default sort type
+  sortReverse: false,  // set the default sort order
+  show: {
+    options: ['Pending', 'Dispatched', 'Completed', 'Declined'],
+    statuses: [true, true, true, true],
+    text: function () {
+      var ret = [];
+      var pendBool = (!this.statuses[0] && this.options[0]);
+      var dispBool = (!this.statuses[1] && this.options[1]);
+      var compBool = (!this.statuses[2] && this.options[2]);
+      var decBool = (!this.statuses[3] && this.options[3]);
+      if (compBool) { ret.push(compBool); }
+      if (decBool) { ret.push(decBool); }
+      if (dispBool) { ret.push(dispBool); }
+      if (pendBool) { ret.push(pendBool); }
+      return ret;
+    }
+  },
+  setSort: function(column) {
+    vm.c.sortReverse = !vm.c.sortReverse;
+    vm.c.sortType = column;
+  },
+  pageCheck: function(numResults) {
+    var total = vm.c.totalPages(numResults);
+    if (vm.c.currentPage >= total || ((vm.c.currentPage == -1) && total)) {
+      vm.c.currentPage = total -1 ;
+    }
+  },
+  totalPages: function (num) {
+    var total = 0;
+    if (num) {
+      total = parseInt(((num - 1) / vm.c.pageSize) + 1);
+    }
+    return total;
+  },
+}
 
+/****************************DB SEARCH FILTER************************************/
   vm.currentPage = 0;
   vm.pageSize = 20;
   vm.filtered = [];
   vm.loading = false;
-  vm.sortType = 'id'; // set the default sort type
+  vm.sortType = 'name'; // set the default sort type
   vm.sortReverse = true;  // set the default sort order
   vm.show = {
     options: ['Pending', 'Dispatched', 'Completed', 'Declined'],
@@ -322,7 +370,7 @@ app.controller('AdminController', ['$http', function($http) {
   vm.totalPages = function (num) {
     var total = 0;
     if (num) {
-      total = parseInt(((num - 1) / vm.pageSize) + 1);
+      total = parseInt(((num - 1) / vm.c.pageSize) + 1);
     }
     return total;
   };
