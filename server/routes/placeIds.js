@@ -59,7 +59,7 @@ function deleteEmpties(res) {
 router.delete('/all', function(req, res) {
   pool.connect(function(err, client, done) {
     err && res.sendStatus(503);
-    client.query('DELETE * FROM google_radar_results;',
+    client.query('DELETE FROM google_radar_results;',
     function(err, result) {
       done();
       err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
