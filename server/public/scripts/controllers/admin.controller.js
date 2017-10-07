@@ -55,15 +55,22 @@ app.controller('AdminController', ['$http', function($http) {
       gPlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
-          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword);
-          addFacilityToDb(facility);
+          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
+          //add to DB if parseDetails did not return NULL
+          if (facility) {
+            addFacilityToDb(facility);
+          }
         } else {
           console.log('gPlacesAPI error', status);
         }
       });
     },
     //put google place details into format for our DB
-    parseDetails(pResult, keyword) {
+    parseDetails(pResult, keyword, requireReview) {
+      //check if reviews are required and exist in google data
+      if (requireReview && pResult.reviews==[]) {
+        return null;
+      }
       let adrCmps = {}; //format address components of gmaps for usability
       //this jQuery magic to reformat the result was copied from the internet:
       $.each(pResult.address_components, (k,v1) => $.each(v1.types, (k2, v2) =>

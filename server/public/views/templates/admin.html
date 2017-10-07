@@ -66,6 +66,11 @@
             Get PlaceIds from Radar Table (uses no API queries)
           </button>
           <br/>
+          <form ng-if="admin.gPlaceIdList.length">
+            <br />
+            <input type="checkbox"  ng-model="admin.requireReviews" />
+            Require Google Reviews to add facility to DB.
+          </form>
           <button class="btn"
               ng-disabled="!admin.gPlaceIdList.length"
               ng-click="admin.gPlaces.getInfoFromIds(admin.gPlaceIdList)">
