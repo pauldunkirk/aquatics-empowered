@@ -1,22 +1,27 @@
 <div class="container">
 
-  <div>
+  <div class="row">
     <h2>Admin Page - Running on {{admin.dbType}} database</h2>
   </div>
 
 <hr>
 
-    <div class="container">
-      <h2>Choose which of biggest 1000 cities in USA to search</h2>
-      <form flex="50" id="surveySearch">
-        <input placeholder="filter cities" ng-model="cityQuery" ng-change="admin.c.pageCheck((admin.c.cityList  | filter: cityQuery |  excludeByStatus: admin.c.show.text()).length)"/>
-        <div class="errors-spacer"></div>
-      </form>
-      <h4 flex="25" id="surveySearchResults">Results: {{(admin.c.cityList  | filter: cityQuery | excludeByStatus: admin.c.show.text()).length}} </h3>
+  <div class="row">
+
+    <h2>Choose which of biggest 1000 cities in USA to search</h2>
+    <form flex="50" id="surveySearch">
+      <input placeholder="filter cities" ng-model="cityQuery" ng-change="admin.c.pageCheck((admin.c.cityList  | filter: cityQuery |  excludeByStatus: admin.c.show.text()).length)"/>
+      <div class="errors-spacer"></div>
+    </form>
+    <h4 flex="25" id="surveySearchResults">Results: {{(admin.c.cityList  | filter: cityQuery | excludeByStatus: admin.c.show.text()).length}} </h4>
+    <span>click column heading to sort</span>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
       <table cellspacing="0">
         <thead>
           <tr id="headerRow">
-            <th class="columnSort" ng-click="admin.c.setSort('include')">
+            <th class="columnSort" width="55" ng-click="admin.c.setSort('include')">
               Select&nbsp</th>
             <th class="columnSort" ng-click="admin.c.setSort('city')">
               City</th>
@@ -27,11 +32,12 @@
         <tbody class="tableBody">
           <tr class="tableBodyRow" data-ng-repeat="res in admin.c.cityList | excludeByStatus: admin.c.show.text() | orderBy:admin.c.sortType:admin.c.sortReverse | filter: cityQuery | startFrom:admin.c.currentPage*admin.c.pageSize | limitTo:admin.c.pageSize" >
             <td><input type="checkbox" ng-model="res.include" /></td>
-            <td>{{res.city}}</td>
-            <td>{{res.state}}</td>
+            <td class="longTd">{{res.city}}</td>
+            <td class="longTd">{{res.state}}</td>
           </tr>
         </tbody>
       </table>
+
       <div class="row" ng-show="admin.c.totalPages((admin.c.cityList  | filter: query |  excludeByStatus: admin.c.show.text()).length)" >
         <button ng-class="mini" ng-disabled="admin.c.currentPage == 0" ng-click="admin.c.currentPage=admin.c.currentPage-1">
           Previous
@@ -42,76 +48,77 @@
         </button>
       </div>
     </div>
-
-      <div class="row">
-        <h4>Takes city coordinates and retrieves google place id for up to 200 places per city based on keywords</h4>
-        <form class="specialTools form-group" ng-submit="admin.gPlaces.findIds(num)">
-          <input class="form-control" type="text" placeholder="keywords" required ng-disabled="admin.citiesLeft[0]" ng-model="admin.keywords">
-          <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
-          <input class="btn" type="submit" value="query selected cities, add to Radar Table" ng-disabled="!(admin.keywords)">
-        </form>
-        <h4 ng-if="admin.citiesLeft[0]">
-          {{admin.citiesLeft[0]}} cities remaining <br />
-          {{admin.errorCount}} errors
-        </h4>
-<hr>
-        <div class="container">
-          <h2>Gather Details</h2>
-          <h4>Gathers detailed info with the Google place ids from above</h4>
-          <button class="btn"
-            ng-click="admin.gPlaces.getIdList()">
-            Get PlaceIds from Radar Table (uses no API queries)
-          </button>
-          <br/>
-          <form ng-if="admin.gPlaceIdList.length">
-            <br />
-            <input type="checkbox"  ng-model="admin.requireReviews" />
-            Require Google Reviews to add facility to DB.
-          </form>
-          <button class="btn"
-              ng-disabled="!admin.gPlaceIdList.length"
-              ng-click="admin.gPlaces.getInfoFromIds(admin.gPlaceIdList)">
-            {{admin.gPlaceIdList.length ? "Add Google Info for ALL Place IDs to DB! (uses API queries)" : "Get Place Ids First"}}
-          </button>
-          <span>Current API query limit 2k per day</span>
-          <h4>Number of google place ids: {{admin.gPlaceIdList.length}}</h4>
-          <h4 ng-if="admin.placesLeft[0]">
-            {{admin.placesLeft[0]}} places remaining <br />
-            {{admin.errorCount}} errors
-          </h4>
-        </div>
-
+  </div>
+  <div class="row">
+    <h4>Takes city coordinates and retrieves google place id for up to 200 places per city based on keywords</h4>
+    <form class="specialTools form-group" ng-submit="admin.gPlaces.findIds(num)">
+      <input class="form-control" type="text" placeholder="keywords" required ng-disabled="admin.citiesLeft[0]" ng-model="admin.keywords">
+      <input class="form-control" type="text" required ng-model="admin.cityCoordsUrl">
+      <input class="btn" type="submit" value="query selected cities, add to Radar Table" ng-disabled="!(admin.keywords)">
+    </form>
+    <h4 ng-if="admin.citiesLeft[0]">
+      {{admin.citiesLeft[0]}} cities remaining <br />
+      {{admin.errorCount}} errors
+    </h4>
+  </div>
 
 <hr>
 
-          <h3>Stop Queries!</h3>
-          <div class="container">
-            <button class="btn" ng-disabled="!admin.pulsing" ng-click="admin.abort=true">
-              Stop pulsing all Google queries
-            </button>
-          </div>
+  <div class="row">
+    <h2>Gather Details</h2>
+    <h4>Gathers detailed info with the Google place ids from above</h4>
+    <button class="btn" ng-click="admin.gPlaces.getIdList()">
+      Get PlaceIds from Radar Table (uses no API queries)
+    </button>
+    <br/>
+    <form ng-if="admin.gPlaceIdList.length">
+      <br />
+      <input type="checkbox" ng-model="admin.requireReviews" />
+      MUST have Google Review(s) to add to DB.
+    </form>
+    <button class="btn"
+        ng-disabled="!admin.gPlaceIdList.length"
+        ng-click="admin.gPlaces.getInfoFromIds(admin.gPlaceIdList)">
+      {{admin.gPlaceIdList.length ? "Add Google Info for ALL Place IDs to DB! (uses API queries)" : "Get Place Ids First"}}
+    </button>
+    <span>Current API query limit 2k per day</span>
+    <h4>Number of google place ids: {{admin.gPlaceIdList.length}}</h4>
+    <h4 ng-if="admin.placesLeft[0]">
+      {{admin.placesLeft[0]}} places remaining <br />
+      {{admin.errorCount}} errors
+    </h4>
+  </div>
+
+
 <hr>
 
-        <h4><br />{{admin.dbType}} Database, GOOGLE_RADAR_RESULTS table:</h4>
-        <button class="btn-danger" ng-click="admin.cleanIdList()">
-           Delete NULL placeId entries and <br />placeIds that exist within facilities table
-        </button>
-        <button class="btn-danger" ng-click="admin.deleteIdList()">
-          Delete ALL entries
-        </button>
-        <h4><br />{{admin.dbType}} Database, FACILITIES table:</h4>
-        <button class="btn-danger" ng-click="admin.cleanFacilities()">
-           Delete facilities with no google_places_data
-        </button>
-      </div>
-    </div>
+  <div class="row">
+    <h3>Stop Queries!</h3>
+    <button class="btn" ng-disabled="!admin.pulsing" ng-click="admin.abort=true">
+      Stop pulsing all Google queries
+    </button>
+  </div>
+
+<hr>
+
+  <div class="row">
+    <h4><br />{{admin.dbType}} Database, GOOGLE_RADAR_RESULTS table:</h4>
+    <button class="btn-danger" ng-click="admin.cleanIdList()">
+       Delete NULL placeId entries and <br />placeIds that exist within facilities table
+    </button>
+    <button class="btn-danger" ng-click="admin.deleteIdList()">
+      Delete ALL entries
+    </button>
+    <h4><br />{{admin.dbType}} Database, FACILITIES table:</h4>
+    <button class="btn-danger" ng-click="admin.cleanFacilities()">
+       Delete facilities with no google_places_data
+    </button>
   </div>
 
 <hr><hr><hr>
 
-
   <!-- DATABASE VIEW table set up  -->
-  <div class="container">
+  <div class="row">
     <h2>Database View</h2>
     <form flex="50" id="surveySearch">
       <label>Search Pools in Database</label>
@@ -119,6 +126,7 @@
       <div class="errors-spacer"></div>
     </form>
     <h3 flex="25" id="surveySearchResults">Results: {{(admin.allPools  | filter: query | excludeByStatus: admin.show.text()).length}} </h3>
+    <span>click column heading to sort</span>
     <!-- <div id="filterBoxes" class="row">
       <h3 id="dashFilterBy">Filter By</h3>
       <div layout="column" class="filterBox" ng-repeat="status in admin.show.options">
@@ -131,25 +139,25 @@
   <!-- end DATABASE VIEW table set up -->
 
   <!-- DATABASE VIEW table itself -->
-  <div class="container">
+  <div class="row">
     <table cellspacing="0">
       <thead>
         <tr id="headerRow">
-          <th class="columnSort" ng-click="admin.setSort('id')">
+          <th class="columnSort" width="50" ng-click="admin.setSort('id')">
             Id #</th>
-          <th class="columnSort" ng-click="admin.setSort('name')">
+          <th class="columnSort" width="300" ng-click="admin.setSort('name')">
             Name</th>
-          <th class="columnSort" ng-click="admin.setSort('city')">
+          <th class="columnSort"  width="180" ng-click="admin.setSort('city')">
             City</th>
-          <th class="columnSort" ng-click="admin.setSort('google_places_data.rating')">
+          <th class="columnSort" width="50" ng-click="admin.setSort('google_places_data.rating')">
             Rating&nbsp</th>
-          <th class="columnSort" ng-click="admin.setSort('google_places_data.reviews.length')">
+          <th class="columnSort" width="60" ng-click="admin.setSort('google_places_data.reviews.length')">
             Reviews </th>
           <th class="columnSort" ng-click="admin.setSort('last_updated')">
             Last Modified</th>
           <th class="columnSort" ng-click="admin.setSort('date_added')">
             Date Added </th>
-          <th></th>
+          <th width="20"></th>
         </tr>
       </thead>
       <tbody class="tableBody">
@@ -159,11 +167,11 @@
             {{result.name}}</td>
           <td>{{result.city}}</td>
           <td>{{result.google_places_data.rating}}</td>
-          <td>{{result.google_places_data.reviews.length}}</td>
-          <td id="row{{result.id}}" >{{result.last_updated | date:'medium'}}</td>
+          <td>{{result.google_places_data.reviews.length || 0}}</td>
+          <td>{{result.last_updated | date:'medium'}}</td>
           <td>{{result.date_added | date:'medium' }}</td>
-          <td><div class="i-button ink-ripple itemBtn removeIconPadding" aria-label="view">
-            <i ng-click="admin.deleteFacility(result.id)" class="fa fa-trash"></i>
+          <td><div>
+            <i ng-click="admin.deleteFacility(result.id)" class="fa fa-trash" />
           </div></td>
         </tr>
       </tbody>
@@ -174,7 +182,7 @@
   </div> <!-- end DATABASE VIEW table itself -->
 
   <!-- DATABASE VIEW TABLE controls -->
-  <div class="container" ng-show="admin.totalPages((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)" layout-align="center center" layout-wrap>
+  <div class="row" ng-show="admin.totalPages((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)">
     <button ng-class="mini" ng-disabled="admin.currentPage == 0" ng-click="admin.currentPage=admin.currentPage-1">
       Previous
     </button>
@@ -184,4 +192,4 @@
     </button>
   </div>  <!-- end DATABASE VIEW TABLE controls -->
 
-  </div> <!-- end page container -->
+</div> <!-- end page container -->
