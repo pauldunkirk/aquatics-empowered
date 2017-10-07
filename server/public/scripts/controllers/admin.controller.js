@@ -292,6 +292,7 @@ app.controller('AdminController', ['$http', function($http) {
       )) && text!=''
   )
 
+vm.log = data => console.log(data);
 /***************************CITY SEARCH FILTER ***************************/
 
 vm.c = {
