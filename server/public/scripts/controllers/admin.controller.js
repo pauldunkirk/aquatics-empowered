@@ -1,10 +1,19 @@
 app.controller('AdminController', ['$http', function($http) {
   const vm = this;
   const api = 'https://maps.googleapis.com/maps/api/';
+ // see line 246 for use of geoBase in geocodeAdd:245, also 278 in pulsePost:275 inside of geocodeAndPost:268
   const geoBase = api + 'geocode/json?address=';
+
+  // not using this
   const placesBase = api + 'place/nearbysearch/json?query=';
-  //jakes api key
+
+  // Paul's API key if we need it - currnetly used in lazy-load in maps.html but Jake's in index
+  // AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o
+
+  //jakes api key - see above for Paul's and other locations of keys
+  // used in line 249 along with geoBase for 'const url' used in geocodeAdd, pulsePost,and geocodeAndPost - see above notes
   const apiKeyEnd = '&key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8';
+
   //directly using google places API instead of NgMap because NgMap has no access to the google radar (bulk) search
   //'gPlacesAPI' is instead names 'service' in some google examples. Too generic for our purposes
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
@@ -302,7 +311,7 @@ vm.log = data => console.log(data);
 
 vm.c = {
   currentPage: 0,
-  pageSize: 25,
+  pageSize: 10,
   filtered: [],
   loading: false,
   sortType: 'city', // set the default sort type
@@ -344,7 +353,7 @@ vm.c = {
 
 /****************************DB SEARCH FILTER************************************/
   vm.currentPage = 0;
-  vm.pageSize = 20;
+  vm.pageSize = 10;
   vm.filtered = [];
   vm.loading = false;
   vm.sortType = 'name'; // set the default sort type
@@ -383,6 +392,7 @@ vm.c = {
     return total;
   };
 
+<<<<<<< HEAD
 
 
 function memorySizeOf(obj) {
@@ -426,7 +436,8 @@ function memorySizeOf(obj) {
     return formatByteSize(sizeOf(obj));
 
 }
-}]);
+}]
+); //end of app.controller function
 
 //for bulk posting. not compatable with google geocoding rate limit
 // const addFacilities = (facilities) => {

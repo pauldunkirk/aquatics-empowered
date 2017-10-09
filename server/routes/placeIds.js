@@ -81,6 +81,4 @@ router.delete('/byId/:place_id', function(req, res) {
   });
 });
 
-
-
 module.exports = router;
