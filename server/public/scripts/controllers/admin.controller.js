@@ -404,7 +404,7 @@ vm.c = {
     return total;
   };
 
-<<<<<<< HEAD
+
 
 
 function memorySizeOf(obj) {
