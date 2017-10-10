@@ -2,17 +2,18 @@ app.controller('AdminController', ['$http', function($http) {
   const vm = this;
   const api = 'https://maps.googleapis.com/maps/api/';
 
- // see line 246 for use of geoBase in geocodeAdd:245, also 278 in pulsePost:275 inside of geocodeAndPost:268
+ // P: see line 246 for use of geoBase in geocodeAdd:245, also 278 in pulsePost:275 inside of geocodeAndPost:268
   const geoBase = api + 'geocode/json?address=';
 
-  // not using const placesBase
+  // P: not using const placesBase (nearbysearch), that I can find
   const placesBase = api + 'place/nearbysearch/json?query=';
 
   // Paul's API key if we need it - currnetly used in lazy-load in maps.html
   // AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o
 
-  //jakes api key - also in index - see above for Paul's
-  // used once (line 250) along with geoBase for 'const url' used in geocodeAdd, pulsePost,and geocodeAndPost - see above notes
+  //P: jakes api key AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8
+  // P: Jake's also in index - see above for Paul's
+  // apiKeyEnd used once (line 250) along with geoBase for 'const url' used in geocodeAdd, pulsePost,and geocodeAndPost - see above notes
   const apiKeyEnd = '&key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8';
 
   //directly using google places API instead of NgMap because NgMap has no access to the google radar (bulk) search
@@ -21,23 +22,24 @@ app.controller('AdminController', ['$http', function($http) {
 
   //a JSON containing the 1000 biggest US cities and their coordinates
   vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
-  vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
+  vm.citiesLeft = [0]; //J: array to allow passing by reference to pulse()
   vm.placesLeft = [0];
-  vm.geocodesLeft = 0;
+  vm.geocodesLeft = 0; //P: see line 296 in pulsePost function
   vm.errorCount = 0;
   vm.gPlaceIdList = [];
   vm.abort = false;
   vm.pulsing = false;
-  getFacilities();
-  getDbType();
+  getFacilities(); //see 174 $http.get
+  getDbType(); //see 183 $http.get
 
-  //methods making heavy use of google places
-  //placed into one object for code readability/organization/collapsibility
-
+  //J: methods making heavy use of google places
+  //J: placed into one object for code readability/organization/collapsibility
   $http.get(vm.cityCoordsUrl).then(
     res => vm.c.cityList = res.data,
     err => console.log('could not find cities JSON', err)
   );
+
+
   vm.gPlaces = {
     findIds(num=1) {
       const filteredCityList = vm.c.cityList.filter(c => c.include);
@@ -252,11 +254,12 @@ app.controller('AdminController', ['$http', function($http) {
 
 
 //************************************************
-
+//P: see 291 below
+// compare geocodeAdd to geoCodeAdd in maps controller
   const geocodeAdd = facility => {
     const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
     const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;
-    //access google API via url
+    //J: access google API via url (P: 1 line above: why doesn't url conflict with so many others?
     $http.get(url).then( res => {
       console.log('geocode res', res);
       if (res.data.status == "OK") {
@@ -276,6 +279,7 @@ app.controller('AdminController', ['$http', function($http) {
     });
   };
 
+//P: only instance of geocodeAndPost
   vm.geocodeAndPost = (jsonString, index=0) => {
     vm.errorCount = 0;
     const json = JSON.parse(jsonString);
