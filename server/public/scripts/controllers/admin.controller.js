@@ -405,8 +405,6 @@ vm.c = {
   };
 
 
-
-
 function memorySizeOf(obj) {
     var bytes = 0;
 
