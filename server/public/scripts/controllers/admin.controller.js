@@ -1,17 +1,19 @@
 app.controller('AdminController', ['$http', function($http) {
   const vm = this;
   const api = 'https://maps.googleapis.com/maps/api/';
- // see line 246 for use of geoBase in geocodeAdd:245, also 278 in pulsePost:275 inside of geocodeAndPost:268
+
+ // P: see line 246 for use of geoBase in geocodeAdd:245, also 278 in pulsePost:275 inside of geocodeAndPost:268
   const geoBase = api + 'geocode/json?address=';
 
-  // not using this
+  // P: not using const placesBase (nearbysearch), that I can find
   const placesBase = api + 'place/nearbysearch/json?query=';
 
-  // Paul's API key if we need it - currnetly used in lazy-load in maps.html but Jake's in index
+  // Paul's API key if we need it - currnetly used in lazy-load in maps.html
   // AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o
 
-  //jakes api key - see above for Paul's and other locations of keys
-  // used in line 249 along with geoBase for 'const url' used in geocodeAdd, pulsePost,and geocodeAndPost - see above notes
+  //P: jakes api key AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8
+  // P: Jake's also in index - see above for Paul's
+  // apiKeyEnd used once (line 250) along with geoBase for 'const url' used in geocodeAdd, pulsePost,and geocodeAndPost - see above notes
   const apiKeyEnd = '&key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8';
 
   //directly using google places API instead of NgMap because NgMap has no access to the google radar (bulk) search
@@ -20,23 +22,24 @@ app.controller('AdminController', ['$http', function($http) {
 
   //a JSON containing the 1000 biggest US cities and their coordinates
   vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
-  vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
+  vm.citiesLeft = [0]; //J: array to allow passing by reference to pulse()
   vm.placesLeft = [0];
-  vm.geocodesLeft = 0;
+  vm.geocodesLeft = 0; //P: see line 296 in pulsePost function
   vm.errorCount = 0;
   vm.gPlaceIdList = [];
   vm.abort = false;
   vm.pulsing = false;
-  getFacilities();
-  getDbType();
+  getFacilities(); //see 174 $http.get
+  getDbType(); //see 183 $http.get
 
-  //methods making heavy use of google places
-  //placed into one object for code readability/organization/collapsibility
-
+  //J: methods making heavy use of google places
+  //J: placed into one object for code readability/organization/collapsibility
   $http.get(vm.cityCoordsUrl).then(
     res => vm.c.cityList = res.data,
     err => console.log('could not find cities JSON', err)
   );
+
+
   vm.gPlaces = {
     findIds(num=1) {
       const filteredCityList = vm.c.cityList.filter(c => c.include);
@@ -64,15 +67,22 @@ app.controller('AdminController', ['$http', function($http) {
       gPlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
-          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword);
-          addFacilityToDb(facility);
+          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
+          //add to DB if parseDetails did not return NULL
+          if (facility) {
+            addFacilityToDb(facility);
+          }
         } else {
           console.log('gPlacesAPI error', status);
         }
       });
     },
     //put google place details into format for our DB
-    parseDetails(pResult, keyword) {
+    parseDetails(pResult, keyword, requireReview) {
+      //check if reviews are required and exist in google data
+      if (requireReview && pResult.reviews==[]) {
+        return null;
+      }
       let adrCmps = {}; //format address components of gmaps for usability
       //this jQuery magic to reformat the result was copied from the internet:
       $.each(pResult.address_components, (k,v1) => $.each(v1.types, (k2, v2) =>
@@ -135,6 +145,10 @@ app.controller('AdminController', ['$http', function($http) {
     }
     //params documentation:
       //https://developers.google.com/places/web-service/search#RadarSearchRequests
+// notes/questions from this documentation:
+//  1) "This example requires the Places library. Include the libraries=places parameter when you first load the API" this is done in index
+//  2)
+
       //JS example:
       //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
       //(i do not use service.radarSearch because 'service' is too generic for a real webapp)
@@ -166,8 +180,13 @@ app.controller('AdminController', ['$http', function($http) {
   };
 
   function getFacilities() {
+    let ms = 0;
+    setInterval(()=>ms++, 1);
     $http.get('/facilities/')
-    .then( res => { vm.allPools = res.data;},
+    .then( res => {
+      console.log(ms, 'milliseconds for getFacilities response');
+      console.log(memorySizeOf(res));
+      vm.allPools = res.data;},
            err => console.log('GET pools - error:', err)
     );
   };
@@ -244,10 +263,15 @@ app.controller('AdminController', ['$http', function($http) {
   };
 
 
+
+
+//************************************************
+//P: see 291 below
+// compare geocodeAdd to geoCodeAdd in maps controller
   const geocodeAdd = facility => {
     const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
     const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;
-    //access google API via url
+    //J: access google API via url (P: 1 line above: why doesn't url conflict with so many others?
     $http.get(url).then( res => {
       console.log('geocode res', res);
       if (res.data.status == "OK") {
@@ -267,6 +291,7 @@ app.controller('AdminController', ['$http', function($http) {
     });
   };
 
+//P: only instance of geocodeAndPost
   vm.geocodeAndPost = (jsonString, index=0) => {
     vm.errorCount = 0;
     const json = JSON.parse(jsonString);
@@ -285,15 +310,11 @@ app.controller('AdminController', ['$http', function($http) {
     };
   };
 
-  //returns a boolean
-  vm.validateJson = (text='') => (
-    (/^[\],:{}\s]*$/.test(
-        text.replace(/\\["\\\/bfnrtu]/g, '@')
-        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-        .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
-      )) && text!=''
-  )
 
+
+
+
+vm.log = data => console.log(data);
 /***************************CITY SEARCH FILTER ***************************/
 
 vm.c = {
@@ -338,6 +359,10 @@ vm.c = {
   },
 }
 
+
+
+
+
 /****************************DB SEARCH FILTER************************************/
   vm.currentPage = 0;
   vm.pageSize = 10;
@@ -379,6 +404,50 @@ vm.c = {
     return total;
   };
 
+<<<<<<< HEAD
+
+
+function memorySizeOf(obj) {
+    var bytes = 0;
+
+    function sizeOf(obj) {
+        if(obj !== null && obj !== undefined) {
+            switch(typeof obj) {
+            case 'number':
+                bytes += 8;
+                break;
+            case 'string':
+                bytes += obj.length * 2;
+                break;
+            case 'boolean':
+                bytes += 4;
+                break;
+            case 'object':
+                var objClass = Object.prototype.toString.call(obj).slice(8, -1);
+                if(objClass === 'Object' || objClass === 'Array') {
+                    for(var key in obj) {
+                        if(!obj.hasOwnProperty(key)) continue;
+                        sizeOf(obj[key]);
+                    }
+                } else bytes += obj.toString().length * 2;
+                break;
+            default:
+              console.log('bad data type');
+            }
+        }
+        return bytes;
+    };
+
+    function formatByteSize(bytes) {
+        if(bytes < 1024) return bytes + " bytes";
+        else if(bytes < 1048576) return(bytes / 1024).toFixed(3) + " KiB";
+        else if(bytes < 1073741824) return(bytes / 1048576).toFixed(3) + " MiB";
+        else return(bytes / 1073741824).toFixed(3) + " GiB";
+    };
+
+    return formatByteSize(sizeOf(obj));
+
+}
 }]
 ); //end of app.controller function
 
