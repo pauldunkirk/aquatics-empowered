@@ -1,3 +1,14 @@
+//returns a boolean
+vm.validateJson = (text='') => (
+  (/^[\],:{}\s]*$/.test(
+      text.replace(/\\["\\\/bfnrtu]/g, '@')
+      .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+      .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
+    )) && text!=''
+)
+
+
+
 //methods for parsing datasets from different sources into usable JSON
 vm.toJson = {
   mapMuse(text) {
