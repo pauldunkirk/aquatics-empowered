@@ -1,17 +1,18 @@
 app.controller('AdminController', ['$http', function($http) {
   const vm = this;
   const api = 'https://maps.googleapis.com/maps/api/';
+
  // see line 246 for use of geoBase in geocodeAdd:245, also 278 in pulsePost:275 inside of geocodeAndPost:268
   const geoBase = api + 'geocode/json?address=';
 
-  // not using this
+  // not using const placesBase
   const placesBase = api + 'place/nearbysearch/json?query=';
 
-  // Paul's API key if we need it - currnetly used in lazy-load in maps.html but Jake's in index
+  // Paul's API key if we need it - currnetly used in lazy-load in maps.html
   // AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o
 
-  //jakes api key - see above for Paul's and other locations of keys
-  // used in line 249 along with geoBase for 'const url' used in geocodeAdd, pulsePost,and geocodeAndPost - see above notes
+  //jakes api key - also in index - see above for Paul's
+  // used once (line 250) along with geoBase for 'const url' used in geocodeAdd, pulsePost,and geocodeAndPost - see above notes
   const apiKeyEnd = '&key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8';
 
   //directly using google places API instead of NgMap because NgMap has no access to the google radar (bulk) search
@@ -135,6 +136,10 @@ app.controller('AdminController', ['$http', function($http) {
     }
     //params documentation:
       //https://developers.google.com/places/web-service/search#RadarSearchRequests
+// notes/questions from this documentation:
+//  1) "This example requires the Places library. Include the libraries=places parameter when you first load the API" this is done in index
+//  2)
+
       //JS example:
       //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
       //(i do not use service.radarSearch because 'service' is too generic for a real webapp)
@@ -244,6 +249,10 @@ app.controller('AdminController', ['$http', function($http) {
   };
 
 
+
+
+//************************************************
+
   const geocodeAdd = facility => {
     const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
     const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;
@@ -285,14 +294,9 @@ app.controller('AdminController', ['$http', function($http) {
     };
   };
 
-  //returns a boolean
-  vm.validateJson = (text='') => (
-    (/^[\],:{}\s]*$/.test(
-        text.replace(/\\["\\\/bfnrtu]/g, '@')
-        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-        .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
-      )) && text!=''
-  )
+
+
+
 
 /***************************CITY SEARCH FILTER ***************************/
 
@@ -337,6 +341,10 @@ vm.c = {
     return total;
   },
 }
+
+
+
+
 
 /****************************DB SEARCH FILTER************************************/
   vm.currentPage = 0;

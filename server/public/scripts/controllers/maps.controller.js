@@ -16,6 +16,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     getFacilities(); //run $http request to server for nearby pools
   }); //end NgMap
 
+
   vm.logPool = () => console.log('selected pool:', vm.pool);
 
   vm.clicked = url => window.open(url); //open facility website in new tab
@@ -76,9 +77,10 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         zip: pool.zip,
         visible: true,
         googleJson: pool.google_places_data,
-        // reviews: (pool.google_places_data.reviews || []).map(
-        //   review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name
-        // ) )
+        reviews: (pool.google_places_data.reviews || []).map(
+          review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name
+        ) )
+
       }
     ) )
     .sort( (a, b) => a.distance - b.distance )
