@@ -67,15 +67,22 @@ app.controller('AdminController', ['$http', function($http) {
       gPlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
-          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword);
-          addFacilityToDb(facility);
+          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
+          //add to DB if parseDetails did not return NULL
+          if (facility) {
+            addFacilityToDb(facility);
+          }
         } else {
           console.log('gPlacesAPI error', status);
         }
       });
     },
     //put google place details into format for our DB
-    parseDetails(pResult, keyword) {
+    parseDetails(pResult, keyword, requireReview) {
+      //check if reviews are required and exist in google data
+      if (requireReview && pResult.reviews==[]) {
+        return null;
+      }
       let adrCmps = {}; //format address components of gmaps for usability
       //this jQuery magic to reformat the result was copied from the internet:
       $.each(pResult.address_components, (k,v1) => $.each(v1.types, (k2, v2) =>
@@ -173,8 +180,13 @@ app.controller('AdminController', ['$http', function($http) {
   };
 
   function getFacilities() {
+    let ms = 0;
+    setInterval(()=>ms++, 1);
     $http.get('/facilities/')
-    .then( res => { vm.allPools = res.data;},
+    .then( res => {
+      console.log(ms, 'milliseconds for getFacilities response');
+      console.log(memorySizeOf(res));
+      vm.allPools = res.data;},
            err => console.log('GET pools - error:', err)
     );
   };
@@ -302,6 +314,7 @@ app.controller('AdminController', ['$http', function($http) {
 
 
 
+vm.log = data => console.log(data);
 /***************************CITY SEARCH FILTER ***************************/
 
 vm.c = {
@@ -391,6 +404,49 @@ vm.c = {
     return total;
   };
 
+
+
+function memorySizeOf(obj) {
+    var bytes = 0;
+
+    function sizeOf(obj) {
+        if(obj !== null && obj !== undefined) {
+            switch(typeof obj) {
+            case 'number':
+                bytes += 8;
+                break;
+            case 'string':
+                bytes += obj.length * 2;
+                break;
+            case 'boolean':
+                bytes += 4;
+                break;
+            case 'object':
+                var objClass = Object.prototype.toString.call(obj).slice(8, -1);
+                if(objClass === 'Object' || objClass === 'Array') {
+                    for(var key in obj) {
+                        if(!obj.hasOwnProperty(key)) continue;
+                        sizeOf(obj[key]);
+                    }
+                } else bytes += obj.toString().length * 2;
+                break;
+            default:
+              console.log('bad data type');
+            }
+        }
+        return bytes;
+    };
+
+    function formatByteSize(bytes) {
+        if(bytes < 1024) return bytes + " bytes";
+        else if(bytes < 1048576) return(bytes / 1024).toFixed(3) + " KiB";
+        else if(bytes < 1073741824) return(bytes / 1048576).toFixed(3) + " MiB";
+        else return(bytes / 1073741824).toFixed(3) + " GiB";
+    };
+
+    return formatByteSize(sizeOf(obj));
+
+}
 }]
 ); //end of app.controller function
 

@@ -196,14 +196,25 @@ padding: 20px 15px 0;
 .filterBox {
   padding-top: 14px;
 }
+
 table {
   border: 1px;
+  table-layout: fixed;
+  width: 100%;
 }
 th {
+  font-weight: bold;
 }
+td {
+  overflow: hidden;
+  white-space: nowrap;
+}
+/*th.name {
+  max-width: 250px !important;
+  width: 250px !important;
+}*/
 .itemBtn:hover {
   cursor: pointer;
-
 }
 
 .inputTd{
@@ -247,7 +258,7 @@ tr:nth-child(even) {
 #tableBodyRow #removeIconPadding{
   padding-left: 0;
 }
-#tableBodyRow md-input-container, input{
+#tableBodyRow {
   padding: 0;
   margin: 0;
 
