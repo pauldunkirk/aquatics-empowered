@@ -7,21 +7,8 @@ const pool = new pg.Pool(config);
 
 //UPDATE THIS WHEN UPDATING TABLE LAYOUT
 const facilitiesColumns = [
-  "google_place_id",
-  "users_id",
-  "name",
-  "street_address",
-  "city",
-  "state",
-  "zip",
-  "phone",
-  "description",
-  "image_url",
-  "url",
-  "keyword",
-  "coords",
-  "ae_details",
-  "google_places_data"
+  "google_place_id", "users_id", "name", "street_address", "city", "state", "zip",
+  "phone","description","image_url","url","keyword","coords","ae_details","google_places_data"
 ];
 
 const postAllProps = (postObj, tableColumns) => {

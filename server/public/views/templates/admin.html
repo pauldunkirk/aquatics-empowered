@@ -1,19 +1,16 @@
+<nav ng-include="'views/templates/nav.html'"></nav>
 <div class="container">
-
   <div class="row">
     <h2>Admin Page - Running on {{admin.dbType}} database</h2>
   </div>
-
-<hr>
-
+  <hr>
   <div class="row">
-
     <h2>Choose which of biggest 1000 cities in USA to search</h2>
     <form flex="50" id="surveySearch">
-      <input placeholder="filter cities" ng-model="cityQuery" ng-change="admin.c.pageCheck((admin.c.cityList  | filter: cityQuery |  excludeByStatus: admin.c.show.text()).length)"/>
+      <input placeholder="filter cities" ng-model="cityQuery" ng-change="admin.c.pageCheck((admin.c.cityList  | filter: cityQuery |  excludeByStatus: admin.c.show.text()).length)" />
       <div class="errors-spacer"></div>
     </form>
-    <h4 flex="25" id="surveySearchResults">Results: {{(admin.c.cityList  | filter: cityQuery | excludeByStatus: admin.c.show.text()).length}} </h4>
+    <h4 flex="25" id="surveySearchResults">Results: {{(admin.c.cityList  | filter: cityQuery | excludeByStatus:admin.c.show.text()).length}}</h4>
     <span>click column heading to sort</span>
   </div>
   <div class="row">
@@ -21,14 +18,12 @@
       <table cellspacing="0">
         <thead>
           <tr id="headerRow">
-            <th class="columnSort" width="55" ng-click="admin.c.setSort('include')">
-              Select&nbsp</th>
-            <th class="columnSort" ng-click="admin.c.setSort('city')">
-              City</th>
-            <th class="columnSort" ng-click="admin.c.setSort('state')">
-              State</th>
+            <th class="columnSort" width="55" ng-click="admin.c.setSort('include')">Select&nbsp</th>
+            <th class="columnSort" ng-click="admin.c.setSort('city')">City</th>
+            <th class="columnSort" ng-click="admin.c.setSort('state')">State</th>
           </tr>
         </thead>
+
         <tbody class="tableBody">
           <tr class="tableBodyRow" data-ng-repeat="res in admin.c.cityList | excludeByStatus: admin.c.show.text() | orderBy:admin.c.sortType:admin.c.sortReverse | filter: cityQuery | startFrom:admin.c.currentPage*admin.c.pageSize | limitTo:admin.c.pageSize" >
             <td><input type="checkbox" ng-model="res.include" /></td>
@@ -103,14 +98,14 @@
 
   <div class="row">
     <h4><br />{{admin.dbType}} Database, GOOGLE_RADAR_RESULTS table:</h4>
-    <button class="btn-danger" ng-click="admin.cleanIdList()">
+    <button class="btn-danger" ng-click="admin.db.cleanIdList()">
        Delete NULL placeId entries and <br />placeIds that exist within facilities table
     </button>
     <button class="btn-danger" ng-click="admin.deleteIdList()">
       Delete ALL entries
     </button>
     <h4><br />{{admin.dbType}} Database, FACILITIES table:</h4>
-    <button class="btn-danger" ng-click="admin.cleanFacilities()">
+    <button class="btn-danger" ng-click="admin.db.cleanFacilities()">
        Delete facilities with no google_places_data
     </button>
   </div>
@@ -131,6 +126,8 @@
       <h3 id="dashFilterBy">Filter By</h3>
       <div layout="column" class="filterBox" ng-repeat="status in admin.show.options">
         <checkbox ng-model="admin.show.statuses[$index]" ng-change="admin.pageCheck((admin.allPools  | filter: query |  excludeByStatus: admin.show.text()).length)">
+
+
           {{status}}
         </checkbox>
       </div>
@@ -145,6 +142,7 @@
         <tr id="headerRow">
           <th class="columnSort" width="50" ng-click="admin.setSort('id')">
             Id #</th>
+
           <th class="columnSort" width="300" ng-click="admin.setSort('name')">
             Name</th>
           <th class="columnSort"  width="180" ng-click="admin.setSort('city')">
@@ -171,7 +169,7 @@
           <td>{{result.last_updated | date:'medium'}}</td>
           <td>{{result.date_added | date:'medium' }}</td>
           <td><div>
-            <i ng-click="admin.deleteFacility(result.id)" class="fa fa-trash" />
+            <i ng-click="admin.db.deleteFacility(result.id)" class="fa fa-trash" />
           </div></td>
         </tr>
       </tbody>
