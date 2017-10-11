@@ -50,8 +50,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
 //P: reset is only here and html
 //P: BUT, hideInfoWindow is only here and 10 lines down and comes from Ng-Map
   vm.reset = () => {
-    vm.addr = undefined;
-    vm.radius = undefined;
+    vm.addr = undefined; //see poolSearch and geoCodeAdd
+    vm.radius = undefined; // see setMarkerVis
     vm.pool = undefined;
     vm.mapCenter = defaultCenter;
     vm.map.hideInfoWindow('pool-iw'); //see ngmap
@@ -108,7 +108,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         visible: true,
         googleJson: pool.google_places_data,
         reviews: (pool.google_places_data.reviews || []).map(
-          review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name
+          review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name + ' ' + review.profile_photo_url
+
         ) )
 
       }
