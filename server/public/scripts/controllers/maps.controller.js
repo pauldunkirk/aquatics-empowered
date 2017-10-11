@@ -46,8 +46,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
 //P: reset is only here and html
 //P: BUT, hideInfoWindow is only here and 10 lines down and comes from Ng-Map
   vm.reset = () => {
-    vm.addr = undefined;
-    vm.radius = undefined;
+    vm.addr = undefined; //see poolSearch and geoCodeAdd
+    vm.radius = undefined; // see setMarkerVis
     vm.pool = undefined;
     vm.mapCenter = defaultCenter;
     vm.map.hideInfoWindow('pool-iw'); //see ngmap
