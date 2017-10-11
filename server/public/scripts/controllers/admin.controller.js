@@ -18,7 +18,7 @@ app.controller('AdminController', ['$http', function($http) {
   vm.gPlaceIdList = [];
   vm.abort = false;
   vm.pulsing = false;
-  getFacilities();
+  vm.db.getFacilities();
   getDbType();
 
   //methods making heavy use of google places
@@ -58,7 +58,7 @@ app.controller('AdminController', ['$http', function($http) {
           const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
           //add to DB if parseDetails did not return NULL
           if (facility) {
-            addFacilityToDb(facility);
+            vm.db.addFacilityToDb(facility);
           }
         } else {
           console.log('gPlacesAPI error', status);
@@ -149,30 +149,8 @@ app.controller('AdminController', ['$http', function($http) {
       ) )
       console.log('idlist', idList);
       //ES6 for loop functionality. look up "for of loop"
-      for (const idObject of idList) addPlaceIdToDb(idObject);
+      for (const idObject of idList) vm.db.addPlaceIdToDb(idObject);
     } );
-  };
-
-  const addPlaceIdToDb = placeObject => {
-    $http({
-      method: 'POST',
-      url: '/placeIds/',
-      data: placeObject
-    }).then(
-      res => vm.numAdded++,
-      err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
-  };
-
-  function getFacilities() {
-    let ms = 0;
-    setInterval(()=>ms++, 1);
-    $http.get('/facilities/')
-    .then( res => {
-      console.log(ms, 'milliseconds for getFacilities response');
-      console.log(memorySizeOf(res));
-      vm.allPools = res.data;},
-           err => console.log('GET pools - error:', err)
-    );
   };
 
   function getDbType() {
@@ -182,120 +160,81 @@ app.controller('AdminController', ['$http', function($http) {
     );
   };
 
-
-
-  const addFacilityToDb = (facility) => {
-    $http({
-      method: 'POST',
-      url: '/facilities/',
-      data: facility
-    }).then(
-      res => {
-        console.log('POST success', res, vm.numAdded++);
-      },
-      err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
-  };
-
-  // removes entries with place Ids that exist in facilities table
-  vm.cleanIdList = () => {
-    $http({
-      method: 'DELETE',
-      url: '/placeIds/allDuplicates/',
-    }).then(
-      res => console.log('DELETE success'),
-      err => console.log("error deleting form placeId list: ", err) );
-  };
-
-  vm.deleteIdList = () => {
-    $http({
-      method: 'DELETE',
-      url: '/placeIds/all/',
-    }).then(
-      res => console.log('DELETE success'),
-      err => console.log("error deleting form placeId list: ", err) );
-  };
-
-  vm.cleanFacilities = () => {
-    $http({
-      method: 'DELETE',
-      url: '/facilities/nullGData',
-    }).then(
-      res => console.log('DELETE null facilities success', res),
-      err => console.log("error deleting form placeId list: ", err) );
-  };
-
-  vm.deleteFacility = id => {
-    $http({
-      method: 'DELETE',
-      url: '/facilities/byId/' + id,
-    }).then(
-      res => {
-        console.log('DELETE success')
-        removeObjById(vm.allPools, id);
-
+  vm.db = {
+    cleanIdList() {
+      $http({
+        method: 'DELETE',
+        url: '/placeIds/allDuplicates/',
+      }).then(
+        res => console.log('DELETE success'),
+        err => console.log("error deleting form placeId list: ", err) );
     },
-      err => console.log("error deleting form placeId list: ", err) );
-  };
-
-  const deleteFromIdList = (placeId) => {
-    $http({
-      method: 'DELETE',
-      url: '/placeIds/byId/' + placeId,
-    }).then(
-      res => console.log('DELETE success'),
-      err => console.log("error deleting form placeId list: ", placeId) );
-  };
-
-
-  const geocodeAdd = facility => {
-    const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
-    const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;
-    //access google API via url
-    $http.get(url).then( res => {
-      console.log('geocode res', res);
-      if (res.data.status == "OK") {
-        const locData = res.data.results[0];
-        const zipCmp = locData.address_components.find(
-          addrCmp => addrCmp.types[0] == 'postal_code');
-        const coords = locData.geometry.location;
-        //assign values from GeoCode query
-        facility.coords = [coords.lat, coords.lng];
-        facility.zip = zipCmp.long_name;
-        facility.google_place_id = locData.place_id;
-        console.log('geocoded facility:', facility);
-        addFacilityToDb(facility);
-      } else {
-        console.log('no location found:', url, results);
-      }
-    });
-  };
-
-  vm.geocodeAndPost = (jsonString, index=0) => {
-    vm.errorCount = 0;
-    const json = JSON.parse(jsonString);
-    const list = $.map(json, el => el);
-    console.log('list', list);
-    pulsePost(list);
-
-    function pulsePost(list) {
-      if (index < list.length) {
-        setTimeout( () => {
-          geocodeAdd(list[index++]);
-          pulsePost(list);
-        }, 1100);
-      }
-      vm.geocodesLeft = list.length - index;
-    };
-  };
-
-  //returns a boolean
-  vm.validateJson = (text='') => (
-    (/^[\],:{}\s]*$/.test(
-        text.replace(/\\["\\\/bfnrtu]/g, '@')
-        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-        .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
-      )) && text!=''
-  )
+    deleteIdList() {
+      $http({
+        method: 'DELETE',
+        url: '/placeIds/all/',
+      }).then(
+        res => console.log('DELETE success'),
+        err => console.log("error deleting form placeId list: ", err) );
+    },
+    cleanFacilities() {
+      $http({
+        method: 'DELETE',
+        url: '/facilities/nullGData',
+      }).then(
+        res => console.log('DELETE null facilities success', res),
+        err => console.log("error deleting form placeId list: ", err) );
+    },
+    addPlaceIdToDb(placeObject) {
+      $http({
+        method: 'POST',
+        url: '/placeIds/',
+        data: placeObject
+      }).then(
+        res => vm.numAdded++,
+        err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
+    },
+    getFacilities() {
+      let ms = 0;
+      setInterval(()=>ms++, 1);
+      $http.get('/facilities/')
+      .then( res => {
+        console.log(ms, 'milliseconds for getFacilities response');
+        console.log(memorySizeOf(res));
+        vm.allPools = res.data;},
+             err => console.log('GET pools - error:', err)
+      );
+    },
+    addFacilityToDb(facility) {
+      $http({
+        method: 'POST',
+        url: '/facilities/',
+        data: facility
+      }).then(
+        res => { console.log('POST success', res, vm.numAdded++); },
+        err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
+    },
+    // removes entries with place Ids that exist in facilities table
+    deleteFacility(id) {
+      $http({
+        method: 'DELETE',
+        url: '/facilities/byId/' + id,
+      }).then(
+        res => {
+          console.log('DELETE success')
+          removeObjById(vm.allPools, id);
+      },
+        err => console.log("error deleting form placeId list: ", err) );
+    },
+    deleteFromIdList(placeId) {
+      $http({
+        method: 'DELETE',
+        url: '/placeIds/byId/' + placeId,
+      }).then(
+        res => console.log('DELETE success'),
+        err => console.log("error deleting form placeId list: ", placeId) );
+    }
+  }
 
 vm.log = data => console.log(data);
 /***************************CITY SEARCH FILTER ***************************/
@@ -385,6 +324,9 @@ vm.c = {
 
 
 
+
+//for measuring the size ofserver payloads
+//taken from internet
 function memorySizeOf(obj) {
     var bytes = 0;
 

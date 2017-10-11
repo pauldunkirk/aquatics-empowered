@@ -103,14 +103,14 @@
 
   <div class="row">
     <h4><br />{{admin.dbType}} Database, GOOGLE_RADAR_RESULTS table:</h4>
-    <button class="btn-danger" ng-click="admin.cleanIdList()">
+    <button class="btn-danger" ng-click="admin.db.cleanIdList()">
        Delete NULL placeId entries and <br />placeIds that exist within facilities table
     </button>
     <button class="btn-danger" ng-click="admin.deleteIdList()">
       Delete ALL entries
     </button>
     <h4><br />{{admin.dbType}} Database, FACILITIES table:</h4>
-    <button class="btn-danger" ng-click="admin.cleanFacilities()">
+    <button class="btn-danger" ng-click="admin.db.cleanFacilities()">
        Delete facilities with no google_places_data
     </button>
   </div>
@@ -171,7 +171,7 @@
           <td>{{result.last_updated | date:'medium'}}</td>
           <td>{{result.date_added | date:'medium' }}</td>
           <td><div>
-            <i ng-click="admin.deleteFacility(result.id)" class="fa fa-trash" />
+            <i ng-click="admin.db.deleteFacility(result.id)" class="fa fa-trash" />
           </div></td>
         </tr>
       </tbody>

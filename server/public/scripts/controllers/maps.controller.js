@@ -121,41 +121,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     return d;
   };
 
-  const geoCodeAdd = facility => {
-    let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
-    GeoCoder.geocode({address: addr})
-    .then( results => {
-      let zipCmp = results[0].address_components.find(
-        addrCmp => addrCmp.types[0] == 'postal_code');
-      if (zipCmp) {
-        let coords = results[0].geometry.location;
-        facility.coords = [coords.lat(), coords.lng()];
-        facility.zip = zipCmp.long_name;
-        facility.google_place_id = results[0].place_id;
-        console.log('geocoded facility:', facility);
-        addFacility(facility);
-      } else {
-        console.log('no zip found:', addr, results);
-      }
-    });
-  };
-
-  const convertAndPostJSON = (route, index=0) => {
-    const pulsePost = list => {
-      if (index < list.length - 1) {
-        setTimeout( () => {
-          geoCodeAdd(list[index++]);
-          pulsePost(list);
-        }, 1100);
-      }
-      console.log(list.length - index, 'facilities remaining');
-    };
-    $http.get(route)
-    .then( res => pulsePost(res.data),
-           err => console.error('GET JSON facilities - error:', err)
-    );
-  };
-
 }]);
 
 //examples of using these tools
