@@ -13,14 +13,18 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   NgMap.getMap().then( map => {
     //J: "ANYTHING REQUIRING ACCESS TO GOOGLE API GOES IN HERE"
       // ?? P:where is 'here?' within NgMap.getMap()? So, 'map' and getFacilities()?
+      //J: Yes; here is within this ".then" function
+      //J: map is returned as an accessor to all the google functionality via angular
     vm.map = map; //J: "to access gMaps API features"
     //?? P: from http.get getFacilities() see line 69
+    //J getFacilities in-turn calls createMarkerList() and I think i thought that required vm.map
+    //J it doesnt look like that is the case. you could try removing getFacilities() from here and may get a faster page load.
 
     console.log('map', map); //P: this gets logged on page load
     console.log('markers', map.markers); // P: ?? why undefined?
 
     //J: TODO: set map center to location of user (determined with from browser query)
-
+    //J: cannot be done until we have an https domain (not free Heroku)
     getFacilities(); //J: run $http request to server for nearby pools
   }); //end NgMap.getMap
 
@@ -154,49 +158,4 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     return d;
   };
 
-// WHAT DOES THIS DO?
-// compare geoCodeAdd to geocodeAdd (notice capital 'C') in admin contr line 258
-  // const geoCodeAdd = facility => {
-  //   let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
-  //   GeoCoder.geocode({address: addr})
-  //   .then( results => {
-  //     let zipCmp = results[0].address_components.find(
-  //       addrCmp => addrCmp.types[0] == 'postal_code');
-  //     if (zipCmp) {
-  //       let coords = results[0].geometry.location;
-  //       facility.coords = [coords.lat(), coords.lng()];
-  //       facility.zip = zipCmp.long_name;
-  //       facility.google_place_id = results[0].place_id;
-  //       console.log('geocoded facility:', facility);
-  //       addFacility(facility);
-  //     } else {
-  //       console.log('no zip found:', addr, results);
-  //     }
-  //   });
-  // };
-
-  //P: WHAT IS ALL OF THIS??
-  //P: only instance of convertAndPostJSON
-  // P: calls geoCodeAdd and pulsePost
-  // const convertAndPostJSON = (route, index=0) => {
-  //   const pulsePost = list => {
-  //     if (index < list.length - 1) {
-  //       setTimeout( () => {
-  //         geoCodeAdd(list[index++]);
-  //         pulsePost(list);
-  //       }, 1100);
-  //     }
-  //     console.log(list.length - index, 'facilities remaining');
-  //   };
-  //   $http.get(route)
-  //   .then( res => {
-  //     pulsePost(res.data);
-  //     console.log('pulsePost route', route);
-  //     console.log('pulsePost', res.data);
-  //   },
-  //     err => console.error('GET JSON facilities - error:', err)
-  //   );
-  // };
-  //end convertAndPostJSON
-
-}]); //end MapsController
+}]);

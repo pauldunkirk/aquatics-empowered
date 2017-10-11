@@ -67,9 +67,3 @@ app.filter('true_false', function() {
         return 'No';
     };
 });
-
-function removeObjById(arr, id) {
-  var idx = arr.findIndex(item => item.id === id);
-  ~idx && arr.splice(idx, 1);
-  return idx;
-}
