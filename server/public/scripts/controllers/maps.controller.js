@@ -108,7 +108,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         visible: true,
         googleJson: pool.google_places_data,
         reviews: (pool.google_places_data.reviews || []).map(
-          review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name
+          review => (review.rating + ' stars:\n' + review.text + ' - ' + review.author_name + ' ' + review.profile_photo_url
+
         ) )
 
       }
