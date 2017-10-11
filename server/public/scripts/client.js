@@ -1,8 +1,4 @@
 var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'ngMap', ]);
-// ui.bootstrap allows toggleable nav bar to begin collapsed- see nav.html
-//possibly in the future, use these tools:
-// var myApp = angular.module('myApp', ['ngRoute', 'xeditable', 'firebase', 'ui.bootstrap', 'smart-table', 'angular-touch', 'angular-animate']); //then source in html
-
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider
@@ -71,9 +67,3 @@ app.filter('true_false', function() {
         return 'No';
     };
 });
-
-function removeObjById(arr, id) {
-  var idx = arr.findIndex(item => item.id === id);
-  ~idx && arr.splice(idx, 1);
-  return idx;
-}

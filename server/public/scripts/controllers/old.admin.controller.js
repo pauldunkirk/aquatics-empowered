@@ -1,3 +1,14 @@
+//returns a boolean
+vm.validateJson = (text='') => (
+  (/^[\],:{}\s]*$/.test(
+      text.replace(/\\["\\\/bfnrtu]/g, '@')
+      .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+      .replace(/(?:^|:|,)(?:\s*\[)+/g, '')
+    )) && text!=''
+)
+
+
+
 //methods for parsing datasets from different sources into usable JSON
 vm.toJson = {
   mapMuse(text) {
@@ -94,44 +105,6 @@ vm.validateJson = (text='') => (
     )) && text!=''
 )
 
-// 
-// //from maps controller
-//
-//   const geoCodeAdd = facility => {
-//     let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
-//     GeoCoder.geocode({address: addr})
-//     .then( results => {
-//       let zipCmp = results[0].address_components.find(
-//         addrCmp => addrCmp.types[0] == 'postal_code');
-//       if (zipCmp) {
-//         let coords = results[0].geometry.location;
-//         facility.coords = [coords.lat(), coords.lng()];
-//         facility.zip = zipCmp.long_name;
-//         facility.google_place_id = results[0].place_id;
-//         console.log('geocoded facility:', facility);
-//         addFacility(facility);
-//       } else {
-//         console.log('no zip found:', addr, results);
-//       }
-//     });
-//   };
-//
-//   const convertAndPostJSON = (route, index=0) => {
-//     const pulsePost = list => {
-//       if (index < list.length - 1) {
-//         setTimeout( () => {
-//           geoCodeAdd(list[index++]);
-//           pulsePost(list);
-//         }, 1100);
-//       }
-//       console.log(list.length - index, 'facilities remaining');
-//     };
-//     $http.get(route)
-//     .then( res => pulsePost(res.data),
-//            err => console.error('GET JSON facilities - error:', err)
-//     );
-//   };
-
 
 //
 // <div class="col-md-3">
@@ -169,3 +142,54 @@ vm.validateJson = (text='') => (
 // <div class="col-md-5">
 //   <textarea id="jsonConvert" cols="80" rows="40" ng-model="admin.text" />
 // </div>
+
+//for bulk posting. not compatable with google geocoding rate limit
+// const addFacilities = (facilities) => {
+//   $http({
+//     method: 'POST',
+//     url: '/facilities/many',
+//     data: facilities,
+//     headers: {}
+//   }).then(
+//     res => console.log('POST success', res),
+//     err => console.log("error adding facility: ", err) );
+// };
+
+
+//
+// //from maps controller
+//
+//   const geoCodeAdd = facility => {
+//     let addr = facility.street_address + ', ' + facility.city + ' ' + facility.state;
+//     GeoCoder.geocode({address: addr})
+//     .then( results => {
+//       let zipCmp = results[0].address_components.find(
+//         addrCmp => addrCmp.types[0] == 'postal_code');
+//       if (zipCmp) {
+//         let coords = results[0].geometry.location;
+//         facility.coords = [coords.lat(), coords.lng()];
+//         facility.zip = zipCmp.long_name;
+//         facility.google_place_id = results[0].place_id;
+//         console.log('geocoded facility:', facility);
+//         addFacility(facility);
+//       } else {
+//         console.log('no zip found:', addr, results);
+//       }
+//     });
+//   };
+//
+//   const convertAndPostJSON = (route, index=0) => {
+//     const pulsePost = list => {
+//       if (index < list.length - 1) {
+//         setTimeout( () => {
+//           geoCodeAdd(list[index++]);
+//           pulsePost(list);
+//         }, 1100);
+//       }
+//       console.log(list.length - index, 'facilities remaining');
+//     };
+//     $http.get(route)
+//     .then( res => pulsePost(res.data),
+//            err => console.error('GET JSON facilities - error:', err)
+//     );
+//   };
