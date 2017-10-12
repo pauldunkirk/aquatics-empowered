@@ -1,34 +1,23 @@
 app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
-
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis coords
   vm.mapCenter = defaultCenter;
-
-  vm.maxMarkers = 30;
+  vm.maxMarkers = 1;
   vm.markerList = [];
-
-
 //*************************************************************
-
   NgMap.getMap().then( map => {
-    //J: "ANYTHING REQUIRING ACCESS TO GOOGLE API GOES IN HERE"
-      // ?? P:where is 'here?' within NgMap.getMap()? So, 'map' and getFacilities()?
-      //J: Yes; here is within this ".then" function
-      //J: map is returned as an accessor to all the google functionality via angular
+    //J: "ANYTHING REQUIRING ACCESS TO GOOGLE API GOES within this ".then" function
+    //J: map is returned as an accessor to all the google functionality via angular
     vm.map = map; //J: "to access gMaps API features"
     //?? P: from http.get getFacilities() see line 69
     //J getFacilities in-turn calls createMarkerList() and I think i thought that required vm.map
     //J it doesnt look like that is the case. you could try removing getFacilities() from here and may get a faster page load.
-
     console.log('map', map); //P: this gets logged on page load
     console.log('markers', map.markers); // P: ?? why undefined?
-
     //J: TODO: set map center to location of user (determined with from browser query)
     //J: cannot be done until we have an https domain (not free Heroku)
     getFacilities(); //J: run $http request to server for nearby pools
   }); //end NgMap.getMap
-
-
 //*************************************************************
 
 //P: logPool is only here and html
@@ -47,16 +36,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     vm.pool = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
   };
-//P: reset is only here and html
-//P: BUT, hideInfoWindow is only here and 10 lines down and comes from Ng-Map
-  vm.reset = () => {
-    vm.addr = undefined; //see poolSearch and geoCodeAdd
-    vm.radius = undefined; // see setMarkerVis
-    vm.pool = undefined;
-    vm.mapCenter = defaultCenter;
-    vm.map.hideInfoWindow('pool-iw'); //see ngmap
-    vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
-  };
+
   //P: newCenter is only here and html
   //P: BUT, hideInfoWindow is only here and 10 lines up and comes from Ng-Map
   vm.newCenter = () => {
@@ -80,17 +60,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     },
       err => console.log('GET pools - error:', err)
     );
-  };
-
-  const addFacility = (facility) => {
-    $http({
-      method: 'POST',
-      url: '/facilities/',
-      data: facility,
-      headers: {}
-    }).then(
-      res => console.log('POST success', res),
-      err => console.log("error adding facility: ", err) );
   };
 
 //P: createMarkerList only in maps controller

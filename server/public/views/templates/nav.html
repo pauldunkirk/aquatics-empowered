@@ -1,6 +1,7 @@
 <!-- nav navbar-toggleable-xs static-top-->
+<div class="container-fluid">
 <nav ng-controller="NavController as nav" class="navbar navbar-default">
-  <div class="container-fluid">
+
 
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" ng-click="nav.toggleNav()">
@@ -10,16 +11,15 @@
         <span class="icon-bar"></span>
       </button>
       <a href="#!home1"><img class="navbar-brand" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
-    </div><!-- navbar-header -->
+    </div>
 
     <div class="collapse navbar-collapse" uib-collapse="nav.isCollapsed">
       <ul class="nav navbar-nav navbar-right list-unstyled">
         <li class="nav-item"><a class="nav-link" href="#!home1">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#!maps">Find Pools</a></li>
-        <!-- <li class="nav-item"><a class="nav-link" href="#!surveys">Surveys</a></li> -->
-        <!-- <li class="nav-item"><a class="nav-link" href="#!surveys">Log In or Register<i class="fa fa-user"></i></a></li> -->
+        <li class="nav-item"><a class="nav-link" href="#!maps">Map</a></li>
       </ul>
-    </div><!--navbar-collapse -->
+    </div>
 
-  </div> <!--container-fluid -->
+
 </nav>
+</div>

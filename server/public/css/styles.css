@@ -11,6 +11,25 @@ body {
   padding-right: 0 !important;
 }
 
+.homeLogo {
+  max-height: 140px !important;
+  margin: auto !important;
+  padding: .2em !important;
+}
+
+.myBorder {
+  border: 1px solid black;
+  border-radius: 0 !important;
+}
+
+.yellowBackground {
+  background-color: #F6B201;
+}
+
+#homeFindAPoolButton {
+
+}
+
 /*---------NAV------------------------------------------------*/
 .navbar {
   /*margin-bottom: 50px !important;*/
@@ -20,11 +39,11 @@ body {
   margin-bottom: 0 !important;
 }
 .navbar-brand {
-  height: 120px !important;
+  height: 100px !important;
   padding: .2em !important;
 }
 .navbar-nav{
-  margin-top: 40px !important;
+  margin-top: 30px !important;
   padding-top: 3em;
 }
 .navbar-nav li a {
@@ -72,6 +91,8 @@ padding: 20px 15px 0;
 }
 /*--------------END NAV--------------------------------------------------*/
 
+/* -------------MAPS SEARCH FORM - see myBorder and yellowBackground above -------------------------------------------------*/
+
 
 
 /* -------------MAPS -------------------------------------------------*/
@@ -82,11 +103,7 @@ padding: 20px 15px 0;
 }
 .gMap {
   height: 600px;
-  /*margin: 20px;*/
   margin-top: 5px;
-  /*border: none;*/
-  border: 1px solid black;
-  /*border-radius: 10px;*/
 }
 .infoList {
   margin-top: 5px;
@@ -95,10 +112,9 @@ padding: 20px 15px 0;
   /*border: 2px solid black;*/
   /*border-radius: 10px;*/
   overflow: scroll;
-  padding: 0 !important;
+  /*padding: 0 !important;*/
 }
 .poolItem {
-  border: 1px solid black;
   background-color: #ffffff;
   padding: 5px;
   cursor: pointer;
@@ -109,33 +125,6 @@ padding: 20px 15px 0;
 .rank {
   padding-top: 5px;
 }
-
-/* -------------MAPS SEARCH FORM -------------------------------------------------*/
-.mapsform {
-  /*text-align: center;*/
-  /*used class="text-center" on maps.html instead, not sure if this is a good idea in terms of organization, but it is a native bootstrap class*/
-}
-.addressSearch {
-  border: 1px solid black;
-  /*text-align: center;*/
-  /*font-size: 18px;*/
-  width: 85%;
-  /*margin-top: 20px;*/
-}
-#findPoolButton {
-  /*margin-top: 1%;*/
-  border: 1px solid black !important;
-  /*font-size: 18px !important;*/
-  /*width: 50%;*/
-  background-color: #F6B201;
-}
-#useCurrentButton{
-  border: 1px solid black !important;
-  /*font-size: 18px !important;*/
-  /*width: 50%;*/
-  background-color: #F6B201;
-}
-/* -------------END MAPS SEARCH FORM -------------------------------------------------*/
 /* -------------END MAPS -------------------------------------------------------------*/
 
 
