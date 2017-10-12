@@ -2,7 +2,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   const vm = this;
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis coords
   vm.mapCenter = defaultCenter;
-  vm.maxMarkers = 1;
+  vm.maxMarkers = 30;
   vm.markerList = [];
 //*************************************************************
   NgMap.getMap().then( map => {
