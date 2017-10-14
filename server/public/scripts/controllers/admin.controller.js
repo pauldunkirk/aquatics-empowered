@@ -105,10 +105,15 @@ app.controller('AdminController', ['$http', function($http) {
     },
     //gets the google details of an item with a google places id property
     getDetails(basicPlace) {
-      console.log('basicPlace', basicPlace);
+			console.log('basicPlace', basicPlace);
+			// SEARCHES GOOGLE PLACES -- THIS IS WHERE PHOTO INFO WOULD NEED TO BE RETRIEVED
       gPlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
+				console.log('place received')
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          console.log('place', place);
+					console.log('place', place);
+					if (place.photos.length) {
+						console.log('first place photo', place.photos.getU)
+					}
           const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
           //add to DB if parseDetails did not return NULL
           if (facility) {
