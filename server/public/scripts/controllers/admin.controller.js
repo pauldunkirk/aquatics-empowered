@@ -111,13 +111,18 @@ app.controller('AdminController', ['$http', function($http) {
 				console.log('place received')
         if (status === google.maps.places.PlacesServiceStatus.OK) {
 					console.log('place', place);
-					if (place.photos.length) {
-						console.log('first place photo', place.photos.getU)
+					if (place.photos) {
+						console.log('place.photos', place.photos);
+						for (var i = 0; i < place.photos.length; i++) {
+							console.log('place photo URL', place.photos[i].getUrl({'maxWidth': 100, 'maxHeight': 100}));
+						}
 					}
-          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
+
+					const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
+					
           //add to DB if parseDetails did not return NULL
           if (facility) {
-            vm.db.addFacility(facility);
+            //vm.db.addFacility(facility);
           }
         } else {
           console.log('gPlacesAPI error', status);
