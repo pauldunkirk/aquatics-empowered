@@ -18,7 +18,6 @@ app.controller('AdminController', ['$http', function($http) {
   vm.abort = false;
   vm.pulsing = false;
 
-
   /***************************GOOGLE QUERYING ***************************/
 
   function pulse(queryFn, list, remaining, delay, index=0) {
@@ -77,19 +76,21 @@ app.controller('AdminController', ['$http', function($http) {
       //ES6 for loop functionality. look up "for of loop"
       for (const idObject of idList) vm.db.addPlaceId(idObject);
     } );
-  };
+  }; //end searchCity
 
   //methods making heavy use of google places
   //placed into one object for code readability/organization/collapsibility
 
+  //html: "query selected cities, add to Radar Table"
   vm.gPlaces = {
     findIds(num=1) {
       const filteredCityList = vm.c.cityList.filter(c => c.include);
       console.log('filtered list', filteredCityList);
       pulse(searchCity, filteredCityList, vm.citiesLeft, 1100, 0);
     },
+    // get PlaceIds from Radar Table (uses no api queries)
     getIdList() {
-      $http.get('/placeIds').then(
+      $http.get('/radar').then(
         res => vm.gPlaceIdList = res.data,
         err => console.log('error accessing place id table', err)
       )
@@ -147,21 +148,12 @@ app.controller('AdminController', ['$http', function($http) {
         google_places_data: JSON.stringify(pResult, undefined, 4)
       }
     }
-  }
+  };
 
 
 /***************************DATABASE METHODS ***************************/
 
   vm.db = {
-    addPlaceId(placeObject) {
-      $http({
-        method: 'POST',
-        url: '/placeIds/',
-        data: placeObject
-      }).then(
-        res => vm.numAdded++,
-        err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
-    },
     getFacilities() {
       let ms = 0;
       setInterval(()=>ms++, 1);
@@ -188,29 +180,30 @@ app.controller('AdminController', ['$http', function($http) {
         res => {  console.log('POST success', res, vm.numAdded++) },
         err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
     },
+    addPlaceId(placeObject) {
+      $http({
+        method: 'POST',
+        url: '/radar/',
+        data: placeObject
+      }).then(
+        res => vm.numAdded++,
+        err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
+    },
     // removes entries with place Ids that exist in facilities table
     cleanIdList() {
       $http({
         method: 'DELETE',
-        url: '/placeIds/allDuplicates/',
+        url: '/radar/allDuplicates/',
       }).then(
         res => console.log('DELETE success'),
         err => console.log("error deleting form placeId list: ", err) );
     },
-    deleteIdList() {
+    deleteAllRadarTable() {
       $http({
         method: 'DELETE',
-        url: '/placeIds/all/',
+        url: '/radar/all/',
       }).then(
         res => console.log('DELETE success'),
-        err => console.log("error deleting form placeId list: ", err) );
-    },
-    cleanFacilities() {
-      $http({
-        method: 'DELETE',
-        url: '/facilities/nullGData',
-      }).then(
-        res => console.log('DELETE null facilities success', res),
         err => console.log("error deleting form placeId list: ", err) );
     },
     deleteFacility(id) {
@@ -224,7 +217,7 @@ app.controller('AdminController', ['$http', function($http) {
     deleteFromIdList(placeId) {
       $http({
         method: 'DELETE',
-        url: '/placeIds/byId/' + placeId,
+        url: '/radar/byId/' + placeId,
       }).then(
         res => console.log('DELETE success'),
         err => console.log("error deleting form placeId list: ", placeId) );
