@@ -3,10 +3,10 @@ app.controller('AdminController', ['$http', function($http) {
   const api = 'https://maps.googleapis.com/maps/api/';
   const geoBase = api + 'geocode/json?address=';
   const placesBase = api + 'place/nearbysearch/json?query=';
-  //jakes api key
-  const apiKeyEnd = '&key=AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8';
+  //jakes api key AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8
+  const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
+
   //directly using google places API instead of NgMap because NgMap has no access to the google radar (bulk) search
-  //'gPlacesAPI' is instead names 'service' in some google examples. Too generic for our purposes
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
   //a JSON containing the 1000 biggest US cities and their coordinates
   vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
@@ -17,9 +17,7 @@ app.controller('AdminController', ['$http', function($http) {
   vm.gPlaceIdList = [];
   vm.abort = false;
   vm.pulsing = false;
-
   /***************************GOOGLE QUERYING ***************************/
-
   function pulse(queryFn, list, remaining, delay, index=0) {
     if((list.length > index) && !vm.abort){
       vm.pulsing = true;

@@ -1,4 +1,3 @@
-
 <div class="container">
 
   <div class="center-block">
@@ -16,10 +15,8 @@
     </form>
   </div> <!-- END of Form: Input Field and Find Pools Button -->
 
-
-<!-- Paul's API key for lazy-load libraries=geometry:
-AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o -->
-  <div class="row">
+  <div class="row"> <!-- map w/ pins(markers), pop-up info-window, and separate markers list-->
+    <!-- map with markerList#1:  icon-pins(markers) and pop-up (info-window)-->
     <div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
       <ng-map class="gMap myBorder" center="{{vm.mapCenter}}" zoom="11" on-dragend="vm.newCenter()">
         <marker no-watcher="false"
@@ -31,23 +28,21 @@ AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o -->
           on-click="vm.showDetail(p)"
           ng-if="p.visible"
         />
-
-        <info-window id="pool-iw" position="{{vm.pool.position}}">
+        <info-window id="pool-iw" position="{{vm.poolDetails.position}}">
           <div ng-non-bindable="">
-            <b>{{vm.pool.title}}</b><br/>
-            {{vm.pool.distance.toFixed(1)}} miles away<br/>
-            {{vm.pool.street_address}}<br/>
-            {{vm.pool.city}}, {{vm.pool.state}} {{vm.pool.zip}}<br/>
-            <a href="" ng-click="vm.clickedWebsiteLink(vm.pool.website)">Website</a>
+            <b>{{vm.poolDetails.title}}</b><br/>
+            {{vm.poolDetails.distance.toFixed(1)}} miles away<br/>
+            {{vm.poolDetails.street_address}}<br/>
+            {{vm.poolDetails.city}}, {{vm.poolDetails.state}} {{vm.poolDetails.zip}}<br/>
+            <a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a>
           </div>
         </info-window>
       </ng-map>
+    </div> <!--END map and markerList#1 (pins and pop-up info-window)   -->
 
-    </div>
-
-    <!-- Display markerList -->
+    <!-- markerList#2: pins(markers) and pool info displayed separate from map-->
     <div class="col-md-4 markerList">
-      <div ng-repeat="pool in vm.markerList" ng-if="pool.visible" ng-click="vm.showDetail(null, pool)" ng-class="{'selectedPool':vm.pool.id==pool.id}" class="row poolItem myBorder">
+      <div ng-repeat="pool in vm.markerList" ng-if="pool.visible" ng-click="vm.showDetail(null, pool)" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}" class="row poolItem myBorder">
        <div class="col-md-2 rank">
          <img ng-src="{{vm.getIcon($index)}}" alt="{{$index + 1}}"  />
          <p>{{pool.distance.toFixed(1)}}mi</p>
@@ -56,17 +51,17 @@ AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o -->
          <b>{{pool.title}}</b><br/>
          {{pool.street_address}}<br/>
          {{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
-         <a href="" ng-click="vm.clickedWebsiteLink(vm.pool.website)">Website</a>
+         <a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a>
        </div><!-- end pool name, address row -->
-     </div><!-- end poolItem row -->
-    </div> <!-- end markerList row -->
-
+     </div>
+   </div> <!-- end markerList#2 row -->
 
   </div> <!-- end map and markerList row -->
 
+  <button type="button" name="button" ng-click="vm.logPool()">click to log pool markerList of SELECTED POOL</button>
+
   <div class="row">
-    <button type="button" name="button" ng-click="vm.logPool()">click to log pool markerList of SELECTED POOL</button>
-    <p ng-repeat="review in vm.pool.reviews">
+    <p ng-repeat="review in vm.poolDetails.reviews">
       {{review}}
     </p>
   </div>

@@ -1,7 +1,7 @@
 app.factory('MapsFactory', ['$http','$location', function($http, $location) {
     // console.log('Maps Factory running');
 
-    var allPools = { list: [] };
+    var allPools = { allPoolsList: [] };
 
     getFacilities();
 
@@ -10,7 +10,7 @@ app.factory('MapsFactory', ['$http','$location', function($http, $location) {
           method: 'GET',
           url: '/facilities/'
         }).then(function(response) {
-              allPools.list = response.data;
+              allPools.allPoolsList = response.data;
               // console.log('Factory allPools (get all facilities) response.data', allPools);
               // console.log('allPools.list', allPools.list);
             });

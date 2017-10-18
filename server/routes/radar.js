@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/config.js');
 const pg = require('pg');
-
 const pool = new pg.Pool(config);
-
 const columnNames = '(coords, place_id, coord_list, keyword)';
 
 router.get('/', function(req, res) {

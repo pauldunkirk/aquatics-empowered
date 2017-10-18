@@ -1,3 +1,6 @@
+notes for   GeoCoder.geocode({address: vm.addr})"https://rawgit.com/allenhwkim/angularjs-google-maps/master/build/docs/GeoCoder.html"
+
+
 Too many notes: This code is STILL IN maps.controller.js: I copied it here with notes and deleted notes from maps controller file:
 NgMap.getMap().then( map => {
   //J: "ANYTHING REQUIRING ACCESS TO GOOGLE API GOES within this ".then" function
