@@ -5,6 +5,7 @@ const path = require('path');
 const portDecision = process.env.PORT || 3000;
 const facilities = require('./routes/facilities');
 const placeIds = require('./routes/placeIds');
+const photos = require('./routes/photos');
 const bodyParser = require('body-parser');
 let isLocal = require('./config/config.js').local;
 // console.log('locals', app.locals);
@@ -35,6 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/facilities', facilities);
 app.use('/placeIds', placeIds);
+app.use('/photos', photos);
 
 // all server routes will have be processed by the token decoder first.
 // therefore all inbound AJAX requests require the Firebase token in the header

@@ -33,6 +33,9 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
 //P: showDetail is only here and html
 //P: BUT, showInfoWindow is only here and comes from Ng-Map
   vm.showDetail = (e, pool) => {
+		console.log('pool clicked', pool);
+		getPoolPhoto(pool.googleJson.place_id);
+		
     vm.pool = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
   };
@@ -46,8 +49,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     setMarkerVis(vm.radius);
   };
 
-
-
 //******************************************************************
 //this is called in NgMap.getMap()
   const getFacilities = () => {
@@ -60,7 +61,15 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     },
       err => console.log('GET pools - error:', err)
     );
-  };
+	};
+
+	const getPoolPhoto = (place_id) => {
+		console.log('getting photo for poolId', place_id);
+		$http.get('/photos/' + place_id)
+			.then(res => {
+				console.log('got pool photos', res);
+			});
+	}
 
 //P: createMarkerList only in maps controller
   const createMarkerList = (poolArray, maxMarkers, center) => (
