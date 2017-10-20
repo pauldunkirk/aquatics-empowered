@@ -178,10 +178,10 @@ padding: 20px 15px 0;
   text-align: center;
   letter-spacing: 3px;
 }
-#surveySearch {
+.adminTableStyle {
   font-size: 1.17em;
 }
-#surveySearchResults {
+.adminResultsTableStyle {
   margin: 0;
   white-space: nowrap;
 }

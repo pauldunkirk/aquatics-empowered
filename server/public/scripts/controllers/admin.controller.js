@@ -1,14 +1,8 @@
 app.controller('AdminController', ['$http', function($http) {
   const vm = this;
-  const api = 'https://maps.googleapis.com/maps/api/';
-  const geoBase = api + 'geocode/json?address=';
-  const placesBase = api + 'place/nearbysearch/json?query=';
-  //jakes api key AIzaSyC9VCo-31GBleDuzdGq5xXRp326ADgLgh8
-  const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
-
-  //directly using google places API instead of NgMap because NgMap has no access to the google radar (bulk) search
+  //Places API (becuase NgMap no access to radar)
   const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
-  //a JSON containing the 1000 biggest US cities and their coordinates
+  //a JSON w/ 1000 biggest US cities and coords - see get line 224 - as vm.c.cityList then filteredCityList in findIds in gPlaces in pulse
   vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
   vm.placesLeft = [0];
@@ -54,11 +48,6 @@ app.controller('AdminController', ['$http', function($http) {
       //LatLng object from above
       location,
     }
-    //params documentation:
-      //https://developers.google.com/places/web-service/search#RadarSearchRequests
-      //JS example:
-      //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
-      //(i do not use service.radarSearch because 'service' is too generic for a real webapp)
     gPlacesAPI.radarSearch(request, (results, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
         console.error('google places service error:', status);
@@ -70,20 +59,19 @@ app.controller('AdminController', ['$http', function($http) {
           place_id: pool.place_id,
           keyword: request.keyword}
       ) )
-      console.log('idlist', idList);
-      //ES6 for loop functionality. look up "for of loop"
+      console.log('idlist: place-id, coords, keyword)', idList);
+      //ES6 for loop functionality. look up "for of loop" - addPlaceId here and 170
       for (const idObject of idList) vm.db.addPlaceId(idObject);
     } );
   }; //end searchCity
 
-  //methods making heavy use of google places
-  //placed into one object for code readability/organization/collapsibility
+//*******************************************************************************************************
 
-  //html: "query selected cities, add to Radar Table"
+  //P: html: "query selected cities, add to Radar Table"
   vm.gPlaces = {
     findIds(num=1) {
       const filteredCityList = vm.c.cityList.filter(c => c.include);
-      console.log('filtered list', filteredCityList);
+      console.log('filteredCityList', filteredCityList);
       pulse(searchCity, filteredCityList, vm.citiesLeft, 1100, 0);
     },
     // get PlaceIds from Radar Table (uses no api queries)
@@ -96,6 +84,7 @@ app.controller('AdminController', ['$http', function($http) {
     //takes a list of google Ids, gets google info for EACH id, adds to db
     getInfoFromIds(idList) {
       idList = idList.filter( n => n ); //remove empty list items
+
       //calls vm.gPlaces.getDetails for each iteration/item in idList
       //tallies remaining places in vm.placesLeft[0]
       //waits 1100ms between each iteration

@@ -54,7 +54,9 @@ vm.toJson = {
   //   }
   // }
 }
-
+const api = 'https://maps.googleapis.com/maps/api/';
+const apiKeyEnd = '&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o';
+const geoBase = api + 'geocode/json?address=';
 const geocodeAdd = facility => {
   const address = facility.street_address + ', ' + facility.city + ', ' + facility.state;
   const url = geoBase + (address).replace(' ', '+') + apiKeyEnd;

@@ -2,7 +2,7 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
   const vm = this;
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis
   vm.mapCenter = defaultCenter;
-  vm.maxMarkers = 2;
+  vm.maxMarkers = 10;
   vm.markerList = [];
   vm.factoryPools = MapsFactory.factoryPools;
   console.log('vm.factoryPools', vm.factoryPools);
@@ -28,8 +28,8 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
 //******************************************************************
   function formatReview(rev) {
      return rev.rating + ' stars:\n' + rev.text + ' - ' +
-     rev.author_name + ' ' + rev.profile_photo_url;
-     console.log('rev.profile_photo_url', rev.profile_photo_url);
+     rev.author_name;
+      // + ' ' + rev.profile_photo_url;
    };
   function createMarkerList(allPoolsArray, maxMarkers, center) {
      let poolsList = allPoolsArray.map( function(pool){
@@ -53,13 +53,14 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
      poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
      poolsList = poolsList.slice( 0, maxMarkers )
      return poolsList;
-     formatReview();
+    //  formatReview();
    };
 //******************************************************************
   //only here (and once html: click pin) -showInfoWindow only here (from Ng-Map)
   vm.showDetail = (e, pool) => {
     vm.poolDetails = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
+    console.log('selected pool', vm.poolDetails);
   };
 //****************************************************************************
   //P: only here (and html once) - poolDetails here and above
