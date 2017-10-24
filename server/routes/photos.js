@@ -40,7 +40,7 @@ router.get('/:place_id', (req, res) => {
 		// pull photo data out of the response information
 		let photoReferencesArray = detailsObj.result.photos;
 
-		// console.log('photoReferencesArray', photoReferencesArray);
+		console.log('photoReferencesArray', photoReferencesArray);
 
 		// for (var i = 0; i < detailsObj.photos.length; i++) {
 		// 	photoReferencesArray.push(deailsObj.photos[i].photo_reference);
