@@ -4,8 +4,9 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
   vm.mapCenter = defaultCenter;
   vm.maxMarkers = 10;
   vm.markerList = [];
+  vm.poolPhotos = [];
   vm.factoryPools = MapsFactory.factoryPools;
-  console.log('vm.factoryPools', vm.factoryPools);
+  // console.log('vm.factoryPools', vm.factoryPools);
 //*************************************************************
   NgMap.getMap().then( map => {
     vm.map = map;
@@ -29,7 +30,8 @@ const getPoolPhoto = (place_id) => {
   console.log('getting photo for poolId', place_id);
   $http.get('/photos/' + place_id)
     .then(res => {
-      console.log('got pool photos', res);
+      vm.poolPhotos = res.data;
+      console.log('got pool photos - vm.poolPhotos', vm.poolPhotos);
     });
 }
 //******************************************************************
@@ -63,9 +65,9 @@ const getPoolPhoto = (place_id) => {
     //  formatReview();
    };
 //******************************************************************
-  //only here (and once html: click pin) -showInfoWindow only here (from Ng-Map)
+  //only here (and twice html: click pin) -showInfoWindow only here (from Ng-Map)
   vm.showDetail = (e, pool) => {
-		console.log('pool clicked', pool);
+    console.log('pool.googleJson.place_id', pool.googleJson.place_id);
 		getPoolPhoto(pool.googleJson.place_id);
     vm.poolDetails = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
