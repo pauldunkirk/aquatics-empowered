@@ -14,8 +14,14 @@ body {
 .homeLogo {
   max-height: 140px !important;
   margin: auto !important;
+  /*padding: .2em !important;*/
+}
+.mapsLogo {
+  max-height: 100px !important;
+  margin: auto !important;
   padding: .2em !important;
 }
+
 
 .myBorder {
   border: 1px solid black;
@@ -105,7 +111,7 @@ padding: 20px 15px 0;
   height: 600px;
   margin-top: 5px;
 }
-.infoList {
+.markerList {
   margin-top: 5px;
   max-height: 600px;
   border: none;
@@ -172,10 +178,10 @@ padding: 20px 15px 0;
   text-align: center;
   letter-spacing: 3px;
 }
-#surveySearch {
+.adminTableStyle {
   font-size: 1.17em;
 }
-#surveySearchResults {
+.adminResultsTableStyle {
   margin: 0;
   white-space: nowrap;
 }

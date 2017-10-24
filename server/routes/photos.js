@@ -16,16 +16,16 @@ router.get('/', (req, res) => {
 		location: '49.250964,-123.102192',
 		radius: 1000
 	};
-	
-	// Can use a callback function to handle the results from the API request
-	places.nearbySearch(params, (err, res) => {
-		if (err) {
-			console.log('nearbySearch error', err);
-		}
 
-		console.log('nearbySearch results', res.body);
-	});
-	
+	// Can use a callback function to handle the results from the API request
+	// places.nearbySearch(params, (err, res) => {
+	// 	if (err) {
+	// 		console.log('nearbySearch error', err);
+	// 	}
+	//
+	// 	console.log('nearbySearch results', res.body);
+	// });
+
 	// Or can use a promise to handle the results
 	places.nearbySearch(params).then( res => {
 		console.log('nearbySearch results', res.body);

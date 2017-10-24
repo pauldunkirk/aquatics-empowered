@@ -5,35 +5,35 @@ app.config(['$routeProvider', function($routeProvider) {
    .when('/home1', {
      templateUrl: '/views/home1.html',
      controller: 'Home1Controller',
-     controllerAs: 'home1'
+     controllerAs: 'vm'
  }).when('/home2', {
      templateUrl: '/views/home2.html',
      controller: 'Home2Controller',
-     controllerAs: 'home2'
+     controllerAs: 'vm'
  }).when('/surveys', {
      templateUrl: '/views/surveys.html',
      controller: 'Home1Controller',
-     controllerAs: 'home1'
+     controllerAs: 'vm'
  }).when('/survey-facilities', {
     templateUrl: '/views/survey-facilities.html',
     controller: 'Home1Controller',
-    controllerAs: 'home1'
+    controllerAs: 'vm'
  }).when('/survey-therapists', {
     templateUrl: '/views/survey-therapists.html',
     controller: 'Home1Controller',
-    controllerAs: 'home1'
+    controllerAs: 'vm'
  }).when('/survey-poolusers', {
     templateUrl: '/views/survey-poolusers.html',
     controller: 'Home1Controller',
-    controllerAs: 'home1'
+    controllerAs: 'vm'
  }).when('/maps', {
     templateUrl: '/views/templates/maps.html',
     controller: 'MapsController',
-    controllerAs: 'maps'
+    controllerAs: 'vm'
  }).when('/admin', {
     templateUrl: '/views/templates/admin.html',
     controller: 'AdminController',
-    controllerAs: 'admin'
+    controllerAs: 'vm'
  }).otherwise({
     redirectTo: '/home1'
  });
