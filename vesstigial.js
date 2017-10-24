@@ -1,3 +1,19 @@
+FROM PHOTOS Route
+
+	// Can use a callback function to handle the results from the API request
+	// places.nearbySearch(params, (err, res) => {
+	// 	if (err) {
+	// 		console.log('nearbySearch error', err);
+	// 	}
+	//
+	// 	console.log('nearbySearch results', res.body);
+	// });
+
+	// Or can use a promise to handle the results
+
+
+*****************************************************************
+
 
 FROM maps.html
 
@@ -204,6 +220,23 @@ app.listen(portDecision, () => console.log("Listening on port:", portDecision));
 *****************************************************************
 FROM facilities route
 
+//makes query without google places data. much faster - http not setup yet
+router.get('/noGoogleData', function(req, res) {
+  console.log('get facilities without google places data');
+  const colsSliced =
+    facilitiesColumns
+    .slice(0, facilitiesColumns.length-1)
+    .concat(['id', 'last_updated', 'date_added']);
+  const colsJoined = colsSliced.join(', ');
+  console.log('colsJoined', colsJoined);
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('SELECT ' + colsJoined + ' FROM facilities;', function(err, result) {
+      done();
+      err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
+    });
+  });
+});
 
 
 // const format = require('pg-format');
