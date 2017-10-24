@@ -21,10 +21,17 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
       vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
       console.log('markerList', vm.markerList);
     }, err => console.log('GET allPools - error:', err)
-    );
-  };
+    );};
 //*************************************************************
   getFacilities();
+//******************************************************************
+const getPoolPhoto = (place_id) => {
+  console.log('getting photo for poolId', place_id);
+  $http.get('/photos/' + place_id)
+    .then(res => {
+      console.log('got pool photos', res);
+    });
+}
 //******************************************************************
   function formatReview(rev) {
      return rev.rating + ' stars:\n' + rev.text + ' - ' +
@@ -58,6 +65,8 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
 //******************************************************************
   //only here (and once html: click pin) -showInfoWindow only here (from Ng-Map)
   vm.showDetail = (e, pool) => {
+		console.log('pool clicked', pool);
+		getPoolPhoto(pool.googleJson.place_id);
     vm.poolDetails = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
     console.log('selected pool', vm.poolDetails);
