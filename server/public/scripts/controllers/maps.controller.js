@@ -26,15 +26,6 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
 //*************************************************************
   getFacilities();
 //******************************************************************
-const getPoolPhoto = (place_id) => {
-  console.log('getting photo for poolId', place_id);
-  $http.get('/photos/' + place_id)
-    .then(res => {
-      vm.poolPhotos = res.data;
-      console.log('got pool photos - vm.poolPhotos', vm.poolPhotos);
-    });
-}
-//******************************************************************
   function formatReview(rev) {
      return rev.rating + ' stars:\n' + rev.text + ' - ' +
      rev.author_name;
@@ -63,6 +54,15 @@ const getPoolPhoto = (place_id) => {
      poolsList = poolsList.slice( 0, maxMarkers )
      return poolsList;
     //  formatReview();
+   };
+//******************************************************************
+   const getPoolPhoto = (place_id) => {
+     console.log('getting photo for poolId', place_id);
+     $http.get('/photos/' + place_id)
+       .then(res => {
+         vm.poolPhotos = res.data;
+         console.log('got pool photos - vm.poolPhotos', vm.poolPhotos);
+       });
    };
 //******************************************************************
   //only here (and twice html: click pin) -showInfoWindow only here (from Ng-Map)
