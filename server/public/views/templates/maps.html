@@ -3,64 +3,57 @@
   <a href="#!home1"><img class="mapsLogo img-fluid center-block" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
   </div>
   <div class="row">
-  <!-- Form: Input Field and Find Pools Button -->
-  <div class="row">
-    <form ng-submit="vm.poolSearch()" class="center-block text-center">
-      <input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
-      <!-- TODO: <button type="submit" class="btn btn-md myBorder yellowBackground">Use Current Location</button> -->
-      <button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
-    </form>
-  </div> <!-- END of Form: Input Field and Find Pools Button -->
-  <div class="row"> <!-- map w/ pins(markers), pop-up info-window, and separate markers list-->
-    <!-- map with markerList#1:  icon-pins(markers) and pop-up (info-window)-->
-    <div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
-      <ng-map class="gMap myBorder" center="{{vm.mapCenter}}" zoom="11" on-dragend="vm.newCenter()">
-        <marker no-watcher="false"
-          ng-repeat="p in vm.markerList"
-          position="{{p.position}}"
-          title="{{p.title}}"
-          distance="{{p.distance}}"
-          icon="{{vm.getIcon($index)}}"
-          on-click="vm.showDetail(p)"
-          ng-if="p.visible"
-        />
-        <info-window id="pool-iw" position="{{vm.poolDetails.position}}">
-          <div ng-non-bindable="">
-            <b>{{vm.poolDetails.title}}</b><br/>
-            {{vm.poolDetails.distance.toFixed(1)}} miles away<br/>
-            {{vm.poolDetails.street_address}}<br/>
-            {{vm.poolDetails.city}}, {{vm.poolDetails.state}} {{vm.poolDetails.zip}}<br/>
-            <a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a><br>
-            <p ng-repeat="review in vm.poolDetails.reviews">
-              {{review}}
-            </p>
-            <p>
-              {{vm.poolPhotos}}
-              <!-- <img src="{{vm.poolPhotos}}" />
-              <img ng-src="{{vm.poolPhotos}}" alt=""> -->
-            </p>
-
-
-
-          </div>
-        </info-window>
-      </ng-map>
-    </div> <!--END map and markerList#1 (pins and pop-up info-window)   -->
-    <!-- markerList#2: pins(markers) and pool info displayed separate from map-->
-    <div class="col-md-4 markerList">
-      <div ng-repeat="pool in vm.markerList" ng-if="pool.visible" ng-click="vm.showDetail(null, pool)" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}" class="row poolItem myBorder">
-       <div class="col-md-2 rank">
-         <img ng-src="{{vm.getIcon($index)}}" alt="{{$index + 1}}"  />
-         <p>{{pool.distance.toFixed(1)}}mi</p>
-       </div> <!-- end ranked icon pin -->
-       <div class="col-md-10 info">
-         <b>{{pool.title}}</b><br/>
-         {{pool.street_address}}<br/>
-         {{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
-         <a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a>
-       </div><!-- end pool name, address row -->
-     </div>
-   </div> <!-- end markerList#2 row -->
-  </div> <!-- end map and markerList row -->
-</div> <!-- end whole page row -->
+		<!-- Form: Input Field and Find Pools Button -->
+		<div class="row">
+			<form ng-submit="vm.poolSearch()" class="center-block text-center">
+				<input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
+				<!-- TODO: <button type="submit" class="btn btn-md myBorder yellowBackground">Use Current Location</button> -->
+				<button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
+			</form>
+		</div> <!-- END of Form: Input Field and Find Pools Button -->
+		<div class="row"> <!-- map w/ pins(markers), pop-up info-window, and separate markers list-->
+			<!-- map with markerList#1:  icon-pins(markers) and pop-up (info-window)-->
+			<div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
+				<ng-map class="gMap myBorder" center="{{vm.mapCenter}}" zoom="11" on-dragend="vm.newCenter()">
+					<marker no-watcher="false"
+						ng-repeat="p in vm.markerList"
+						position="{{p.position}}"
+						title="{{p.title}}"
+						distance="{{p.distance}}"
+						icon="{{vm.getIcon($index)}}"
+						on-click="vm.showDetail(p)"
+						ng-if="p.visible"
+					/>
+					<info-window id="pool-iw" position="{{vm.poolDetails.position}}">
+						<div ng-non-bindable="">
+							<img ng-src="{{vm.poolPhotos[0]}}"><br>
+							<b>{{vm.poolDetails.title}}</b><br/>
+							{{vm.poolDetails.distance.toFixed(1)}} miles away<br/>
+							{{vm.poolDetails.street_address}}<br/>
+							{{vm.poolDetails.city}}, {{vm.poolDetails.state}} {{vm.poolDetails.zip}}<br/>
+							<a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a><br>
+							<p ng-repeat="review in vm.poolDetails.reviews">
+								{{review}}
+							</p>
+						</div>
+					</info-window>
+				</ng-map>
+			</div> <!--END map and markerList#1 (pins and pop-up info-window)   -->
+			<!-- markerList#2: pins(markers) and pool info displayed separate from map-->
+			<div class="col-md-4 markerList">
+				<div ng-repeat="pool in vm.markerList" ng-if="pool.visible" ng-click="vm.showDetail(null, pool)" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}" class="row poolItem myBorder">
+					<div class="col-md-2 rank">
+						<img ng-src="{{vm.getIcon($index)}}" alt="{{$index + 1}}"  />
+						<p>{{pool.distance.toFixed(1)}}mi</p>
+					</div>
+					<div class="col-md-10 info">
+						<b>{{pool.title}}</b><br/>
+						{{pool.street_address}}<br/>
+						{{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
+						<a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- end whole page row -->
 </div>
