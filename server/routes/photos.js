@@ -49,8 +49,8 @@ router.get('/:place_id', (req, res) => {
 		// console.log('first Photo', firstPhoto);
 		let photoParams = {
 			photoreference: firstPhoto,
-			maxheight: 400,
-			maxwidth: 400
+			maxheight: 200,
+			maxwidth: 200
 		};
 		// console.log('photo params', photoParams);
 		// https://developers.google.com/places/web-service/photos
