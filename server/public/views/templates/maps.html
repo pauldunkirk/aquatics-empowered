@@ -35,14 +35,6 @@
 							<p ng-repeat="review in vm.poolDetails.reviews">
 								{{review}}
 							</p>
-							<!-- <p>
-								{{vm.poolPhotos}}
-								<img src="{{vm.poolPhotos}}" />
-								ng-src="{{vm.poolPhotos}}"
-							</p> -->
-
-
-
 						</div>
 					</info-window>
 				</ng-map>
@@ -53,15 +45,15 @@
 					<div class="col-md-2 rank">
 						<img ng-src="{{vm.getIcon($index)}}" alt="{{$index + 1}}"  />
 						<p>{{pool.distance.toFixed(1)}}mi</p>
-					</div> <!-- end ranked icon pin -->
+					</div>
 					<div class="col-md-10 info">
 						<b>{{pool.title}}</b><br/>
 						{{pool.street_address}}<br/>
 						{{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
 						<a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a>
-					</div><!-- end pool name, address row -->
+					</div>
 				</div>
-			</div> <!-- end markerList#2 row -->
-		</div> <!-- end map and markerList row -->
+			</div>
+		</div>
 	</div> <!-- end whole page row -->
 </div>
