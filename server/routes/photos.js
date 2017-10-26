@@ -17,9 +17,9 @@ router.get('/', (req, res) => {
 		radius: 5000
 	};
 	places.nearbySearch(params).then( res => {
-		console.log('nearbySearch results', res.body);
+		// console.log('nearbySearch results', res.body);
 	}, err => {
-		console.log('nearbySearch error', err);
+		// console.log('nearbySearch error', err);
 	});
 	res.sendStatus(200);
 });
@@ -46,24 +46,24 @@ router.get('/:place_id', (req, res) => {
 		// 	photoReferencesArray.push(deailsObj.photos[i].photo_reference);
 		// }
 		let firstPhoto = photoReferencesArray[0].photo_reference;
-		console.log('first Photo', firstPhoto);
+		// console.log('first Photo', firstPhoto);
 		let photoParams = {
 			photoreference: firstPhoto,
 			maxheight: 400,
 			maxwidth: 400
 		};
-		console.log('photo params', photoParams);
+		// console.log('photo params', photoParams);
 		// https://developers.google.com/places/web-service/photos
 		places.photo(photoParams).then( photos_res => {
-			console.log('photos response', photos_res);
+			// console.log('photos response', photos_res);
 			res.send(photos_res.redirects);
 		}, err => {
-			console.log('place photos request error', err);
+			// console.log('place photos request error', err);
 			res.sendStatus(500);
 		});
 
 	}, err => {
-		console.log('place details request error', err);
+		// console.log('place details request error', err);
 		res.sendStatus(500);
 	});
 
