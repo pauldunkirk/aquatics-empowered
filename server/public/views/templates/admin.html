@@ -48,6 +48,8 @@
       </div>
     </div>
   </div>
+
+
   <div class="row">
     <h4>Takes city coordinates, gets google Place IDs and Coordinates for up to 200 places per city - based on keywords (for example, public swimming pools for swimming -services -suppliers -supply -supplier -contractor -retail -shopping) and adds to Radar Table</h4>
     <form class="specialTools form-group" ng-submit="vm.gPlaces.findIds(num)">
@@ -140,6 +142,8 @@
             Name</th>
           <th class="columnSort"  width="180" ng-click="vm.setSort('city')">
             City</th>
+            <th class="columnSort"  width="180" ng-click="vm.setSort('state')">
+              State</th>
           <th class="columnSort" width="50" ng-click="vm.setSort('google_places_data.rating')">
             Rating&nbsp</th>
           <th class="columnSort" width="60" ng-click="vm.setSort('google_places_data.reviews.length')">
@@ -157,6 +161,7 @@
           <td class="columnSort" ng-click="vm.log(result.google_places_data)">
             {{result.name}}</td>
           <td>{{result.city}}</td>
+          <td>{{result.state}}</td>
           <td>{{result.google_places_data.rating}}</td>
           <td>{{result.google_places_data.reviews.length || 0}}</td>
           <td>{{result.last_updated | date:'medium'}}</td>

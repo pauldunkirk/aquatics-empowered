@@ -34,7 +34,7 @@ app.controller('AdminController', ['$http', function($http) {
         pulse(queryFn, list, remaining, delay, index);
       }, delay);
     }
-  }
+  };
 
   function searchCity(cityCoords) {
     //create gMaps LatLng object (required for radar search) with city coords

@@ -77,6 +77,10 @@ FROM ADMIN HTML
 
 FROM Maps Controller
 
+//****************************************************************************
+  //P: only here (and html once) - poolDetails here and above
+  vm.logPool = () => console.log('selected pool:', vm.poolDetails);
+
 
 notes for   GeoCoder.geocode({address: vm.addr})"https://rawgit.com/allenhwkim/angularjs-google-maps/master/build/docs/GeoCoder.html"
 

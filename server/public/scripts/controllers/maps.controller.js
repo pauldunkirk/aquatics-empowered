@@ -1,12 +1,10 @@
-app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', function(MapsFactory, $http, NgMap, GeoCoder) {
+app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis
   vm.mapCenter = defaultCenter;
   vm.maxMarkers = 10;
   vm.markerList = [];
   vm.poolPhotos = [];
-  vm.factoryPools = MapsFactory.factoryPools;
-  // console.log('vm.factoryPools', vm.factoryPools);
 //*************************************************************
   NgMap.getMap().then( map => {
     vm.map = map;
@@ -20,7 +18,7 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
       vm.allPools = res.data;
       console.log('vm.allPools: GET all facilities response', vm.allPools);
       vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
-      console.log('markerList', vm.markerList);
+      console.log('markerList was poolsList', vm.markerList);
     }, err => console.log('GET allPools - error:', err)
     );};
 //*************************************************************
@@ -28,13 +26,13 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
 //******************************************************************
   function formatReview(rev) {
      return rev.rating + ' stars:\n' + rev.text + ' - ' +
-     rev.author_name;
-      // + ' ' + rev.profile_photo_url;
+     rev.author_name + ' ' + rev.profile_photo_url;
    };
+   //see maps.html: markers as markerList and info-window as poolDetails (showDetail(p), p in markerList)
   function createMarkerList(allPoolsArray, maxMarkers, center) {
      let poolsList = allPoolsArray.map( function(pool){
        return {
-         //on right is in allPools, left is
+         //on right is in allPools, left is in pool and in poolsList and markerList
          id: pool.id,
          position: pool.coords,
          title: pool.name,
@@ -52,11 +50,12 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
      } ); //end of map method
      poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
      poolsList = poolsList.slice( 0, maxMarkers )
+     console.log('poolsList becomes markerList', poolsList);
      return poolsList;
     //  formatReview();
    };
 //******************************************************************
-   const getPoolPhoto = (place_id) => {
+   const getPoolPhotos = (place_id) => {
      console.log('getting photo for poolId', place_id);
      $http.get('/photos/' + place_id)
        .then(res => {
@@ -68,14 +67,11 @@ app.controller('MapsController', ['MapsFactory','$http', 'NgMap', 'GeoCoder', fu
   //only here (and twice html: click pin) -showInfoWindow only here (from Ng-Map)
   vm.showDetail = (e, pool) => {
     console.log('pool.googleJson.place_id', pool.googleJson.place_id);
-		getPoolPhoto(pool.googleJson.place_id);
+		getPoolPhotos(pool.googleJson.place_id);
     vm.poolDetails = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
     console.log('selected pool', vm.poolDetails);
   };
-//****************************************************************************
-  //P: only here (and html once) - poolDetails here and above
-  vm.logPool = () => console.log('selected pool:', vm.poolDetails);
 //****************************************************************************
    //only here (and once html: on-dragend) -hideInfoWindow only here (from Ng-Map)
   vm.newCenter = () => {
