@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
   const facil = req.body;
-  console.log('radar results incl place_id', facil);
+  // console.log('radar results incl place_id', facil);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
     client.query(

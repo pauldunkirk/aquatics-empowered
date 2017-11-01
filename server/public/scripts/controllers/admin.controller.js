@@ -199,7 +199,7 @@ app.controller('AdminController', ['$http', function($http) {
         url: '/facilities/byId/' + id,
       }).then( //J: below removal function in client.js for global accessibility
         res => { removeObjById(vm.allPools, id) },
-        err => console.log("error deleting form placeId list: ", err) );
+        err => console.log("error deleting from placeId list: ", err) );
     },
     deleteFromIdList(placeId) {
       $http({
@@ -207,7 +207,7 @@ app.controller('AdminController', ['$http', function($http) {
         url: '/radar/byId/' + placeId,
       }).then(
         res => console.log('DELETE success'),
-        err => console.log("error deleting form placeId list: ", placeId) );
+        err => console.log("error deleting from placeId list: ", placeId) );
     }
   }
   /***************************INITIALIZATION ***************************/
@@ -227,7 +227,7 @@ app.controller('AdminController', ['$http', function($http) {
 
   vm.c = {
     currentPage: 0,
-    pageSize: 25,
+    pageSize: 20,
     filtered: [],
     loading: false,
     sortType: 'city', // set the default sort type
@@ -270,7 +270,7 @@ app.controller('AdminController', ['$http', function($http) {
 /****************************DB SEARCH FILTER************************************/
 
     vm.currentPage = 0;
-    vm.pageSize = 20;
+    vm.pageSize = 100;
     vm.filtered = [];
     vm.loading = false;
     vm.sortType = 'name'; // set the default sort type

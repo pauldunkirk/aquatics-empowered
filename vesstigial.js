@@ -34,6 +34,10 @@ FROM nav.html
 
 
 FROM ADMIN HTML
+<p>
+  {{googleData}}
+</p>
+
 
 <form ng-if="vm.gPlaceIdList.length">
   <br />

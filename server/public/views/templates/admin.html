@@ -8,20 +8,20 @@
 
   <div class="row">
     <h3>Choose which of biggest 1000 cities in USA to search</h3>
-    <form flex="50" class="adminTableStyle">
+    <form>
       <input placeholder="filter cities" ng-model="cityQuery" ng-change="vm.c.pageCheck((vm.c.cityList  | filter: cityQuery |  excludeByStatus: vm.c.show.text()).length)" />
-      <div class="errors-spacer"></div>
+      <div></div>
     </form>
-    <h4 flex="25" class="adminResultsTableStyle">Results: {{(vm.c.cityList  | filter: cityQuery | excludeByStatus:vm.c.show.text()).length}}</h4>
-  </div>
+    <h4>Results: {{(vm.c.cityList  | filter: cityQuery | excludeByStatus:vm.c.show.text()).length}}</h4>
+    <span>click column heading to sort</span>
+  </div> <!-- end cities table setup -->
 
-
+  <!-- Cities Table -->
   <div class="row">
-      <span>click column heading to sort</span>
     <div class="col-md-6">
-      <table cellspacing="0">
+      <table style="background: white" class="table table-bordered table-hover table-condensed table-responsive">
         <thead>
-          <tr id="headerRow">
+          <tr class="headerRow">
             <th class="columnSort" width="55" ng-click="vm.c.setSort('include')">Select&nbsp</th>
             <th class="columnSort" ng-click="vm.c.setSort('city')">City</th>
             <th class="columnSort" ng-click="vm.c.setSort('state')">State</th>
@@ -47,7 +47,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </div>  <!-- end cities table -->
 
 
   <div class="row">
@@ -110,56 +110,36 @@
   <!-- DATABASE VIEW table set up  -->
   <div class="row">
     <h2>Database View</h2>
-    <form flex="50" class="adminTableStyle">
+    <form>
       <label>Search Pools in Database</label>
       <input ng-model="query" ng-change="vm.pageCheck((vm.allPools  | filter: query |  excludeByStatus: vm.show.text()).length, vm.current)"/>
-      <div class="errors-spacer"></div>
+      <div></div>
     </form>
-    <h3 flex="25" class="adminResultsTableStyle">Results: {{(vm.allPools  | filter: query | excludeByStatus: vm.show.text()).length}} </h3>
+    <h3>Results: {{(vm.allPools  | filter: query | excludeByStatus: vm.show.text()).length}} </h3>
     <span>click column heading to sort</span>
-    <!-- <div id="filterBoxes" class="row">
-      <h3 id="dashFilterBy">Filter By</h3>
-      <div layout="column" class="filterBox" ng-repeat="status in vm.show.options">
-        <checkbox ng-model="vm.show.statuses[$index]" ng-change="vm.pageCheck((vm.allPools  | filter: query |  excludeByStatus: vm.show.text()).length)">
-
-
-          {{status}}
-        </checkbox>
-      </div>
-    </div> -->
   </div>
   <!-- end DATABASE VIEW table set up -->
 
   <!-- DATABASE VIEW table itself -->
   <div class="row">
-    <table cellspacing="0">
+    <table style="background: white" class="table table-bordered table-hover table-condensed table-responsive">
       <thead>
-        <tr id="headerRow">
-          <th class="columnSort" width="50" ng-click="vm.setSort('id')">
-            Id #</th>
-
-          <th class="columnSort" width="300" ng-click="vm.setSort('name')">
-            Name</th>
-          <th class="columnSort"  width="180" ng-click="vm.setSort('city')">
-            City</th>
-            <th class="columnSort"  width="180" ng-click="vm.setSort('state')">
-              State</th>
-          <th class="columnSort" width="50" ng-click="vm.setSort('google_places_data.rating')">
-            Rating&nbsp</th>
-          <th class="columnSort" width="60" ng-click="vm.setSort('google_places_data.reviews.length')">
-            Reviews </th>
-          <th class="columnSort" ng-click="vm.setSort('last_updated')">
-            Last Modified</th>
-          <th class="columnSort" ng-click="vm.setSort('date_added')">
-            Date Added </th>
-          <th width="20"></th>
+        <tr class="headerRow">
+          <th class="columnSort" ng-click="vm.setSort('id')">Id#</th>
+          <th class="columnSort" ng-click="vm.setSort('name')">Name</th>
+          <th class="columnSort" ng-click="vm.setSort('city')">City</th>
+          <th class="columnSort" ng-click="vm.setSort('state')">State</th>
+          <th class="columnSort" ng-click="vm.setSort('google_places_data.rating')">Rating</th>
+          <th class="columnSort" ng-click="vm.setSort('google_places_data.reviews.length')">Rev</th>
+          <th class="columnSort" ng-click="vm.setSort('last_updated')">Mod</th>
+          <th class="columnSort" ng-click="vm.setSort('date_added')">Added</th>
+          <th></th>
         </tr>
       </thead>
-      <tbody class="tableBody">
-        <tr class="tableBodyRow" data-ng-repeat="result in vm.allPools | excludeByStatus: vm.show.text() | orderBy:vm.sortType:vm.sortReverse | filter: query | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
+      <tbody>
+        <tr data-ng-repeat="result in vm.allPools | excludeByStatus: vm.show.text() | orderBy:vm.sortType:vm.sortReverse | filter: query | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
           <td>{{result.id}}</td>
-          <td class="columnSort" ng-click="vm.log(result.google_places_data)">
-            {{result.name}}</td>
+          <td class="columnSort" ng-click="vm.log(result.google_places_data)">{{result.name}}</td>
           <td>{{result.city}}</td>
           <td>{{result.state}}</td>
           <td>{{result.google_places_data.rating}}</td>
@@ -172,9 +152,6 @@
         </tr>
       </tbody>
     </table>
-    <p>
-      {{googleData}}
-    </p>
   </div> <!-- end DATABASE VIEW table itself -->
 
   <!-- DATABASE VIEW TABLE controls -->

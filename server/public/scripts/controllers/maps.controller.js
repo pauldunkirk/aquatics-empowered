@@ -16,6 +16,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   function formatReview(rev) {
      return rev.rating + ' stars:\n' + rev.text + ' - ' +
      rev.author_name + ' ' + rev.profile_photo_url;
+     console.log('rev.profile_photo_url', rev.profile_photo_url);
    };
    //see maps.html: markers as markerList and info-window as poolDetails (showDetail(p), p in markerList)
   function createMarkerList(allPoolsArray, maxMarkers, center) {
@@ -35,14 +36,21 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
          googleJson: pool.google_places_data,
          // || [] to prevent calling .map on null (throws error)
          reviews: (pool.google_places_data.reviews || []).map(formatReview)
-       } // end of reconfiguring pools array, renamed poolsList
-     } ); //end of map method
+       } // end of reconfiguring allPools, renamed poolsList
+     } ); //end of map of allPools
      poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
      poolsList = poolsList.slice( 0, maxMarkers )
      console.log('poolsList becomes markerList', poolsList);
      return poolsList;
     //  formatReview();
    };
+
+  //  googleJson: pool.google_places_data,
+   // || [] to prevent calling .map on null (throws error)
+  //  reviews: (pool.google_places_data.reviews || []).map(formatReview)
+  //  } // end of reconfiguring allPools, renamed poolsList
+
+
 //******************************************************************
    const getFacilities = () => {
      $http.get('/facilities/')

@@ -160,114 +160,15 @@ padding: 20px 15px 0;
 }
 
 /*--------------------------ADMIN -----------------------------*/
-#jsonConvert{
-  font-size: x-small;
-}
-/*#numCities {
-  width: 60px;
-}*/
 .columnSort:hover {
   cursor: pointer;
-}
-
-#dashFilterBy {
-  margin: 0;
-}
-#dashboardHeader {
-  margin-top: -15px;
-  text-align: center;
-  letter-spacing: 3px;
-}
-.adminTableStyle {
-  font-size: 1.17em;
-}
-.adminResultsTableStyle {
-  margin: 0;
-  white-space: nowrap;
-}
-#filterBoxes {
-  height: 50px;
-}
-.filterBox {
-  padding-top: 14px;
-}
-
-table {
-  border: 1px;
-  table-layout: fixed;
-  width: 100%;
-}
-th {
-  font-weight: bold;
 }
 td {
   overflow: hidden;
   white-space: nowrap;
 }
-/*th.name {
-  max-width: 250px !important;
-  width: 250px !important;
-}*/
-.itemBtn:hover {
-  cursor: pointer;
-}
-
-.inputTd{
-  background-color: rgb(245, 231, 164);
-}
-.tableBodyRow td{
-  border: 1px solid;
-  border-color: rgba(251, 247, 247, 0.91);
-  padding-left: 5px;
-}
-.tableBodyRow .removeIconPadding{
-  padding-left: 0;
-}
-.tableBodyRow md-input-container, input{
-  padding: 0;
-  margin: 0;
-}
-.tableBody .toastColorRed {
-    background-color: rgb(216,67,21);
-  }
-.tableBody .toastColorGreen {
-    background-color: rgb(122, 221, 101);
-  }
-.tableBody .noToastColor {
-  transition: background-color 0.3s ease-in;
-}
-tr:nth-child(odd) {
-
-    background-color: rgb(234, 231, 235);
-}
-tr:nth-child(even) {
-
-    background-color: rgb(211, 210, 212);
-}
-
-#tableBodyRow td{
-  border: 1px solid;
-  border-color: rgba(251, 247, 247, 0.91);
-  padding-left: 5px;
-}
-#tableBodyRow #removeIconPadding{
-  padding-left: 0;
-}
-#tableBodyRow {
-  padding: 0;
-  margin: 0;
-
-}
-#saveAndGoBackButton button{
-  margin-left: 0;
-}
-.headerRow th {
-  padding: 5px;
-}
-tr.headerRow{
-  background-color: rgb(63,81,181);
-  color: rgba(255,255,255,0.87);
-  padding-top: 5px;
+.headerRow {
+  background-color: yellow;
 }
 /*--------------------------END ADMIN ---------------------------*/
 

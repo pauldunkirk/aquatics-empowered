@@ -11,6 +11,7 @@ const facilitiesColumns = [
 ];
 
 const postAllProps = (postObj, tableColumns) => {
+  console.log('postObj', postObj);
   //J: all of the properties of postObj that are also included in database table
   let keys = Object.keys(postObj).filter( key => tableColumns.includes(key) );
   let values = [];
@@ -47,6 +48,7 @@ router.get('/', function(req, res) {
     client.query('SELECT * FROM facilities;', function(err, result) {
       done();
       err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
+      // console.log('result.rows', result.rows);
     });
   });
 });
