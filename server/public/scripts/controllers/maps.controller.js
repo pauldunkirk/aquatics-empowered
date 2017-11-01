@@ -12,18 +12,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     //TODO: set map center to location of user (from browser query) - need https
   });
 //*************************************************************
-  const getFacilities = () => {
-    $http.get('/facilities/')
-    .then( res => {
-      vm.allPools = res.data;
-      console.log('vm.allPools: GET all facilities response', vm.allPools);
-      vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
-      console.log('markerList was poolsList', vm.markerList);
-    }, err => console.log('GET allPools - error:', err)
-    );};
-//*************************************************************
-  getFacilities();
-//******************************************************************
+//see html: vm.poolDetails.reviews
   function formatReview(rev) {
      return rev.rating + ' stars:\n' + rev.text + ' - ' +
      rev.author_name + ' ' + rev.profile_photo_url;
@@ -32,7 +21,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   function createMarkerList(allPoolsArray, maxMarkers, center) {
      let poolsList = allPoolsArray.map( function(pool){
        return {
-         //on right is in allPools, left is in pool and in poolsList and markerList
+         //value is in allPools, key is in pool, poolsList, markerList, poolDetails
          id: pool.id,
          position: pool.coords,
          title: pool.name,
@@ -55,6 +44,19 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     //  formatReview();
    };
 //******************************************************************
+   const getFacilities = () => {
+     $http.get('/facilities/')
+     .then( res => {
+       vm.allPools = res.data;
+       console.log('vm.allPools: GET all facilities response', vm.allPools);
+       vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
+       console.log('markerList was poolsList', vm.markerList);
+     }, err => console.log('GET allPools - error:', err)
+     );};
+ //*************************************************************
+   getFacilities();
+
+//******************************************************************
    const getPoolPhotos = (place_id) => {
      console.log('getting photo for poolId', place_id);
      $http.get('/photos/' + place_id)
@@ -64,13 +66,13 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
        });
    };
 //******************************************************************
-  //only here (and twice html: click pin) -showInfoWindow only here (from Ng-Map)
+  //only here (and twice html: click pins) -showInfoWindow only here (from Ng-Map)
   vm.showDetail = (e, pool) => {
     console.log('pool.googleJson.place_id', pool.googleJson.place_id);
 		getPoolPhotos(pool.googleJson.place_id);
     vm.poolDetails = pool; //set the pool that infoWindow will display on click
     vm.map.showInfoWindow('pool-iw', pool.id);
-    console.log('selected pool', vm.poolDetails);
+    console.log('selected pool vm.poolDetails', vm.poolDetails);
   };
 //****************************************************************************
    //only here (and once html: on-dragend) -hideInfoWindow only here (from Ng-Map)

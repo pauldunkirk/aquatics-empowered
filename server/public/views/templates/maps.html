@@ -14,7 +14,7 @@
 		<div class="row"> <!-- map w/ pins(markers), pop-up info-window, and separate markers list-->
 			<!-- map with markerList#1:  icon-pins(markers) and pop-up (info-window)-->
 			<div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o">
-				<ng-map class="gMap myBorder" center="{{vm.mapCenter}}" zoom="11" on-dragend="vm.newCenter()">
+				<ng-map class="gMap myBorder" center="{{vm.mapCenter}}" zoom="12" on-dragend="vm.newCenter()">
 					<marker no-watcher="false"
 						ng-repeat="p in vm.markerList"
 						position="{{p.position}}"
