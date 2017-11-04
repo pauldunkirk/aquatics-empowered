@@ -3,29 +3,8 @@ const router = express.Router();
 // using node-googleplaces to make API requests
 // https://github.com/andrewcham/node-googleplaces
 const GooglePlaces = require('node-googleplaces');
-// will need to setup KEY as environment variable within production environment using Google API key
 const places = new GooglePlaces(process.env.KEY);
-
 // ********************************************************************
-// TEST ROUTE '/photos' -- can hit on the frontend if you want to see what these requests return, otherwise can be removed
-// router.get('/', (req, res) => {
-	// params used for queries to Google Places API
-	// API key is included in the params when 'new GooglePlaces(process.env.KEY)' is instantiated
-	// See documentation for various types of Google Places API requests for what parameters are required for each
-// 	const params = {
-// 		location: '49.250964,-123.102192',
-// 		radius: 5000
-// 	};
-// 	places.nearbySearch(params).then( res => {
-// 		console.log('nearbySearch results', res.body);
-// 	}, err => {
-// 		console.log('nearbySearch error', err);
-// 	});
-// 	res.sendStatus(200);
-// });
-//******************************************************************************
-
-
 // @argument place_id used for making a place details request
 router.get('/:place_id', (req, res) => {
 	// https://developers.google.com/places/web-service/details
@@ -41,22 +20,8 @@ router.get('/:place_id', (req, res) => {
 		// pull photo data out of the response information
 		let photoReferencesArray = detailsObj.result.photos;
 		// console.log('photoReferencesArray', photoReferencesArray);
-//Dan's
-		// for (var i = 0; i < detailsObj.photos.length; i++) {
-		// 	photoReferencesArray.push(detailsObj.photos[i].photo_reference);
-		// }
-
-// THIS not working
-// var eachPhotoReference;
-// 				for (var i = 0; i < photoReferencesArray.length; i++) {
-// 					eachPhotoReference = photoReferencesArray[i].photo_reference;);
-// 					let photoParams = {
-// 					photoreference: eachPhotoReference,
-// 					maxheight: 400,
-// 					maxwidth: 400
-// };
-
-
+//Dan's: for (var i = 0; i < detailsObj.photos.length; i++) {
+		// 	photoReferencesArray.push(detailsObj.photos[i].photo_reference); }
 		let firstPhoto = photoReferencesArray[0].photo_reference;
 		console.log('first Photo', firstPhoto);
 		let photoParams = {
@@ -73,12 +38,9 @@ router.get('/:place_id', (req, res) => {
 			// console.log('place photos request error', err);
 			res.sendStatus(500);
 		});
-
 	}, err => {
 		// console.log('place details request error', err);
 		res.sendStatus(500);
 	});
-
 });
-
 module.exports = router;

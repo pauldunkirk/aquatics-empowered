@@ -12,13 +12,14 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     //TODO: set map center to location of user (from browser query) - need https
   });
 //*************************************************************
-//see html: vm.poolDetails.reviews
+//see html: ng-repeat="review in vm.poolDetails.reviews">{{review}}
   function formatReview(rev) {
      return rev.rating + ' stars:\n' + rev.text + ' - ' +
-     rev.author_name + ' ' + rev.profile_photo_url;
+     rev.author_name;
+      // + ' ' + rev.profile_photo_url;
      console.log('rev.profile_photo_url', rev.profile_photo_url);
    };
-   //see maps.html: markers as markerList and info-window as poolDetails (showDetail(p), p in markerList)
+   //see maps.html: markers as markerList, info-window as poolDetails (showDetail(p), p in markerList)
   function createMarkerList(allPoolsArray, maxMarkers, center) {
      let poolsList = allPoolsArray.map( function(pool){
        return {
@@ -31,6 +32,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
          city: pool.city,
          distance: getDistance(pool.coords, center),
          state: pool.state,
+         type: pool.pool_type,
          zip: pool.zip,
          visible: true,
          googleJson: pool.google_places_data,
@@ -39,18 +41,12 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
        } // end of reconfiguring allPools, renamed poolsList
      } ); //end of map of allPools
      poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
-     poolsList = poolsList.slice( 0, maxMarkers )
-     console.log('poolsList becomes markerList', poolsList);
+     poolsList = poolsList.slice( 0, maxMarkers );
+     console.log('poolsList will become markerList', poolsList);
+     console.log('poolsList[1].reviews', poolsList[1].reviews);
      return poolsList;
     //  formatReview();
    };
-
-  //  googleJson: pool.google_places_data,
-   // || [] to prevent calling .map on null (throws error)
-  //  reviews: (pool.google_places_data.reviews || []).map(formatReview)
-  //  } // end of reconfiguring allPools, renamed poolsList
-
-
 //******************************************************************
    const getFacilities = () => {
      $http.get('/facilities/')
@@ -58,37 +54,35 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
        vm.allPools = res.data;
        console.log('vm.allPools: GET all facilities response', vm.allPools);
        vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
-       console.log('markerList was poolsList', vm.markerList);
+       console.log('vm.markerList', vm.markerList);
+      //  console.log('vm.markerList.googleJson', vm.markerList[1].googleJson);
+      // console.log('markerList.googleJson.reviews', vm.markerList[1].googleJson.reviews);
+      // console.log('vm.markerList[1].googleJson.reviews[0].profile_photo_url', vm.markerList[1].googleJson.reviews[0].profile_photo_url);
      }, err => console.log('GET allPools - error:', err)
      );};
- //*************************************************************
+//*************************************************************
    getFacilities();
-
 //******************************************************************
-   const getPoolPhotos = (place_id) => {
-     console.log('getting photo for poolId', place_id);
-     $http.get('/photos/' + place_id)
-       .then(res => {
-         vm.poolPhotos = res.data;
-         console.log('got pool photos - vm.poolPhotos', vm.poolPhotos);
-       });
-   };
-//******************************************************************
-  //only here (and twice html: click pins) -showInfoWindow only here (from Ng-Map)
+  //once here (twice html: click pins) -showInfoWindow only here (from Ng-Map)
   vm.showDetail = (e, pool) => {
+    console.log('pool which is param of showDetail', pool);
+    console.log('pool.reviews', pool.reviews);
+    console.log('pool.googleJson.reviews', pool.googleJson.reviews);
     console.log('pool.googleJson.place_id', pool.googleJson.place_id);
 		getPoolPhotos(pool.googleJson.place_id);
-    vm.poolDetails = pool; //set the pool that infoWindow will display on click
-    vm.map.showInfoWindow('pool-iw', pool.id);
+    vm.poolDetails = pool; //clicked p in vm.markerList/poolsList/allPools
+    vm.map.showInfoWindow('pool-iw', pool.id); //pool.id is db id not place_id
     console.log('selected pool vm.poolDetails', vm.poolDetails);
+    console.log('vm.poolDetails.googleJson.reviews[1].profile_photo_url', vm.poolDetails.googleJson.reviews[0].profile_photo_url);
   };
-//****************************************************************************
-   //only here (and once html: on-dragend) -hideInfoWindow only here (from Ng-Map)
-  vm.newCenter = () => {
-    vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
-    vm.map.hideInfoWindow('pool-iw');
-    vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
-  };
+//******************************************************************
+  const getPoolPhotos = (place_id) => {
+    console.log('getting photo for poolId', place_id);
+     $http.get('/photos/' + place_id)
+          .then(res => {
+            vm.poolPhotos = res.data;
+            console.log('got pool photos - vm.poolPhotos', vm.poolPhotos);
+         });};
 //****************************************************************************
   vm.poolSearch = () => {
     if (vm.addr && vm.map) {
@@ -99,13 +93,19 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
           vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
         });}};
 //****************************************************************************
-  //P: only here (and html twice) - ref see vestigial
+   //once here (once html: on-dragend) -hideInfoWindow only here (from Ng-Map)
+  vm.newCenter = () => {
+    vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+    vm.map.hideInfoWindow('pool-iw');
+    vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
+  };
+//****************************************************************************
+  // TODO: different icons - ref see vestigial
   vm.getIcon = num => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
 //****************************************************************************
-  //P: only here (and html twice: infoWindow and markerList#2)
   vm.clickedWebsiteLink = url => window.open(url);
 //****************************************************************************
-//J: use this instead of google.maps.geometry.spherical.computeDistance() because of API query limit
+//use this instead of google.maps.geometry.spherical.computeDistance() because of API query limit
   const getDistance = (c1, c2) => {
     const _deg2rad = deg => deg * (Math.PI/180);
     let R = 3959; // Radius of the earth in miles
@@ -119,4 +119,4 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     return d;
   };
 //****************************************************************************
-}]);
+}]); //end controller

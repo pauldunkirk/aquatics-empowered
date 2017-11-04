@@ -2,12 +2,11 @@
   <div class="center-block">
   <a href="#!home1"><img class="mapsLogo img-fluid center-block" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
   </div>
-  <div class="row">
-		<!-- Form: Input Field and Find Pools Button -->
-		<div class="row">
+  <div class="row"> <!-- begin whole page row -->
+		<div class="row"> <!-- Form: Input Field and Find Pools Button -->
 			<form ng-submit="vm.poolSearch()" class="center-block text-center">
 				<input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
-				<!-- TODO: <button type="submit" class="btn btn-md myBorder yellowBackground">Use Current Location</button> -->
+				<!-- TODO: Use Current Location button  -->
 				<button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
 			</form>
 		</div> <!-- END of Form: Input Field and Find Pools Button -->
@@ -28,13 +27,20 @@
 						<div ng-non-bindable="">
 							<img ng-src="{{vm.poolPhotos[0]}}"><br>
 							<b>{{vm.poolDetails.title}}</b><br/>
-							{{vm.poolDetails.distance.toFixed(1)}} miles away<br/>
+              <!-- <img ng-src="{{vm.poolDetails.reviewerUrl[0]}}"><br> -->
+							<!-- {{vm.poolDetails.distance.toFixed(1)}} miles away<br/> -->
 							{{vm.poolDetails.street_address}}<br/>
-							{{vm.poolDetails.city}}, {{vm.poolDetails.state}} {{vm.poolDetails.zip}}<br/>
-							<a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a><br>
+							{{vm.poolDetails.city}},{{vm.poolDetails.state}} {{vm.poolDetails.zip}}<br/>
+              <a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a><br>
+               {{vm.poolDetails.type}}
+               <!-- {{vm.poolDetails.id}} -->
+               <!-- {{vm.poolDetails.reviews}} -->
+               <!-- <img ng-src="{{vm.poolDetails.googleJson.reviews[0].profile_photo_url}}"><br> -->
 							<p ng-repeat="review in vm.poolDetails.reviews">
-								{{review}}
-							</p>
+                {{review}}
+                {{review.rating}}</p>
+                <!-- <img ng-src="{{vm.poolDetails.googleJson.reviews[0].profile_photo_url}}"><br> -->
+
 						</div>
 					</info-window>
 				</ng-map>
@@ -44,12 +50,15 @@
 				<div ng-repeat="pool in vm.markerList" ng-if="pool.visible" ng-click="vm.showDetail(null, pool)" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}" class="row poolItem myBorder">
 					<div class="col-md-2 rank">
 						<img ng-src="{{vm.getIcon($index)}}" alt="{{$index + 1}}"  />
-						<p>{{pool.distance.toFixed(1)}}mi</p>
+						<!-- <p>{{pool.distance.toFixed(1)}} miles away</p> -->
 					</div>
 					<div class="col-md-10 info">
 						<b>{{pool.title}}</b><br/>
 						{{pool.street_address}}<br/>
 						{{pool.city}}, {{pool.state}} {{pool.zip}}<br/>
+            <!-- {{pool.type}}
+            {{pool.id}} <br> -->
+            <!-- {{pool.reviews}} -->
 						<a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a>
 					</div>
 				</div>

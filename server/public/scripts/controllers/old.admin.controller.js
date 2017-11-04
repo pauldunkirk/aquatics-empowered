@@ -1,3 +1,5 @@
+  vm.geocodesLeft = 0;
+
 //returns a boolean
 vm.validateJson = (text='') => (
   (/^[\],:{}\s]*$/.test(

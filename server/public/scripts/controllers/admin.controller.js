@@ -1,17 +1,16 @@
 app.controller('AdminController', ['$http', function($http) {
   const vm = this;
   //Places API (becuase NgMap no access to radar)
-  const gPlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
-  //a JSON w/ 1000 biggest US cities and coords - see get line 224 - as vm.c.cityList then filteredCityList in findIds in gPlaces in pulse
+  const googlePlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
+  //a JSON w/ 1000 biggest US cities and coords - see get line 223 - as vm.c.cityList then filteredCityList in findIds in googlePlaces in pulse
   vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
   vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
   vm.placesLeft = [0];
-  vm.geocodesLeft = 0;
   vm.errorCount = 0;
-  vm.gPlaceIdList = [];
+  vm.placeIdsFromRadarTable = [];
   vm.abort = false;
   vm.pulsing = false;
-  /***************************GOOGLE QUERYING ***************************/
+  //***************************GOOGLE QUERYING ***************************
   function pulse(queryFn, list, remaining, delay, index=0) {
     if((list.length > index) && !vm.abort){
       vm.pulsing = true;
@@ -22,88 +21,83 @@ app.controller('AdminController', ['$http', function($http) {
           vm.abort = false;
           vm.pulsing = false;
           return;
-        }
-        //run the function on the data in the current index location of the list
-        //increment the index
+        } //end pulsing abort if
         queryFn(list[index++]);
-        //stores relevant data for items remaining at position zero of array
-        //using array to pass by reference to location in memory, so the value at that location is altered.
-        //only necessary for displaying amount remaining on DOM
-        remaining[0] = list.length - index;
+        remaining[0] = list.length - index; //for display on DOM
         //recursively calls itself with new incremented index
         pulse(queryFn, list, remaining, delay, index);
       }, delay);
-    }
-  };
-
-  function searchCity(cityCoords) {
+    } //end pulsing true if
+  }; //end pulse function
+//***************************************************************************
+  function searchCities(cityCoords) {
     //create gMaps LatLng object (required for radar search) with city coords
     const location = new google.maps.LatLng(
       cityCoords.latitude, cityCoords.longitude);
     const request = {
-      //max radius allowed by google. will top out at 200 nearest results
-      radius: 50000,
+      //50000 max radius allowed by google. tops out at 200 nearest results
+      radius: 5000,
       //search term
       keyword: vm.keywords,
       //LatLng object from above
       location,
     }
-    gPlacesAPI.radarSearch(request, (results, status) => {
+    //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
+    googlePlacesAPI.radarSearch(request, (results, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
         console.error('google places service error:', status);
         return;
       }
       //makes array of objects with these three properties from the google radar results
-      const idList = results.map( pool => (
+      const placeIdList = results.map( pool => (
         { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
           place_id: pool.place_id,
           keyword: request.keyword}
       ) )
-      console.log('idlist: place-id, coords, keyword)', idList);
+      console.log('idlist: place-id, coords, keyword)', placeIdList);
       //ES6 for loop functionality. look up "for of loop" - addPlaceId here and 170
-      for (const idObject of idList) vm.db.addPlaceId(idObject);
-    } );
-  }; //end searchCity
-
+      for (const idObject of placeIdList) vm.db.addPlaceId(idObject);
+    } ); //end radarSearch
+  }; //end searchCities
 //*******************************************************************************************************
-
   //P: html: "query selected cities, add to Radar Table"
-  vm.gPlaces = {
+  //googlePlaces object has several methods: findIds (which calls pulse), getPlaceIdList (radar db call), etc.
+  vm.googlePlaces = {
     findIds(num=1) {
       const filteredCityList = vm.c.cityList.filter(c => c.include);
       console.log('filteredCityList', filteredCityList);
-      pulse(searchCity, filteredCityList, vm.citiesLeft, 1100, 0);
+      pulse(searchCities, filteredCityList, vm.citiesLeft, 1100, 0);
     },
     // get PlaceIds from Radar Table (uses no api queries)
-    getIdList() {
+    getPlaceIdList() {
       $http.get('/radar').then(
-        res => vm.gPlaceIdList = res.data,
+        res => vm.placeIdsFromRadarTable = res.data,
         err => console.log('error accessing place id table', err)
       )
     },
     //takes a list of google Ids, gets google info for EACH id, adds to db
-    getInfoFromIds(idList) {
-      idList = idList.filter( n => n ); //remove empty list items
+    getInfoFromIds(placeIdList) {
+      placeIdList = placeIdList.filter( n => n ); //remove empty list items
 
-      //calls vm.gPlaces.getDetails for each iteration/item in idList
+      //calls vm.googlePlaces.getDetails for each iteration/item in placeIdList
       //tallies remaining places in vm.placesLeft[0]
       //waits 1100ms between each iteration
-      //starts at position 0 (beginning) of idList
-      return pulse(vm.gPlaces.getDetails, idList, vm.placesLeft, 1100, 0)
+      //starts at position 0 (beginning) of placeIdList
+      return pulse(vm.googlePlaces.getDetails, placeIdList, vm.placesLeft, 1100, 0)
     },
     //gets the google details of an item with a google places id property
     getDetails(basicPlace) {
       console.log('basicPlace', basicPlace);
-      gPlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
+      googlePlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
-          const facility = vm.gPlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
+          const facility = vm.googlePlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
           //add to DB if parseDetails did not return NULL
           if (facility) {
             vm.db.addFacility(facility);
           }
         } else {
-          console.log('gPlacesAPI error', status);
+          console.log('googlePlacesAPI error', status);
         }
       });
     },
@@ -197,7 +191,7 @@ app.controller('AdminController', ['$http', function($http) {
       $http({
         method: 'DELETE',
         url: '/facilities/byId/' + id,
-      }).then( //J: below removal function in client.js for global accessibility
+      }).then( // below is removal function in client.js for global accessibility
         res => { removeObjById(vm.allPools, id) },
         err => console.log("error deleting from placeId list: ", err) );
     },
@@ -212,7 +206,7 @@ app.controller('AdminController', ['$http', function($http) {
   }
   /***************************INITIALIZATION ***************************/
 
-  //J: run immediately for initialization
+  // run immediately for initialization
   const init = () => {
     vm.db.getFacilities();
     vm.db.getType();
@@ -224,7 +218,6 @@ app.controller('AdminController', ['$http', function($http) {
   }
   init();
 /***************************CITY SEARCH FILTER ***************************/
-
   vm.c = {
     currentPage: 0,
     pageSize: 20,
@@ -266,9 +259,7 @@ app.controller('AdminController', ['$http', function($http) {
       return total;
     },
   }
-
 /****************************DB SEARCH FILTER************************************/
-
     vm.currentPage = 0;
     vm.pageSize = 100;
     vm.filtered = [];
@@ -290,37 +281,35 @@ app.controller('AdminController', ['$http', function($http) {
         if (pendBool) { ret.push(pendBool); }
         return ret;
       }
-    };
+    }; //end vm.show
     vm.setSort = column => {
       vm.sortReverse = !vm.sortReverse;
       vm.sortType = column;
-    }
+    }; //end vm.setSort
     vm.pageCheck = function(numResults) {
       var total = vm.totalPages(numResults);
       if (vm.currentPage >= total || ((vm.currentPage == -1) && total)) {
         vm.currentPage = total -1 ;
       }
-    };
+    }; //end vm.pageCheck
     vm.totalPages = function (num) {
       var total = 0;
       if (num) {
         total = parseInt(((num - 1) / vm.c.pageSize) + 1);
       }
       return total;
-  };
-
-  /****************************UTILITIES************************************/
-
-  //J: removes irem from object based on .id property
+    }; //end vm.totalPages
+/****************************UTILITIES************************************/
+  // removes item from object based on .id property
   function removeObjById(arr, id) {
     var idx = arr.findIndex(item => item.id === id);
     ~idx && arr.splice(idx, 1);
     return idx;
-  }
-
-  //J: logs whatever you send from the DOM
+  };
+//****************************************************************************
   vm.log = data => console.log(data);
-  //J: computes size of nested objects
+//****************************************************************************
+  // computes size of nested objects
   function memorySizeOf(obj) {
     var bytes = 0;
     function sizeOf(obj) {
@@ -345,8 +334,6 @@ app.controller('AdminController', ['$http', function($http) {
             } else bytes += obj.toString().length * 2;
             break;
           default:
-            //throws this when encountering functions as data types:
-            //console.log('bad data type', typeof obj);
         }
       }
       return bytes;
@@ -358,5 +345,6 @@ app.controller('AdminController', ['$http', function($http) {
         else return(bytes / 1073741824).toFixed(3) + " GiB";
     };
     return formatByteSize(sizeOf(obj));
-  }
-}]);
+  };
+//****************************************************************************
+}]); //end controller

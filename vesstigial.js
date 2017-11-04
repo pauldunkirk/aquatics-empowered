@@ -1,4 +1,26 @@
 FROM PHOTOS Route
+// will need to setup KEY as environment variable within production environment using Google API key
+
+
+// TEST ROUTE '/photos' -- can hit on the frontend if you want to see what these requests return, otherwise can be removed
+// router.get('/', (req, res) => {
+	// params used for queries to Google Places API
+	// API key is included in the params when 'new GooglePlaces(process.env.KEY)' is instantiated
+	// See documentation for various types of Google Places API requests for what parameters are required for each
+// 	const params = {
+// 		location: '49.250964,-123.102192',
+// 		radius: 5000
+// 	};
+// 	places.nearbySearch(params).then( res => {
+// 		console.log('nearbySearch results', res.body);
+// 	}, err => {
+// 		console.log('nearbySearch error', err);
+// 	});
+// 	res.sendStatus(200);
+// });
+//******************************************************************************
+
+
 
 	// Can use a callback function to handle the results from the API request
 	// places.nearbySearch(params, (err, res) => {
@@ -10,6 +32,22 @@ FROM PHOTOS Route
 	// });
 
 	// Or can use a promise to handle the results
+
+
+  //Dan's
+  		// for (var i = 0; i < detailsObj.photos.length; i++) {
+  		// 	photoReferencesArray.push(detailsObj.photos[i].photo_reference);
+  		// }
+
+  // THIS not working
+  // var eachPhotoReference;
+  // 				for (var i = 0; i < photoReferencesArray.length; i++) {
+  // 					eachPhotoReference = photoReferencesArray[i].photo_reference;);
+  // 					let photoParams = {
+  // 					photoreference: eachPhotoReference,
+  // 					maxheight: 400,
+  // 					maxwidth: 400
+  // };
 
 
 *****************************************************************
@@ -39,7 +77,7 @@ FROM ADMIN HTML
 </p>
 
 
-<form ng-if="vm.gPlaceIdList.length">
+<form ng-if="vm.placeIdsFromRadarTable.length">
   <br />
   <input type="checkbox" ng-model="vm.requireReviews" />
   MUST have Google Review(s) to add to DB.
@@ -165,12 +203,12 @@ NOTES:
   //JS example:
   //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
   //(i do not use service.radarSearch because 'service' is too generic for a real webapp)
-gPlacesAPI.radarSearch(request, (results, status) => {
+googlePlacesAPI.radarSearch(request, (results, status) => {
 
   //J: methods making heavy use of google places
   //J: placed into one object for code readability/organization/collapsibility
   //P: html: "query selected cities, add to Radar Table"
-  vm.gPlaces = {
+  vm.googlePlaces = {
 
 *****************************************************************
 FROM app.js (still there but took out notes)
