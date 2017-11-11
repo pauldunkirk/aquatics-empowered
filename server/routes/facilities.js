@@ -23,13 +23,11 @@ const postAllProps = (postObj, tableColumns) => {
   return { values, refs, keysJoined };
 }
 router.post('/', function(req, res) {
-  const query = postAllProps(req.body, facilitiesColumns);
+  const facilPost = postAllProps(req.body, facilitiesColumns);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
-    client.query(
-      'INSERT INTO facilities (' + query.keysJoined + ') VALUES (' + query.refs + ')',
-      query.values,
-      function(err) {
+    client.query('INSERT INTO facilities (' + facilPost.keysJoined + ') VALUES (' + facilPost.refs + ')',
+      facilPost.values, function(err) {
         done();
         err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(200);
       }

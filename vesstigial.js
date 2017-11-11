@@ -1,4 +1,65 @@
+
 FROM PHOTOS Route
+
+// Dan's: WORKING for 1 photo
+//Dan's start of for loop:
+		//for (var i = 0; i < detailsObj.photos.length; i++) {
+		// 	photoReferencesArray.push(detailsObj.photos[i].photo_reference); }
+
+    const express = require('express');
+    const router = express.Router();
+    // using node-googleplaces to make API requests
+    // https://github.com/andrewcham/node-googleplaces
+    const GooglePlaces = require('node-googleplaces');
+    const places = new GooglePlaces(process.env.KEY);
+    // https://developers.google.com/places/web-service/details
+    // https://developers.google.com/places/web-service/photos
+    // ********************************************************************
+    // place_id for place details request
+    router.get('/:place_id', (req, res) => {
+    	// required params per documentation: Either placeid or reference (you must supply one of these, but not both)
+    	let detailsParams = {
+    		placeid: req.params.place_id
+    	}
+    	// make place details request using the place_id from the request
+    	places.details(detailsParams).then( details_res => {
+    		// console.log('details_res', details_res);
+    		// response from details request is JSON, need to parse it into a JS object
+    		let detailsObj = JSON.parse(details_res.text);
+    		console.log('detailsObj', detailsObj);
+    		// pull photo data out of the response information
+    		let photoReferencesArray = detailsObj.result.photos;
+    		// console.log('photoReferencesArray', photoReferencesArray);
+
+    //*************************************************************************
+    let firstPhoto = photoReferencesArray[0].photo_reference;
+    console.log('first Photo', firstPhoto);
+    let photoParams = {
+    	photoreference: firstPhoto,
+    	maxheight: 200,
+    	maxwidth: 200
+    };
+    places.photo(photoParams).then( photos_res => {
+    	res.send(photos_res.redirects);
+    },  //end redirects
+
+    err => {
+    	console.log('place photos request error', err);
+    	res.sendStatus(500);
+    } //end photo req error
+
+    ); //end .then for photo req
+  }, //end details req
+
+    err => {
+    console.log('place details request error', err);
+    res.sendStatus(500);
+    } //end details req error
+
+    ); //end.then of details req
+    });
+    module.exports = router;
+
 // will need to setup KEY as environment variable within production environment using Google API key
 
 

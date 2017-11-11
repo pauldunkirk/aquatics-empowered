@@ -8,12 +8,12 @@
 <!-- ******************************************************* -->
   <div class="row">
     <h3>Choose which of biggest 1000 cities in USA to search</h3>
+    <h4>Results: {{(vm.c.cityList  | filter: cityQuery | excludeByStatus:vm.c.show.text()).length}}</h4>
     <form>
-      <input placeholder="filter cities" ng-model="cityQuery" ng-change="vm.c.pageCheck((vm.c.cityList  | filter: cityQuery |  excludeByStatus: vm.c.show.text()).length)" />
+      <input class="form-control" placeholder="enter city or state to filter" ng-model="cityQuery" ng-change="vm.c.pageCheck((vm.c.cityList  | filter: cityQuery |  excludeByStatus: vm.c.show.text()).length)" />
       <div></div>
     </form>
-    <h4>Results: {{(vm.c.cityList  | filter: cityQuery | excludeByStatus:vm.c.show.text()).length}}</h4>
-    <span>click column heading to sort</span>
+    <span>click column heading to sort alphabetically</span>
   </div> <!-- end cities table setup -->
 <!-- ******************************************************* -->
   <!-- Cities Table -->

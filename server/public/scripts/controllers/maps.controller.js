@@ -4,7 +4,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   vm.mapCenter = defaultCenter;
   vm.maxMarkers = 10;
   vm.markerList = [];
-  vm.poolPhotos = [];
+  vm.poolPhotos = {};
 //*************************************************************
   NgMap.getMap().then( map => {
     vm.map = map;
@@ -12,18 +12,19 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     //TODO: set map center to location of user (from browser query) - need https
   });
 //*************************************************************
-//see html: ng-repeat="review in vm.poolDetails.reviews">{{review}}
+//see html: ng-repeat="r in vm.poolDetails.reviews
   function formatReview(rev) {
-     return rev.rating + ' stars:\n' + rev.text + ' - ' +
-     rev.author_name;
-      // + ' ' + rev.profile_photo_url;
-     console.log('rev.profile_photo_url', rev.profile_photo_url);
-   };
+    return{
+      rating: rev.rating,
+      text: rev.text,
+      author: rev.author_name,
+      url: rev.profile_photo_url
+    }};
    //see maps.html: markers as markerList, info-window as poolDetails (showDetail(p), p in markerList)
   function createMarkerList(allPoolsArray, maxMarkers, center) {
      let poolsList = allPoolsArray.map( function(pool){
        return {
-         //value is in allPools, key is in pool, poolsList, markerList, poolDetails
+         //value from allPools, key found in poolsList, then markerList, then clicked pool, then poolDetails
          id: pool.id,
          position: pool.coords,
          title: pool.name,
@@ -34,6 +35,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
          state: pool.state,
          type: pool.pool_type,
          zip: pool.zip,
+         phone: pool.phone,
          visible: true,
          googleJson: pool.google_places_data,
          // || [] to prevent calling .map on null (throws error)
@@ -42,47 +44,37 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
      } ); //end of map of allPools
      poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
      poolsList = poolsList.slice( 0, maxMarkers );
-     console.log('poolsList will become markerList', poolsList);
-     console.log('poolsList[1].reviews', poolsList[1].reviews);
+    //  console.log('poolsList will become markerList', poolsList);
      return poolsList;
-    //  formatReview();
    };
 //******************************************************************
    const getFacilities = () => {
      $http.get('/facilities/')
      .then( res => {
        vm.allPools = res.data;
-       console.log('vm.allPools: GET all facilities response', vm.allPools);
+      //  console.log('vm.allPools', vm.allPools);
        vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
        console.log('vm.markerList', vm.markerList);
-      //  console.log('vm.markerList.googleJson', vm.markerList[1].googleJson);
-      // console.log('markerList.googleJson.reviews', vm.markerList[1].googleJson.reviews);
-      // console.log('vm.markerList[1].googleJson.reviews[0].profile_photo_url', vm.markerList[1].googleJson.reviews[0].profile_photo_url);
      }, err => console.log('GET allPools - error:', err)
      );};
 //*************************************************************
-   getFacilities();
-//******************************************************************
-  //once here (twice html: click pins) -showInfoWindow only here (from Ng-Map)
-  vm.showDetail = (e, pool) => {
-    console.log('pool which is param of showDetail', pool);
-    console.log('pool.reviews', pool.reviews);
-    console.log('pool.googleJson.reviews', pool.googleJson.reviews);
-    console.log('pool.googleJson.place_id', pool.googleJson.place_id);
-		getPoolPhotos(pool.googleJson.place_id);
-    vm.poolDetails = pool; //clicked p in vm.markerList/poolsList/allPools
-    vm.map.showInfoWindow('pool-iw', pool.id); //pool.id is db id not place_id
-    console.log('selected pool vm.poolDetails', vm.poolDetails);
-    console.log('vm.poolDetails.googleJson.reviews[1].profile_photo_url', vm.poolDetails.googleJson.reviews[0].profile_photo_url);
-  };
+getFacilities();
 //******************************************************************
   const getPoolPhotos = (place_id) => {
     console.log('getting photo for poolId', place_id);
      $http.get('/photos/' + place_id)
           .then(res => {
             vm.poolPhotos = res.data;
-            console.log('got pool photos - vm.poolPhotos', vm.poolPhotos);
+            console.log('vm.poolPhotos', vm.poolPhotos);
+            console.log('vm.poolPhotos.photoUrlsArray', vm.poolPhotos.photoUrlsArray);
          });};
+  //once here (twice html: click pins) -showInfoWindow only here (from Ng-Map)
+  vm.showDetail = (e, pool) => {
+    getPoolPhotos(pool.googleJson.place_id);
+    vm.poolDetails = pool; //clicked p in vm.markerList/poolsList/allPools
+    vm.map.showInfoWindow('pool-iw', pool.id); //pool.id is db id not place_id
+    console.log('selected pool vm.poolDetails.reviews', vm.poolDetails.reviews);
+  };
 //****************************************************************************
   vm.poolSearch = () => {
     if (vm.addr && vm.map) {
