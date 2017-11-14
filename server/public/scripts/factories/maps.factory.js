@@ -3,9 +3,9 @@ app.factory('MapsFactory', ['$http','$location', function($http, $location) {
 
     var allPools = { allPoolsList: [] };
 
-    getFacilities();
+    getAllFacilities();
 
-    function getFacilities() {
+    function getAllFacilities() {
         $http({
           method: 'GET',
           url: '/facilities/'

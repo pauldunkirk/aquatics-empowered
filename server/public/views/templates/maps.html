@@ -1,6 +1,6 @@
 <div class="container">
   <div class="center-block">
-  <a href="#!home1"><img class="mapsLogo img-fluid center-block" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
+  <a href="#!home"><img class="mapsLogo img-fluid center-block" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
   </div>
   <div class="row"> <!-- begin whole page row -->
 		<div class="row"> <!-- Form: Input Field and Find Pools Button -->
@@ -12,7 +12,7 @@
 		</div> <!-- END of Form: Input Field and Find Pools Button -->
 		<div class="row"> <!-- map w/ pins(markers), pop-up info-window, and separate markers list-->
 			<!-- map with markerList#1:  icon-pins(markers) and pop-up (info-window)-->
-			<div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&libraries=geometry">
+			<div class="col-md-8" map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&libraries=geometry" map-lazy-load-params="{{googleMapsUrl}}">
 				<ng-map class="gMap myBorder" center="{{vm.mapCenter}}" zoom="12" on-dragend="vm.newCenter()">
 					<marker no-watcher="false"
 						ng-repeat="p in vm.markerList"
@@ -31,9 +31,12 @@
               {{vm.poolDetails.city}}, {{vm.poolDetails.state}} {{vm.poolDetails.zip}}<br/>
               {{vm.poolDetails.phone}}<br>
               <a href="" ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a><br>
-              <div style="overflow-x: scroll;">
-              <span style="overflow-x: scroll;" ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
-                <img style="width:200px; height:150px;" ng-src="{{pic}}">
+              <div>
+              <span ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
+                <img ng-src="{{pic}}" class="infoWindowPics">
+                <!-- ng-class="{hoverInfoWindowPics: hover}" -->
+                <!-- ng-mouseenter="hover = true" -->
+                <!-- ng-mouseleave="hover = false" -->
 
               </span>
               </div>

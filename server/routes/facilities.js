@@ -45,6 +45,21 @@ router.get('/', function(req, res) {
     });
   });
 });
+
+// router.get('/getById/:id', function(req, res) {
+//   const id = req.params.id;
+//   console.log('get facilities by id');
+//   pool.connect(function(err, client, done) {
+//     err && res.sendStatus(503);
+//     client.query('SELECT * FROM facilities WHERE id = $1;', [id],
+//     function(err, result) {
+//       done();
+//       err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
+//       console.log('result.rows', result.rows);
+//     });
+//   });
+// });
+
 router.delete('/byId/:id', function(req, res) {
   const id = req.params.id;
   console.log('delete facility', id);

@@ -75,7 +75,7 @@ app.controller('AdminController', ['$http', function($http) {
         err => console.log('error accessing place id table', err)
       )
     },
-    //takes a list of google Ids, gets google info for EACH id, adds to db
+    //takes a list of place Ids, gets google info for EACH id, adds to db
     getInfoFromIds(placeIdList) {
       placeIdList = placeIdList.filter( n => n ); //remove empty list items
 
@@ -86,12 +86,12 @@ app.controller('AdminController', ['$http', function($http) {
       return pulse(vm.googlePlaces.getDetails, placeIdList, vm.placesLeft, 1100, 0)
     },
     //gets the google details of an item with a google places id property
-    getDetails(basicPlace) {
-      console.log('basicPlace', basicPlace);
-      googlePlacesAPI.getDetails( {placeId: basicPlace.place_id}, (place, status) => {
+    getDetails(radarPlace) {
+      console.log('radarPlace', radarPlace);
+      googlePlacesAPI.getDetails( {placeId: radarPlace.place_id}, (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log('place', place);
-          const facility = vm.googlePlaces.parseDetails(place, basicPlace.keyword, vm.requireReview);
+          const facility = vm.googlePlaces.parseDetails(place, radarPlace.keyword, vm.requireReview);
           //add to DB if parseDetails did not return NULL
           if (facility) {
             vm.db.addFacility(facility);
@@ -135,12 +135,12 @@ app.controller('AdminController', ['$http', function($http) {
 /***************************DATABASE METHODS ***************************/
 
   vm.db = {
-    getFacilities() {
+    getAllFacilities() {
       let ms = 0;
       setInterval(()=>ms++, 1);
       $http.get('/facilities/')
       .then( res => {
-        console.log(ms, ':milliseconds for getFacilities response');
+        console.log(ms, ':milliseconds for getAllFacilities response');
         console.log(memorySizeOf(res), ":size of server response");
         vm.allPools = res.data;},
              err => console.log('GET pools - error:', err)
@@ -191,7 +191,7 @@ app.controller('AdminController', ['$http', function($http) {
       $http({
         method: 'DELETE',
         url: '/facilities/byId/' + id,
-      }).then( // below is removal function in client.js for global accessibility
+      }).then( // J: removal function in client.js for global accessibility (NOT in client.js - only above - ?)
         res => { removeObjById(vm.allPools, id) },
         err => console.log("error deleting from placeId list: ", err) );
     },
@@ -208,7 +208,7 @@ app.controller('AdminController', ['$http', function($http) {
 
   // run immediately for initialization
   const init = () => {
-    vm.db.getFacilities();
+    vm.db.getAllFacilities();
     vm.db.getType();
 
     $http.get(vm.cityCoordsUrl).then(

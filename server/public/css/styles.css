@@ -131,6 +131,14 @@ padding: 20px 15px 0;
 .rank {
   padding-top: 5px;
 }
+.infoWindowPics {
+  height: 150px;
+  width: 200px;
+}
+.hoverInfoWindowPics {
+  height: 500px;
+  width: 500px;
+}
 /* -------------END MAPS -------------------------------------------------------------*/
 
 

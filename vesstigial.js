@@ -1,4 +1,11 @@
 
+
+
+
+
+
+
+
 FROM PHOTOS Route
 
 // Dan's: WORKING for 1 photo
@@ -148,9 +155,7 @@ FROM ADMIN HTML
    Delete facilities with no google_places_data
 </button>
 
-<button class="btn-danger" ng-click="vm.db.cleanIdList()">
-   Delete NULL placeId entries and <br />placeIds that exist within facilities table
-</button>
+
 
 
 <!-- DATABASE VIEW table set up  -->
@@ -194,13 +199,13 @@ NgMap.getMap().then( map => {
   //P: blank map with properties/functionality but no values
   vm.map = map;
   console.log('map, which has no values yet', map);
-  //J getFacilities in-turn calls createMarkerList() and I think i thought that required vm.map
-  //P: ?? But neither createMarkerList nor getFacilities use vm.map ???
-  //J it doesnt look like that is the case. you could try removing getFacilities() from here and may get a faster page load. //P: tried it- didn't seem to help
+  //J getAllFacilities in-turn calls createMarkerList() and I think i thought that required vm.map
+  //P: ?? But neither createMarkerList nor getAllFacilities use vm.map ???
+  //J it doesnt look like that is the case. you could try removing getAllFacilities() from here and may get a faster page load. //P: tried it- didn't seem to help
   console.log('map.mapUrl - Mpls center, no markers', map.mapUrl);
   //J: TODO: set map center to location of user (determined with from browser query)
   //J: cannot be done until we have an https domain (not free Heroku)
-  getFacilities();
+  getAllFacilities();
 }); //end NgMap.getMap
 
 
@@ -379,29 +384,8 @@ router.delete('/nullGData', function(req, res) {
 
 *****************Radar Route
 
-router.delete('/allDuplicates', function(req, res) {
-  pool.connect(function(err, client, done) {
-    err && res.sendStatus(503);
-    client.query('DELETE FROM google_radar_results WHERE place_id in (SELECT DISTINCT google_place_id FROM facilities);',
-    function(err, result) {
-      done();
-      err ? console.log('DELETE DUPES ERROR', err, res.sendStatus(500)) : deleteEmpties(res);
-    });
-  });
-});
 
 
-function deleteEmpties(res) {
-  console.log('deleting empties');
-  pool.connect(function(err, client, done) {
-    err && res.sendStatus(503);
-    client.query('DELETE FROM google_radar_results WHERE place_id IS NULL;',
-    function(err, result) {
-      done();
-      err ? console.log('DELETE EMPTIES ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
-    });
-  });
-}
 
 router.delete('/byId/:place_id', function(req, res) {
   const place_id = req.params.place_id;

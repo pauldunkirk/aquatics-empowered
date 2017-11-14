@@ -1,31 +1,12 @@
-var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'ngMap', ]);
+var app = angular.module('myApp', ['ngRoute', 'ngMap', ]);
+// var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'ngMap', ]);
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider
-   .when('/home1', {
-     templateUrl: '/views/home1.html',
-     controller: 'Home1Controller',
+   .when('/home', {
+     templateUrl: '/views/home.html',
+     controller: 'HomeController',
      controllerAs: 'vm'
- }).when('/home2', {
-     templateUrl: '/views/home2.html',
-     controller: 'Home2Controller',
-     controllerAs: 'vm'
- }).when('/surveys', {
-     templateUrl: '/views/surveys.html',
-     controller: 'Home1Controller',
-     controllerAs: 'vm'
- }).when('/survey-facilities', {
-    templateUrl: '/views/survey-facilities.html',
-    controller: 'Home1Controller',
-    controllerAs: 'vm'
- }).when('/survey-therapists', {
-    templateUrl: '/views/survey-therapists.html',
-    controller: 'Home1Controller',
-    controllerAs: 'vm'
- }).when('/survey-poolusers', {
-    templateUrl: '/views/survey-poolusers.html',
-    controller: 'Home1Controller',
-    controllerAs: 'vm'
  }).when('/maps', {
     templateUrl: '/views/templates/maps.html',
     controller: 'MapsController',
@@ -36,10 +17,10 @@ app.config(['$routeProvider', function($routeProvider) {
     controllerAs: 'vm'
   }).when('/testMap', {
      templateUrl: '/views/templates/testMap.html',
-     controller: 'Home1Controller',
+     controller: 'HomeController',
      controllerAs: 'vm'
  }).otherwise({
-    redirectTo: '/home1'
+    redirectTo: '/home'
  });
 }]);
 
@@ -71,3 +52,25 @@ app.filter('true_false', function() {
         return 'No';
     };
 });
+
+
+// }).when('/home2', {
+//     templateUrl: '/views/home2.html',
+//     controller: 'Home2Controller',
+//     controllerAs: 'vm'
+// }).when('/surveys', {
+//     templateUrl: '/views/surveys.html',
+//     controller: 'HomeController',
+//     controllerAs: 'vm'
+// }).when('/survey-facilities', {
+//    templateUrl: '/views/survey-facilities.html',
+//    controller: 'HomeController',
+//    controllerAs: 'vm'
+// }).when('/survey-therapists', {
+//    templateUrl: '/views/survey-therapists.html',
+//    controller: 'HomeController',
+//    controllerAs: 'vm'
+// }).when('/survey-poolusers', {
+//    templateUrl: '/views/survey-poolusers.html',
+//    controller: 'HomeController',
+//    controllerAs: 'vm'

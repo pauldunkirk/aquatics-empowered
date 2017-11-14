@@ -48,18 +48,37 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
      return poolsList;
    };
 //******************************************************************
-   const getFacilities = () => {
+
+
+//experimental
+const getSomeFacilities = (id) => {
+  $http.get('/facilities/getById' + id)
+  .then( res => {
+    vm.somePools = res.data;
+    console.log('vm.somePools', vm.somePools);
+    vm.markerList = createMarkerList(vm.somePools, vm.maxMarkers, vm.mapCenter);
+    console.log('vm.markerList', vm.markerList);
+  }, err => console.log('GET allPools - error:', err)
+  );};
+  //*************************************************************
+  getSomeFacilities();
+  //******************************************************************
+
+
+//working one
+   const getAllFacilities = () => {
      $http.get('/facilities/')
      .then( res => {
        vm.allPools = res.data;
-      //  console.log('vm.allPools', vm.allPools);
+       console.log('vm.allPools', vm.allPools);
        vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
        console.log('vm.markerList', vm.markerList);
      }, err => console.log('GET allPools - error:', err)
      );};
 //*************************************************************
-getFacilities();
+getAllFacilities();
 //******************************************************************
+
   const getPoolPhotos = (place_id) => {
     console.log('getting photo for poolId', place_id);
      $http.get('/photos/' + place_id)
