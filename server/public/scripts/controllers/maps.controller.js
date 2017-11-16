@@ -61,7 +61,7 @@ const getSomeFacilities = (id) => {
   }, err => console.log('GET allPools - error:', err)
   );};
   //*************************************************************
-  getSomeFacilities();
+  // getSomeFacilities();
   //******************************************************************
 
 

@@ -85,6 +85,7 @@ app.controller('AdminController', ['$http', function($http) {
       //starts at position 0 (beginning) of placeIdList
       return pulse(vm.googlePlaces.getDetails, placeIdList, vm.placesLeft, 1100, 0)
     },
+
     //gets the google details of an item with a google places id property
     getDetails(radarPlace) {
       console.log('radarPlace', radarPlace);
@@ -99,8 +100,9 @@ app.controller('AdminController', ['$http', function($http) {
         } else {
           console.log('googlePlacesAPI error', status);
         }
-      });
-    },
+      }); //end getDetails.googlePlacesAPI
+    }, //end getDetails
+
     //put google place details into format for our DB
     parseDetails(pResult, keyword, requireReview) {
       //check if reviews are required and exist in google data

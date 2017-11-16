@@ -11,11 +11,14 @@ const places = new GooglePlaces(process.env.KEY);
 
 
 router.get('/:place_id', (req, pics_res) => {
-    places.details({placeid: req.params.place_id}).then( details_res => {
+    places.details({placeId: req.params.place_id}).then( details_res => {
         let detailsObj = JSON.parse(details_res.text);
+				console.log('detailsObj', detailsObj);
+				// console.log('************************************************ detailsObj.result', detailsObj.result);
         let photoReferencesArray = detailsObj.result.photos;
-        console.log('photoReferencesArray', photoReferencesArray);
+        // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& photoReferencesArray', photoReferencesArray);
 
+				//create Params Array for Photo API request for URLs
         let photoParamsArray = [];
 
         for (var i = 0; i < photoReferencesArray.length; i++) {
@@ -25,7 +28,7 @@ router.get('/:place_id', (req, pics_res) => {
                 maxwidth: 500
             });
         }
-				console.log('photoParamsArray', photoParamsArray);
+				console.log('*********************************** photoParamsArray', photoParamsArray);
 
         //https://stackoverflow.com/questions/24660096/correct-way-to-write-loops-for-promise
         var photoUrlsArray = [];
@@ -34,7 +37,7 @@ router.get('/:place_id', (req, pics_res) => {
                 return promise.then(function() {
                     return places.photo(photoParam).then(function(response) {
                         let poolPhotoURL = response.redirects[0]
-                        console.log(poolPhotoURL);
+                        console.log('*********************************** poolPhotoURL', poolPhotoURL);
                         photoUrlsArray.push(poolPhotoURL);
                     })
                 })

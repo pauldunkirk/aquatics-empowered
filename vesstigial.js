@@ -24,9 +24,9 @@ FROM PHOTOS Route
     // ********************************************************************
     // place_id for place details request
     router.get('/:place_id', (req, res) => {
-    	// required params per documentation: Either placeid or reference (you must supply one of these, but not both)
+    	// required params per documentation: Either placeId or reference (you must supply one of these, but not both)
     	let detailsParams = {
-    		placeid: req.params.place_id
+    		placeId: req.params.place_id
     	}
     	// make place details request using the place_id from the request
     	places.details(detailsParams).then( details_res => {
@@ -351,22 +351,22 @@ router.get('/noGoogleData', function(req, res) {
 });
 
 
-// const format = require('pg-format');
-// router.post('/many', function(req, res) {
-//   const bulkFormatted = req.body.map( p => [p.name, p.pool_type, p.street_address, p.city, p.state, p.zip, p.phone, p.image_url, p.url, p.coords, p.google_place_id, p.google_places_data])
-//   console.log('bulk facilities to POST', bulkFormatted);
-//   pool.connect( function(err, client, done) {
-//     err && res.sendStatus(503);
-//     console.log('formnatted', format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted));
-//     client.query(
-//       format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted),
-//       function(err) {
-//         done();
-//         err ? console.log('POST ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
-//       }
-//     );
-//   });
-// });
+const format = require('pg-format');
+router.post('/many', function(req, res) {
+  const bulkFormatted = req.body.map( p => [p.name, p.pool_type, p.street_address, p.city, p.state, p.zip, p.phone, p.image_url, p.url, p.coords, p.google_place_id, p.google_places_data])
+  console.log('bulk facilities to POST', bulkFormatted);
+  pool.connect( function(err, client, done) {
+    err && res.sendStatus(503);
+    console.log('formnatted', format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted));
+    client.query(
+      format('INSERT INTO facilities ' + columnNames + ' VALUES %L', bulkFormatted),
+      function(err) {
+        done();
+        err ? console.log('POST ERROR', err, res.sendStatus(500)) : res.sendStatus(201);
+      }
+    );
+  });
+});
 
 
 *this was when we were dealing with mapmuse data
