@@ -11,7 +11,7 @@ const places = new GooglePlaces(process.env.KEY);
 
 
 router.get('/:place_id', (req, pics_res) => {
-    places.details({placeId: req.params.place_id}).then( details_res => {
+    places.details({placeid: req.params.place_id}).then( details_res => {
         let detailsObj = JSON.parse(details_res.text);
 				console.log('detailsObj', detailsObj);
 				// console.log('************************************************ detailsObj.result', detailsObj.result);

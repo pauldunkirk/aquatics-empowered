@@ -5,6 +5,9 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   vm.maxMarkers = 10;
   vm.markerList = [];
   vm.poolPhotos = {};
+
+  // TODO for mobile: google.maps.event.trigger(map, 'resize');
+  // (also look into why can't do % size, only px)
 //*************************************************************
   NgMap.getMap().then( map => {
     vm.map = map;
@@ -86,10 +89,12 @@ getAllFacilities();
             vm.poolPhotos = res.data;
             console.log('vm.poolPhotos', vm.poolPhotos);
             console.log('vm.poolPhotos.photoUrlsArray', vm.poolPhotos.photoUrlsArray);
-         });};
+         }, err => console.log('GET pool photos error:', err)
+       );};
   //once here (twice html: click pins) -showInfoWindow only here (from Ng-Map)
   vm.showDetail = (e, pool) => {
     getPoolPhotos(pool.googleJson.place_id);
+    console.log('pool.googleJson.place_id', pool.googleJson.place_id);
     vm.poolDetails = pool; //clicked p in vm.markerList/poolsList/allPools
     vm.map.showInfoWindow('pool-iw', pool.id); //pool.id is db id not place_id
     console.log('selected pool vm.poolDetails.reviews', vm.poolDetails.reviews);

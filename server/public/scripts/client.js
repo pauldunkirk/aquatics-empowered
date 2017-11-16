@@ -54,6 +54,9 @@ app.filter('true_false', function() {
 });
 
 
+
+/*************************** NOT USING ***************************/
+
 // }).when('/home2', {
 //     templateUrl: '/views/home2.html',
 //     controller: 'Home2Controller',

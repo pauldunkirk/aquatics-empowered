@@ -8,9 +8,9 @@
 <!-- ******************************************************* -->
   <div class="row">
     <h3>Choose which of biggest 1000 cities in USA to search</h3>
-    <h4>Results: {{(vm.c.cityList  | filter: cityQuery | excludeByStatus:vm.c.show.text()).length}}</h4>
+    <h4>Results: {{(vm.cityTable.cityList  | filter: cityQuery | excludeByStatus:vm.cityTable.show.text()).length}}</h4>
     <form>
-      <input class="form-control" placeholder="enter city or state to filter" ng-model="cityQuery" ng-change="vm.c.pageCheck((vm.c.cityList  | filter: cityQuery |  excludeByStatus: vm.c.show.text()).length)" />
+      <input class="form-control" placeholder="enter city or state to filter" ng-model="cityQuery" ng-change="vm.cityTable.pageCheck((vm.cityTable.cityList  | filter: cityQuery |  excludeByStatus: vm.cityTable.show.text()).length)" />
       <div></div>
     </form>
     <span>click column heading to sort alphabetically</span>
@@ -22,25 +22,25 @@
       <table style="background: white" class="table table-bordered table-hover table-condensed table-responsive">
         <thead>
           <tr class="headerRow">
-            <th class="columnSort" width="55" ng-click="vm.c.setSort('include')">Select&nbsp</th>
-            <th class="columnSort" ng-click="vm.c.setSort('city')">City</th>
-            <th class="columnSort" ng-click="vm.c.setSort('state')">State</th>
+            <th class="columnSort" width="55" ng-click="vm.cityTable.setSort('include')">Select&nbsp</th>
+            <th class="columnSort" ng-click="vm.cityTable.setSort('city')">City</th>
+            <th class="columnSort" ng-click="vm.cityTable.setSort('state')">State</th>
           </tr>
         </thead>
         <tbody class="tableBody">
-          <tr class="tableBodyRow" data-ng-repeat="res in vm.c.cityList | excludeByStatus: vm.c.show.text() | orderBy:vm.c.sortType:vm.c.sortReverse | filter: cityQuery | startFrom:vm.c.currentPage*vm.c.pageSize | limitTo:vm.c.pageSize" >
+          <tr class="tableBodyRow" data-ng-repeat="res in vm.cityTable.cityList | excludeByStatus: vm.cityTable.show.text() | orderBy:vm.cityTable.sortType:vm.cityTable.sortReverse | filter: cityQuery | startFrom:vm.cityTable.currentPage*vm.cityTable.pageSize | limitTo:vm.cityTable.pageSize" >
             <td><input type="checkbox" ng-model="res.include" /></td>
             <td class="longTd">{{res.city}}</td>
             <td class="longTd">{{res.state}}</td>
           </tr>
         </tbody>
       </table>
-      <div class="row" ng-show="vm.c.totalPages((vm.c.cityList  | filter: query |  excludeByStatus: vm.c.show.text()).length)" >
-        <button ng-class="mini" ng-disabled="vm.c.currentPage == 0" ng-click="vm.c.currentPage=vm.c.currentPage-1">
+      <div class="row" ng-show="vm.cityTable.totalPages((vm.cityTable.cityList  | filter: query |  excludeByStatus: vm.cityTable.show.text()).length)" >
+        <button ng-class="mini" ng-disabled="vm.cityTable.currentPage == 0" ng-click="vm.cityTable.currentPage=vm.cityTable.currentPage-1">
           Previous
         </button>
-          {{vm.c.currentPage+1}}/{{vm.c.totalPages((vm.c.cityList  | filter: query | excludeByStatus: vm.c.show.text()).length)}}
-        <button ng-class="mini" ng-disabled="vm.c.currentPage >= ((vm.c.cityList  | filter: cityQuery | excludeByStatus: vm.c.show.text()).length / vm.c.pageSize - 1)" ng-click="vm.c.currentPage=vm.c.currentPage+1">
+          {{vm.cityTable.currentPage+1}}/{{vm.cityTable.totalPages((vm.cityTable.cityList  | filter: query | excludeByStatus: vm.cityTable.show.text()).length)}}
+        <button ng-class="mini" ng-disabled="vm.cityTable.currentPage >= ((vm.cityTable.cityList  | filter: cityQuery | excludeByStatus: vm.cityTable.show.text()).length / vm.cityTable.pageSize - 1)" ng-click="vm.cityTable.currentPage=vm.cityTable.currentPage+1">
           Next
         </button>
       </div>
@@ -49,7 +49,7 @@
 <!-- ******************************************************* -->
   <div class="row">
     <h4>Takes city coordinates, gets google Place IDs and Coordinates for up to 200 places per city - based on keywords (for example, public swimming pools for swimming -services -suppliers -supply -supplier -contractor -retail -shopping) and adds to Radar Table</h4>
-    <form class="specialTools form-group" ng-submit="vm.googlePlaces.findIds(num)">
+    <form class="specialTools form-group" ng-submit="vm.googlePlaces.filterCitiesFindIds(num)">
       <input class="form-control" type="text" placeholder="keywords" required ng-disabled="vm.citiesLeft[0]" ng-model="vm.keywords">
       <input class="form-control" type="text" required ng-model="vm.cityCoordsUrl">
       <input class="btn" type="submit" value="query selected cities, post to Radar Table" ng-disabled="!(vm.keywords)">
@@ -64,10 +64,17 @@
   <div class="row">
     <h2>Gather Details</h2>
     <h4>Gathers detailed info with the Google Place Ids from above</h4>
+
     <button class="btn" ng-click="vm.googlePlaces.getPlaceIdList()">
       getPlaceIdList gets ALL (place ids and coord) from Radar Table (uses no API queries)
     </button>
     <br/>
+
+    <button class="btn-danger" ng-click="vm.db.cleanIdList()">
+       Delete placeIds that already exist in facilities table
+    </button>
+    <br/>
+
     <button class="btn"
         ng-disabled="!vm.placeIdsFromRadarTable.length"
         ng-click="vm.googlePlaces.getInfoFromIds(vm.placeIdsFromRadarTable)">
@@ -95,9 +102,6 @@
     <button class="btn-danger" ng-click="vm.db.deleteAllRadarTable()">
       Delete ALL from Radar Table
     </button>
-    <button class="btn-danger" ng-click="vm.db.cleanIdList()">
-       Delete NULL placeId entries and <br />placeIds that already exist in facilities table
-    </button>
     <!-- <h4><br />{{vm.dbType}} Database, FACILITIES table:</h4> -->
   </div>
   <hr>
@@ -111,7 +115,8 @@
     </form>
     <h3>Results: {{(vm.allPools  | filter: query | excludeByStatus: vm.show.text()).length}} </h3>
     <span>click column heading to sort</span>
-  </div>   <!-- end DATABASE VIEW table set up -->
+  </div>
+  <!-- end DATABASE VIEW table set up -->
 <!-- ******************************************************* -->
   <!-- DATABASE VIEW table itself -->
   <div class="row">
@@ -123,8 +128,8 @@
           <th class="columnSort" ng-click="vm.setSort('city')">City</th>
           <th class="columnSort" ng-click="vm.setSort('state')">State</th>
           <th class="columnSort" ng-click="vm.setSort('google_places_data.rating')">Rating</th>
-          <th class="columnSort" ng-click="vm.setSort('google_places_data.reviews.length')">Rev</th>
-          <th class="columnSort" ng-click="vm.setSort('last_updated')">Mod</th>
+          <th class="columnSort" ng-click="vm.setSort('google_places_data.reviews.length')">#of Revs</th>
+          <th class="columnSort" ng-click="vm.setSort('last_updated')">Changed</th>
           <th class="columnSort" ng-click="vm.setSort('date_added')">Added</th>
           <th></th>
         </tr>
