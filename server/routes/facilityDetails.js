@@ -10,8 +10,9 @@ const GooglePlaces = require('node-googleplaces');
 const places = new GooglePlaces(process.env.KEY);
 
 
-router.get('/:place_id', (req, pics_res) => {
-    places.details({placeid: req.params.place_id}).then( details_res => {
+router.post('/', (req, res) => {
+  // we hvae a req.body which would contain the place_id from radar table
+    places.details({ placeid: req.params.place_id}).then( details_res => {
         let detailsObj = JSON.parse(details_res.text);
 				// console.log('detailsObj', detailsObj);
 				console.log('************************************************ detailsObj.result', detailsObj.result);

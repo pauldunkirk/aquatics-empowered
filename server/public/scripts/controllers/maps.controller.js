@@ -1,5 +1,6 @@
 app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
+  vm.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&libraries=geometry";
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis
   vm.mapCenter = defaultCenter;
   vm.maxMarkers = 10;
@@ -72,9 +73,9 @@ const getSomeFacilities = (id) => {
    const getAllFacilities = () => {
      $http.get('/facilities/')
      .then( res => {
-       vm.allPools = res.data;
-       console.log('vm.allPools', vm.allPools);
-       vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
+       vm.allFacilities = res.data;
+       console.log('vm.allFacilities', vm.allFacilities);
+       vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
        console.log('vm.markerList', vm.markerList);
      }, err => console.log('GET allPools - error:', err)
      );};
@@ -97,6 +98,7 @@ getAllFacilities();
     console.log('pool.googleJson.place_id', pool.googleJson.place_id);
     vm.poolDetails = pool; //clicked p in vm.markerList/poolsList/allPools
     vm.map.showInfoWindow('pool-iw', pool.id); //pool.id is db id not place_id
+    console.log('selected pool vm.poolDetails', vm.poolDetails);
     console.log('selected pool vm.poolDetails.reviews', vm.poolDetails.reviews);
   };
 //****************************************************************************
@@ -104,16 +106,17 @@ getAllFacilities();
     if (vm.addr && vm.map) {
       GeoCoder.geocode({address: vm.addr}) //ref see vestigial
         .then( (results, status) => {  //results[0]==Google's 'best guess'
+        console.log('results', results);
           let coords = results[0].geometry.location;
           vm.mapCenter = [coords.lat(), coords.lng()];
-          vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
+          vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
         });}};
 //****************************************************************************
    //once here (once html: on-dragend) -hideInfoWindow only here (from Ng-Map)
   vm.newCenter = () => {
     vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
     vm.map.hideInfoWindow('pool-iw');
-    vm.markerList = createMarkerList(vm.allPools, vm.maxMarkers, vm.mapCenter);
+    vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
   };
 //****************************************************************************
   // TODO: different icons - ref see vestigial
