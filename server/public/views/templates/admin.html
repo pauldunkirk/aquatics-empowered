@@ -5,6 +5,16 @@
     <h2>Admin Page - Running on {{vm.dbType}} database</h2>
   </div>
   <hr>
+  <!-- ************************ Search ******************************* -->
+  <div class="row"> <!-- Begin Pool Search-->
+
+    <form ng-submit="vm.poolSearch()" class="center-block text-center">
+      <input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
+      <button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
+    </form>
+
+  </div> <!-- End Pool Search-->
+
 <!-- ************************Cities Table Setup ******************************* -->
   <div class="row">
     <h3>Choose which of 1000 biggest cities in USA to search</h3>
@@ -45,15 +55,19 @@
       </div>
     </div>
   </div>  <!-- end cities table -->
+
+
 <!-- ******************************************************* -->
   <div class="row">
     <h4>Takes city coordinates, gets google Place IDs and Coordinates for up to 200 places per city - based on keywords (for example, public swimming pool for swimming -services -suppliers -supply -supplier -contractor -repair -installation) and adds to Radar Table</h4>
 
+<!-- ***** citiesRadarSearch   add geolocate ****-->
     <form class="specialTools form-group" ng-submit="vm.googlePlaces.citiesRadarSearch(num)">
       <input class="form-control" type="text" placeholder="keywords" required ng-disabled="vm.citiesLeft[0]" ng-model="vm.keywords">
       <input class="form-control" type="text" required ng-model="vm.cityCoordsUrl">
       <input class="btn" type="submit" value="Radar search selected cities, post coords and place_id to Radar Table" ng-disabled="!(vm.keywords)">
     </form>
+
 
     <h4 ng-if="vm.citiesLeft[0]">
       {{vm.citiesLeft[0]}} cities remaining <br />

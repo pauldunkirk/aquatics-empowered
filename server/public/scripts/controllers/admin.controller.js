@@ -11,13 +11,25 @@ app.controller('AdminController', ['$http', function($http) {
   vm.abort = false;
   vm.pulsing = false;
 
+
+  //****************************************************************************************************
+//in progress
+  vm.poolSearch = () => {
+    if (vm.addr) {
+      GeoCoder.geocode({address: vm.addr}) //ref see vestigial
+        .then( (results, status) => {  //results[0]==Google's 'best guess'
+        console.log('results', results);
+          // let latitude: results[0].geometry.location.lat();
+          // let longitude: results[0].geometry.location.lng();
+        });}};
+
   //****************************************************************************************************
   // https://developers.google.com/places/web-service/search
   // https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
   function searchCities(cityCoords) { //search Cities called in plse in "citiesRadarSearch" below
     const location = new google.maps.LatLng(cityCoords.latitude, cityCoords.longitude);
     const request = {
-      radius: 5000, //50000 max radius allowed by google. tops out at 200 nearest
+      radius: 50000, //50000 max radius allowed by google. tops out at 200 nearest
       keyword: vm.keywords,  //search term
       location, //LatLng object from above
     }
@@ -111,6 +123,7 @@ app.controller('AdminController', ['$http', function($http) {
         adrCmps[v2]=v1.short_name)
       );
       const loc = pResult.geometry.location;
+      console.log('loc = pResult.geometry.location', loc);
       return {
         name: pResult.name,
         street_address: adrCmps.street_number + ' ' + adrCmps.route,
@@ -133,7 +146,7 @@ app.controller('AdminController', ['$http', function($http) {
 /***************************DATABASE METHODS ***************************/
 
   vm.db = {
-    getFacilitiesForAdmin() {
+    getFacilitiesForAdmin() { //called in init
       let ms = 0;
       setInterval(()=>ms++, 1);
       $http.get('/facilities/')
@@ -218,7 +231,7 @@ app.controller('AdminController', ['$http', function($http) {
 
   //************************* PLSE *****************************
   function pulse(queryFn, list, remaining, delay, index=0) {
-    if((list.length > index) && !vm.abort){
+    if ( (list.length > index) && !vm.abort) {
       vm.pulsing = true;
       setTimeout( () => {
         if (vm.abort) {
@@ -248,7 +261,6 @@ app.controller('AdminController', ['$http', function($http) {
     );
   }
   init();
-
 
 
 /***************************CITY TABLE SEARCH FILTER ***************************/

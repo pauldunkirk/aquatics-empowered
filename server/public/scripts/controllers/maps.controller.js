@@ -13,7 +13,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   NgMap.getMap().then( map => {
     vm.map = map;
     console.log('Yay! We have a map! vm.map', vm.map);
-    //TODO: set map center to location of user (from browser query) - need https
   });
 //*************************************************************
 //see html: ng-repeat="r in vm.poolDetails.reviews
@@ -60,6 +59,7 @@ const getSomeFacilities = (id) => {
   .then( res => {
     vm.somePools = res.data;
     console.log('vm.somePools', vm.somePools);
+    vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
     vm.markerList = createMarkerList(vm.somePools, vm.maxMarkers, vm.mapCenter);
     console.log('vm.markerList', vm.markerList);
   }, err => console.log('GET allPools - error:', err)
@@ -75,6 +75,7 @@ const getSomeFacilities = (id) => {
      .then( res => {
        vm.allFacilities = res.data;
        console.log('vm.allFacilities', vm.allFacilities);
+       vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
        vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
        console.log('vm.markerList', vm.markerList);
      }, err => console.log('GET allPools - error:', err)
@@ -108,7 +109,8 @@ getAllFacilities();
         .then( (results, status) => {  //results[0]==Google's 'best guess'
         console.log('results', results);
           let coords = results[0].geometry.location;
-          vm.mapCenter = [coords.lat(), coords.lng()];
+          vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+          // vm.mapCenter = [coords.lat(), coords.lng()];
           vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
         });}};
 //****************************************************************************
