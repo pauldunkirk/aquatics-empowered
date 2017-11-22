@@ -10,10 +10,8 @@ app.controller('AdminController', ['$http', function($http) {
   vm.placeIdsFromRadarTable = [];
   vm.abort = false;
   vm.pulsing = false;
-
-
   //****************************************************************************************************
-//in progress
+//in progress - a way to search for pools by typing in a city not on list of 1000 biggest
   vm.poolSearch = () => {
     if (vm.addr) {
       GeoCoder.geocode({address: vm.addr}) //ref see vestigial
@@ -76,10 +74,9 @@ app.controller('AdminController', ['$http', function($http) {
     getPlaceIdList() {
       $http.get('/radar').then(
         res => {
-          vm.placeIdsFromRadarTable = res.data;
-        console.log('placeIdsFromRadarTable', placeIdsFromRadarTable);
-      },
-        err => console.log('error accessing place id table', err)
+            vm.placeIdsFromRadarTable = res.data;
+            console.log('placeIdsFromRadarTable', placeIdsFromRadarTable);
+        },  err => console.log('error accessing place id table', err)
       )
     },
 
@@ -89,9 +86,6 @@ app.controller('AdminController', ['$http', function($http) {
     getInfoFromIds(placeIdList) {
       // placeIdList = placeIdList.filter( n => n ); //remove empty list items
       //calls vm.googlePlaces.getDetails for each in placeIdList
-      //tallies remaining places in vm.placesLeft[0]
-      //waits 1100ms between each iteration
-      //starts at position 0 (beginning) of placeIdList
       return pulse(vm.googlePlaces.getDetails, placeIdList, vm.placesLeft, 1100, 0)
     },
     //gets the google details of an item with a google places id property
@@ -219,8 +213,6 @@ app.controller('AdminController', ['$http', function($http) {
         err => console.log("error deleting from placeId list: ", err) );
     }
   }
-
-
   /****************************UTILITIES************************************/
       // removes item from object based on .id property - see deleteFacility above
       function removeObjById(arr, id) {
@@ -243,7 +235,7 @@ app.controller('AdminController', ['$http', function($http) {
         }
         queryFn(list[index++]);
         remaining[0] = list.length - index; //for display on DOM
-        //recursively calls itself with new incremented index
+        //calls itself w/ delay and incremented index
         pulse(queryFn, list, remaining, delay, index);
       }, delay);
     } //end pulsing true if
@@ -252,7 +244,7 @@ app.controller('AdminController', ['$http', function($http) {
   /***************************INITIALIZATION ***************************/
   const init = () => {
     vm.db.getFacilitiesForAdmin();
-    // undefinfed at this point  console.log('vm.allPools from admin contrlr', vm.allPools);
+    // undefinfed at this point - see 151
     vm.db.getType();
 
     $http.get(vm.cityCoordsUrl).then(
