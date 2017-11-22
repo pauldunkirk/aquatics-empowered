@@ -11,8 +11,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     vm.map = map;
     console.log('Yay! We have a map! vm.map', vm.map);
     console.log('vm.map.center(How is this different from the same in newCenter?)', vm.map.center);
-    // vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
-    // console.log('vm.mapCenter', vm.mapCenter);
+    vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+    console.log('vm.mapCenter', vm.mapCenter);
   });
 //*************************************************************
 //see html: ng-repeat="r in vm.poolDetails.reviews
