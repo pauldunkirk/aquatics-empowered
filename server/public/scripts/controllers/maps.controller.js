@@ -51,7 +51,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
      return poolsList;
    };
 //******************************************************************
-
 //ISSUE: SPEED  this is experimental- not being called
 const getSomeFacilities = (id) => {
   $http.get('/facilities/getById' + id)
@@ -111,7 +110,7 @@ getAllFacilities();
           vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
         });}};
 //****************************************************************************
-   //once here (once html: on-dragend) -hideInfoWindow only here (from Ng-Map)
+   //once here (once html: on-dragend) -hide Info Window only here (from Ng-Map)
   vm.newCenter = () => {
     console.log('vm.map', vm.map);
     console.log('vm.map.center', vm.map.center);
