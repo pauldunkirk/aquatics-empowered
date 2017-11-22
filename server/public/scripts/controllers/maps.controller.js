@@ -72,7 +72,6 @@ const getSomeFacilities = (id) => {
      .then( res => {
        vm.allFacilities = res.data;
        console.log('vm.allFacilities', vm.allFacilities);
-      //  vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
        vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
        console.log('vm.markerList', vm.markerList);
      }, err => console.log('GET allPools - error:', err)
