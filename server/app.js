@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const portDecision = process.env.PORT || 3000;
 
 const facilities = require('./routes/facilities');
+const facilityDetails = require('./routes/facilityDetails');
 const photos = require('./routes/photos');
 const radar = require('./routes/radar');
 let isLocal = require('./config/config.js').local;
@@ -17,6 +18,7 @@ app.use(express.static('server/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/facilities', facilities);
+app.use('/facilityDetails', facilityDetails);
 app.use('/photos', photos);
 app.use('/radar', radar);
 

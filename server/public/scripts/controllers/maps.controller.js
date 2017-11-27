@@ -3,7 +3,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   vm.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&libraries=geometry";
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis
   vm.mapCenter = defaultCenter;
-  vm.maxMarkers = 10;
+  vm.maxMarkers = 12;
   vm.markerList = [];
   vm.poolPhotos = {};
 //*************************************************************

@@ -104,26 +104,36 @@ padding: 20px 15px 0;
 /* -------------MAPS -------------------------------------------------*/
 /*991 and smaller*/
 @media(max-width:991px) {
+  .gMap {
+    height: 400px;
+    width: 900px;
+    margin-top: 5px;
+  }
   /*.btn {font-size: 20px !important; width: 60%; }*/
   /*.addressSearch {font-size: 20px !important;}*/
 }
+@media(max-width:767px) {
+  .gMap {
+    height: 300px;
+    width: 700px;
+    margin-top: 5px;
+  }
+  /*.btn {font-size: 20px !important; width: 60%; }*/
+  /*.addressSearch {font-size: 20px !important;}*/
+}
+
 .gMap {
-  height: 600px;
+  height: 400px;
+  width: 1200px;
   margin-top: 5px;
 }
-.markerList {
-  margin-top: 5px;
-  max-height: 600px;
-  border: none;
-  /*border: 2px solid black;*/
-  /*border-radius: 10px;*/
-  overflow: scroll;
-  /*padding: 0 !important;*/
-}
+
 .poolItem {
   background-color: #ffffff;
-  padding: 5px;
-  cursor: pointer;
+  font-size: .9em;
+  /*width: 350px;*/
+  /*padding: 5px;
+  cursor: pointer;*/
 }
 .selectedPool {
   background-color: #D4643F;
@@ -131,14 +141,17 @@ padding: 20px 15px 0;
 .rank {
   padding-top: 5px;
 }
-.infoWindowPics {
+.nopadding {
+  padding: 0;
+}
+/*.infoWindowPics {
   height: 150px;
   width: 200px;
 }
 .hoverInfoWindowPics {
   height: 500px;
   width: 500px;
-}
+}*/
 /* -------------END MAPS -------------------------------------------------------------*/
 
 

@@ -1,7 +1,7 @@
 // using node-googleplaces to tighten syntax of API call: https://github.com/andrewcham/node-googleplaces
 // see Google Places API https://developers.google.com/places/web-service/details
 // this page ultimately gets and sends array of photos of a place to the info-window of map:
-// using place_id from clicked pool (info in database), request "photo references" from Google Place "Details" API
+// using place_id from clicked pool (info in database), request "" from Google Place "Details" API
 // then use "photo references" to request "photo URLs" from Google Place "Photos" API
 const express = require('express');
 const router = express.Router();
@@ -16,6 +16,10 @@ router.post('/', (req, res) => {
         let detailsObj = JSON.parse(details_res.text);
 				// console.log('detailsObj', detailsObj);
 				console.log('************************************************ detailsObj.result', detailsObj.result);
+
+        console.log('************************************************ detailsObj.result.', detailsObj.result);
+
+
         let photoReferencesArray = detailsObj.result.photos;
         // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& photoReferencesArray', photoReferencesArray);
 
