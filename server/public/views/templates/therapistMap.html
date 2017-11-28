@@ -33,10 +33,6 @@
     googlePlacesAPI = new google.maps.places.PlacesService(map);
 
     map.addListener('idle', performSearch);
-
-
-
-
   }
 
   function performSearch() {
@@ -86,11 +82,15 @@
     infoWindow.addListener('click', function() {
               infowindow.close();
             });
-
-    // google.maps.event.addListener(infoWindow, 'click', function() {
-    //     infowindow.close(map, marker);
-    //   });
   }
+
+  // THIS WAS PART OF ABOVE????
+  // google.maps.event.addListener(infoWindow, 'click', function() {
+  //     infowindow.close(map, marker);
+  //   });
+
+
+
 
 // ********** ANOTHER WAY TO DISPLAY INFO IN INFO WINDOW ****************
 

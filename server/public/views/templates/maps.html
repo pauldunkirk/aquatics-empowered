@@ -5,17 +5,18 @@
 
   <!-- ******************************************************************** -->
   <div class="row"> <!-- begin whole page row -->
-
     <!-- ******************************************************************** -->
     <div class="row"> <!-- Begin Pool Search-->
-
       <form ng-submit="vm.poolSearch()" class="center-block text-center">
         <input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
-        <!-- TODO: Use Current Location button  -->
         <button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
       </form>
-
     </div> <!-- End Pool Search-->
+
+
+<!-- using this to compare markerList of getAllCoordsAndIds() vs getAllFacilities()   -->
+<!-- {{vm.markerList}} -->
+
 
     <!-- ***********************  MAP  ********************************************* -->
     <div class="row"> <!-- begin map w/ markers, info-window -->
@@ -35,24 +36,24 @@
           ng-if="p.visible"
           />
 
-          <!-- iNFO WINDOW TODO: 1 photo only then click to get others, open elsewhere -->
           <info-window id="pool-iw" position="{{vm.poolDetails.position}}">
             <div ng-non-bindable="">
 
-              <h2><b>{{vm.poolDetails.title}}</b></h2>
+              <h2><b>{{vm.poolDetails.title}} </b><button class="btn btn-lg btn-primary" ng-click="vm.showPhotos=true"> See Photos</button></h2>
               <h4>{{vm.poolDetails.street_address}}, {{vm.poolDetails.city}}  {{vm.poolDetails.phone}}</h4>
               <p><a ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a></p>
-              <h3><button class="btn btn-lg btn-primary" ng-click="showPhotos=true">See Photos</button></h3>
+              <h3></h3>
 
 
               <div ng-repeat="r in vm.poolDetails.reviews">
-                <br><img  ng-src="{{r.url}}" style="height:60px; width:60px;"><br>
+                <img  ng-src="{{r.url}}" style="height:60px; width:60px;">
                 <h4>{{r.author}}</h4>
                 <h4>
                   <span>{{r.rating}}</span>
-                  <span class="fa fa-star"></span>
+                  <span class="fa fa-star"> </span>
+                  <span> {{r.text}}</span>
                 </h4>
-                <h4>{{r.text}}</h4><br>
+                <br>
               </div>
 
             </div>
@@ -65,10 +66,10 @@
 
     <!-- *********************************************************************       -->
 
-    <!-- marker List#2: pins(markers) and pool info displayed separate from map-->
+    <!-- marker List#2 or infoListpins(markers) and pool info displayed separate from map-->
     <div class="row">
       <div class="center-block">
-        <div class="col-sm-3 nopadding poolItem myBorder" style="float:left" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}"
+        <div class="col-sm-3 nopadding infoListItem myBorder" style="float:left" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}"
         ng-repeat="pool in vm.markerList" ng-if="pool.visible" ng-click="vm.showDetail(null, pool)">
 
         <div class="col-xs-2">
@@ -87,7 +88,7 @@
   <!-- *********************************************************************       -->
 
   <div class="">
-    <span class="" ng-show="showPhotos" ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
+    <span class="" ng-show="vm.showPhotos" ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
       <img ng-src="{{pic}}" >
       <!-- class="infoWindowPics" -->
       <!-- ng-class="{hoverInfoWindowPics: hover}" -->
@@ -96,7 +97,6 @@
     </span>
 
   </div>
-
 
 </div> <!-- end whole page row -->
 </div> <!-- end whole page container -->

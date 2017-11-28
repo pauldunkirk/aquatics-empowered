@@ -51,6 +51,19 @@ router.get('/', function(req, res) {
   });
 });
 
+
+router.get('/coordsandids', function(req, res) {
+  console.log('get facilities');
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('SELECT coords, id FROM facilities;', function(err, result) {
+      done();
+      err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
+      // console.log('result.rows', result.rows);
+    });
+  });
+});
+
 // router.get('/getById/:id', function(req, res) {
 //   const id = req.params.id;
 //   console.log('get facilities by id');
