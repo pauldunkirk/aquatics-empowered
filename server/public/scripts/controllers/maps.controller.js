@@ -2,7 +2,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   const vm = this;
   vm.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&libraries=geometry";
   const defaultCenter = [44.9778, -93.2650]; //Minneapolis
-  vm.mapCenter = defaultCenter;
+  // vm.mapCenter = defaultCenter;
+  vm.mapCenter = [];
   vm.maxMarkers = 12;
   vm.markerList = [];
   vm.poolPhotos = {};
@@ -10,14 +11,23 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   NgMap.getMap().then( map => {
     vm.map = map;
     console.log('Yay! We have a map! vm.map', vm.map);
-    // console.log('vm.map.center, hidden in closure like in newCenter()', vm.map.center);
-    vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+    console.log("vm.map.center is undefined until NgMap's geo-callback", vm.map.center);
+    vm.getCurrentCenter = function() {
+        console.log('You are at' + vm.map.getCenter());
+        vm.map.center = vm.map.getCenter();
+
+        console.log('newCenter -> vm.map.center', vm.map.center);
+        vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+        console.log('mapCenter in getCurrentCenter', vm.mapCenter);
+        getAllFacilities();
+      };
     // console.log('vm.mapCenter', vm.mapCenter);
-    vm.mapCenterLat = vm.mapCenter[0];
-    console.log('vm.mapCenterLat', vm.mapCenterLat);
-    vm.mapCenterLng = vm.mapCenter[1];
-    console.log('vm.mapCenterLng', vm.mapCenterLng);
+    // vm.mapCenterLat = vm.mapCenter[0];
+    // console.log('vm.mapCenterLat', vm.mapCenterLat);
+    // vm.mapCenterLng = vm.mapCenter[1];
+    // console.log('vm.mapCenterLng', vm.mapCenterLng);
   });
+
   //*************************************************************
   //see html: ng-repeat="r in vm.poolDetails.reviews
   function formatReview(rev) {
@@ -27,8 +37,10 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       author: rev.author_name,
       url: rev.profile_photo_url
     }};
-    //see maps.html: markers as markerList, info-window as poolDetails (showDetail(p), p in markerList)
+    //creates Marker List from Pools List when calling in various places
+    // html: markers as marker List, info-window as pool Details (showDetail(p), p in markerList)
     function createMarkerList(allPoolsArray, maxMarkers, center) {
+      console.log('createMarkerList center', center);
       let poolsList = allPoolsArray.map( function(pool){
         return {
           //value from allPools, key found in poolsList, then markerList, then clicked pool, then poolDetails
@@ -57,10 +69,17 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       console.log('poolsList[0].position', poolsList[0].position);
       console.log('poolsList[0].latitude', poolsList[0].latitude);
       console.log('poolsList[0].longitude', poolsList[0].longitude);
-      console.log('poolsList[0].distance - distance from center of map of first pool in poolsList', poolsList[0].distance);
+      console.log('poolsList[0].distance - distance from center of map to first pool in poolsList', poolsList[0].distance);
       return poolsList;
     };
-    // *********************** this is experimental *******
+// *********************** this is experimental *******
+            vm.customMarkers = [
+              {address: "7140 Utica Lane, Chanhassen MN", "class": "my1", "description": "Aquatic Therapists"},
+              {address: "Minneapolis MN", "class": "my2", "description": "Hotels that allow Aquatic Therapy"},
+            ];
+
+
+// *********************** this is experimental *******
     function createDistanceList(allCoordsArray, maxMarkers, center) {
       let coordsList = allCoordsArray.map( function(pool){
         return {
@@ -117,11 +136,12 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       .then( res => {
         vm.allFacilities = res.data;
         console.log('vm.allFacilities', vm.allFacilities);
+        console.log('******************* mapCenter in getAllFacilities', vm.mapCenter);
         vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
         console.log('vm.markerList', vm.markerList);
       }, err => console.log('GET allPools - error:', err)
     );};
-    getAllFacilities();
+    // getAllFacilities();
     //******************************************************************
     const getPoolPhotos = (place_id) => {
       console.log('getting photo for poolId', place_id);
@@ -132,24 +152,18 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         console.log('vm.poolPhotos.photoUrlsArray', vm.poolPhotos.photoUrlsArray);
       }, err => console.log('GET pool photos error:', err)
     );};
-
-
-// vm.showPhotos = () => {
-//   if(vm.poolPhotos) {
-//     vm.showPhotos = true;
-//   } else{
-//     vm.showPhotos = false;
-//   }
-// };
-
-    //once here (twice html: click pins) -showInfoWindow only here (from Ng-Map)
     //******************************************************************
+    //twice html: click pin or info List Item (pool is from p in marker List)  -showInfoWindow (from Ng-Map)
     vm.showDetail = (e, pool) => {
+      vm.showSeePhotosButton = false;
       vm.poolPhotos = {};
       vm.showPhotos = false;
-      vm.poolDetails = pool; //clicked p in vm.markerList/poolsList/allPools
+      vm.poolDetails = pool; //clicked p in vm.markerList/poolsList
       vm.map.showInfoWindow('pool-iw', pool.id); //pool.id is db id not place_id
       getPoolPhotos(pool.googleJson.place_id);
+      if (vm.poolPhotos) {
+        vm.showSeePhotosButton = true;
+      }
       console.log('pool.googleJson.place_id', pool.googleJson.place_id);
       console.log('selected pool vm.poolDetails', vm.poolDetails);
       console.log('selected pool vm.poolDetails.reviews', vm.poolDetails.reviews);
@@ -166,19 +180,35 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
       });}};
       //****************************************************************************
-      //once here (once html: on-dragend) -hide Info Window only here (from Ng-Map)
+      // THESE ARE TRYING TO HIDE INFO WINDOW WHEN PARENT MAP IS CLICKED BUT NOT WHEN INFO WINDOW CHILD CLICKED
+      // an angular search had this suggestion: ng-click="$event.stopPropagation()" on child element
+      // this is jquery - crashing whole thing:
+      // $(document).ready(function() {
+      //     $('#ngmap').click(function(e) {
+      //         if (e.target == this) {
+      //             alert('Parent was clicked');
+      //         }
+      //     })
+      // };
+      // this works but hides when child clicked - only want when parent clicked
+      // vm.hideInfoWindowOnClick = () => {
+      //   if ('pool-iw') {
+      //     vm.map.hideInfoWindow('pool-iw');
+      //   }
+      // };
+      //****************************************************************************
+//****************************************************************************
+      //html: on-dragend  -hide Info Window only here (from Ng-Map)
       vm.newCenter = () => {
-        console.log('newCenter -> vm.map', vm.map);
+        // console.log('newCenter -> vm.map', vm.map);
         console.log('newCenter -> vm.map.center', vm.map.center);
         vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
         vm.showPhotos = false;
-
-        console.log('newCenter -> vm.mapCenter', vm.mapCenter);
+        // console.log('newCenter -> vm.mapCenter', vm.mapCenter);
         vm.mapCenterLat = vm.mapCenter[0];
         console.log('newCenter -> vm.mapCenterLat', vm.mapCenterLat);
         vm.mapCenterLng = vm.mapCenter[1];
         console.log('newCenter -> vm.mapCenterLng', vm.mapCenterLng);
-
         vm.map.hideInfoWindow('pool-iw');
         vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
       };
@@ -202,4 +232,66 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         return d;
       };
       //****************************************************************************
+
+
+
+
+
+
+      var infoWindow = new google.maps.InfoWindow();
+      var googlePlacesAPI = new google.maps.places.PlacesService(vm.map);
+
+      performSearch();
+
+
+      function performSearch() {
+        var request = {
+          bounds: vm.map.getBounds(),
+          keyword: 'aquatic therapy'
+        };
+        googlePlacesAPI.nearbySearch(request, callback);
+      }
+
+      function callback(results, status) {
+        if (status !== google.maps.places.PlacesServiceStatus.OK) {
+          console.error(status);
+          return;
+        }
+        for (var i = 0, result; result = results[i]; i++) {
+          addMarker(result);
+        }
+      }
+
+
+
+      function addMarker(place) {
+        var marker = new google.maps.Marker({
+          vm.map: vm.map,
+          position: place.geometry.location,
+          icon: {
+            url: 'https://developers.google.com/maps/documentation/javascript/images/circle.png',
+            anchor: new google.maps.Point(10, 10),
+            scaledSize: new google.maps.Size(25, 35)
+          }
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          googlePlacesAPI.getDetails(place, function(result, status) {
+            if (status !== google.maps.places.PlacesServiceStatus.OK) {
+              console.error(status);
+              return;
+            }
+            infoWindow.setContent(result.name + '\n ' + result.rating + ' stars ');
+
+            console.log('result', result);
+            infoWindow.open(map, marker);
+          });
+        });
+
+        infoWindow.addListener('click', function() {
+                  infowindow.close();
+                });
+      }
+
+
     }]); //end controller

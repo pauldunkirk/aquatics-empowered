@@ -56,7 +56,7 @@ router.get('/coordsandids', function(req, res) {
   console.log('get facilities');
   pool.connect(function(err, client, done) {
     err && res.sendStatus(503);
-    client.query('SELECT coords, id FROM facilities;', function(err, result) {
+    client.query('SELECT coords, google_place_id, id FROM facilities;', function(err, result) {
       done();
       err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
       // console.log('result.rows', result.rows);
