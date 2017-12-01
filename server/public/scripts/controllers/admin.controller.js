@@ -22,6 +22,7 @@ app.controller('AdminController', ['$http', function($http) {
           vm.pulsing = false;
           return;
         } //end pulsing abort if
+        console.log('pulsing google...')
         queryFn(list[index++]);
         remaining[0] = list.length - index; //for display on DOM
         //recursively calls itself with new incremented index

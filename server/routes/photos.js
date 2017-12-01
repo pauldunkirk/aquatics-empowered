@@ -14,7 +14,7 @@ router.get('/:place_id', (req, pics_res) => {
     places.details({placeid: req.params.place_id}).then( details_res => {
         let detailsObj = JSON.parse(details_res.text);
         let photoReferencesArray = detailsObj.result.photos;
-        console.log('photoReferencesArray', photoReferencesArray);
+        console.log('detailsObj', detailsObj.result);
 
         let photoParamsArray = [];
 

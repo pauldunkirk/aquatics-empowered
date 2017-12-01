@@ -8,13 +8,15 @@ const facilitiesColumns = [
   "phone","description","image_url","url","keyword","coords","ae_details","google_places_data"
 ];
 const postAllProps = (postObj, tableColumns) => {
-  console.log('postObj', postObj);
+  //console.log('postObj', postObj);
   //all of the properties of postObj that are also included in database table
   let keys = Object.keys(postObj).filter( key => tableColumns.includes(key) );
   let values = [];
   let refs = '';
   let keysJoined = keys.join(', ');
+  console.log('keysJoined ' + keysJoined);
   for (let i = 0; i < keys.length; i++) {
+    //console.log(i + '(' + keys[i] + ') postObj:' + postObj[keys[i]]);
     values.push(postObj[keys[i]]);
     refs += ('$' + (i+1) + ', ');
   }
@@ -23,6 +25,7 @@ const postAllProps = (postObj, tableColumns) => {
   return { values, refs, keysJoined };
 }
 router.post('/', function(req, res) {
+  console.log(req.body);
   const facilPost = postAllProps(req.body, facilitiesColumns);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
@@ -33,6 +36,7 @@ router.post('/', function(req, res) {
       }
     );
   });
+  res.sendStatus(200);
 });
 router.get('/', function(req, res) {
   console.log('get facilities');

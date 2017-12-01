@@ -1,6 +1,6 @@
 app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
-  const defaultCenter = [44.9778, -93.2650]; //Minneapolis
+  const defaultCenter = [44.9778, -97.2650]; //Minneapolis 44.9778, -93.2650
   vm.mapCenter = defaultCenter;
   vm.maxMarkers = 10;
   vm.markerList = [];
