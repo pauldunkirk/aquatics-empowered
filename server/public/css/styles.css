@@ -33,7 +33,7 @@ body {
 }
 
 #homeFindAPoolButton {
-
+  color: #ED5265;
 }
 
 /*---------NAV------------------------------------------------*/
@@ -104,26 +104,36 @@ padding: 20px 15px 0;
 /* -------------MAPS -------------------------------------------------*/
 /*991 and smaller*/
 @media(max-width:991px) {
+  .gMap {
+    height: 400px;
+    width: 900px;
+    margin-top: 5px;
+  }
   /*.btn {font-size: 20px !important; width: 60%; }*/
   /*.addressSearch {font-size: 20px !important;}*/
 }
+@media(max-width:767px) {
+  .gMap {
+    height: 300px;
+    width: 700px;
+    margin-top: 5px;
+  }
+  /*.btn {font-size: 20px !important; width: 60%; }*/
+  /*.addressSearch {font-size: 20px !important;}*/
+}
+
 .gMap {
-  height: 600px;
+  height: 400px;
+  width: 1200px;
   margin-top: 5px;
 }
-.markerList {
-  margin-top: 5px;
-  max-height: 600px;
-  border: none;
-  /*border: 2px solid black;*/
-  /*border-radius: 10px;*/
-  overflow: scroll;
-  /*padding: 0 !important;*/
-}
-.poolItem {
+
+.infoListItem {
   background-color: #ffffff;
-  padding: 5px;
-  cursor: pointer;
+  font-size: .8em;
+  /*width: 350px;*/
+  /*padding: 5px;
+  cursor: pointer;*/
 }
 .selectedPool {
   background-color: #D4643F;
@@ -131,14 +141,17 @@ padding: 20px 15px 0;
 .rank {
   padding-top: 5px;
 }
-.infoWindowPics {
+.nopadding {
+  padding: 0;
+}
+/*.infoWindowPics {
   height: 150px;
   width: 200px;
 }
 .hoverInfoWindowPics {
   height: 500px;
   width: 500px;
-}
+}*/
 /* -------------END MAPS -------------------------------------------------------------*/
 
 
@@ -186,3 +199,84 @@ hr {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
 }
+
+
+
+     .custom-marker {
+     }
+     .custom-marker.my1 {
+       font-size: 1.5em;
+       padding: 10px;
+       background: #fff;
+       -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+       border-radius: 4px;
+       border: #7F7F7F solid 1px;
+     }
+
+     .custom-marker.my1:after {
+       content: '';
+       position: absolute;
+       border-style: solid;
+       border-width: 7px 6px 0;
+       border-color: #fff transparent;
+       display: block;
+       width: 0;
+       z-index: 1;
+       margin-left: -6px;
+       bottom: -6px;
+       left: 50%;
+     }
+
+     .custom-marker.my1:before {
+       content: '';
+       position: absolute;
+       border-style: solid;
+       border-width: 7px 6px 0;
+       border-color: #7F7F7F transparent;
+       display: block;
+       width: 0;
+       z-index: 0;
+       margin-left: -6px;
+       bottom: -7px;
+       left: 50%;
+     }
+
+     .custom-marker.my2 {
+       font-size: 1.5em;
+       padding: 10px;
+       background: #fff;
+       -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+       border-radius: 4px;
+       border: #7F7F7F solid 1px;
+       background: red;
+     }
+
+     .custom-marker.my2:after {
+       content: '';
+       position: absolute;
+       border-style: solid;
+       border-width: 7px 6px 0;
+       border-color: red transparent;
+       display: block;
+       width: 0;
+       z-index: 1;
+       margin-left: -6px;
+       bottom: -6px;
+       left: 50%;
+     }
+
+     .custom-marker.my2:before {
+       content: '';
+       position: absolute;
+       border-style: solid;
+       border-width: 7px 6px 0;
+       border-color: #7F7F7F transparent;
+       display: block;
+       width: 0;
+       z-index: 0;
+       margin-left: -6px;
+       bottom: -7px;
+       left: 50%;
+     }
