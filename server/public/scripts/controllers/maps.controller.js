@@ -77,7 +77,9 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
               {address: "7140 Utica Lane, Chanhassen MN", "class": "my1", "description": "Aquatic Therapists"},
               {address: "Minneapolis MN", "class": "my2", "description": "Hotels that allow Aquatic Therapy"},
             ];
-
+            vm.currentLocation = [
+              {"class": "my2", "description": "You are Here"}
+            ];
 
 // *********************** this is experimental *******
     function createDistanceList(allCoordsArray, maxMarkers, center) {
