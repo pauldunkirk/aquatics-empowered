@@ -2,88 +2,90 @@ app.controller('AdminController', ['$http', function($http) {
   const vm = this;
   //Places API (becuase NgMap no access to radar)
   const googlePlacesAPI = new google.maps.places.PlacesService(document.createElement('div'));
-  //a JSON w/ 1000 biggest US cities and coords - see get line 223 - as vm.c.cityList then filteredCityList in findIds in googlePlaces in pulse
+  //a JSON w/ 1000 biggest US cities and coords - see get, filter, plse
   vm.cityCoordsUrl =  'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
-  vm.citiesLeft = [0]; //array to allow passing by reference to pulse()
+  vm.citiesLeft = [0]; //array to allow passing by reference to plse()
   vm.placesLeft = [0];
   vm.errorCount = 0;
   vm.placeIdsFromRadarTable = [];
   vm.abort = false;
   vm.pulsing = false;
-  //***************************GOOGLE QUERYING ***************************
-  function pulse(queryFn, list, remaining, delay, index=0) {
-    if((list.length > index) && !vm.abort){
-      vm.pulsing = true;
-      setTimeout( () => {
-        if (vm.abort) {
-          console.log('aborting pulse');
-          remaining[0] = 0;
-          vm.abort = false;
-          vm.pulsing = false;
-          return;
-        } //end pulsing abort if
-        console.log('pulsing google...')
-        queryFn(list[index++]);
-        remaining[0] = list.length - index; //for display on DOM
-        //recursively calls itself with new incremented index
-        pulse(queryFn, list, remaining, delay, index);
-      }, delay);
-    } //end pulsing true if
-  }; //end pulse function
-//***************************************************************************
-  function searchCities(cityCoords) {
-    //create gMaps LatLng object (required for radar search) with city coords
-    const location = new google.maps.LatLng(
-      cityCoords.latitude, cityCoords.longitude);
+  //****************************************************************************************************
+//in progress - a way to search for pools by typing in a city not on list of 1000 biggest
+  vm.poolSearch = () => {
+    if (vm.addr) {
+      GeoCoder.geocode({address: vm.addr}) //ref see vestigial
+        .then( (results, status) => {  //results[0]==Google's 'best guess'
+        console.log('results', results);
+          // let latitude: results[0].geometry.location.lat();
+          // let longitude: results[0].geometry.location.lng();
+        });}};
+
+  //****************************************************************************************************
+  // https://developers.google.com/places/web-service/search
+  // https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
+  function searchCities(cityCoords) { //search Cities called in plse in "citiesRadarSearch" below
+    const location = new google.maps.LatLng(cityCoords.latitude, cityCoords.longitude);
     const request = {
-      //50000 max radius allowed by google. tops out at 200 nearest results
-      radius: 5000,
-      //search term
-      keyword: vm.keywords,
-      //LatLng object from above
-      location,
+      radius: 50000, //50000 max radius allowed by google. tops out at 200 nearest
+      keyword: vm.keywords,  //search term
+      location, //LatLng object from above
     }
-    //https://developers.google.com/maps/documentation/javascript/examples/place-radar-search
     googlePlacesAPI.radarSearch(request, (results, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
         console.error('google places service error:', status);
         return;
       }
-      //makes array of objects with these three properties from the google radar results
+
+      //trying to split up lat and longitude - logging before map method found that map method is needed
+      // lat and long buried deep in closures of geometry console.log('citiesRadarSearch, searchCities, googlePlacesAPI.radarSearch results', results);
+      // returns undefined: console.log('citiesRadarSearch, searchCities, googlePlacesAPI.radarSearch results geometry', results.geometry);
+      //error "cannot read property 'location' of undefined" console.log('results lng', results.geometry.location.lng());
+
       const placeIdList = results.map( pool => (
-        { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
+        { latitude: pool.geometry.location.lat(),
+          longitude: pool.geometry.location.lng(),
           place_id: pool.place_id,
           keyword: request.keyword}
       ) )
-      console.log('idlist: place-id, coords, keyword)', placeIdList);
-      //ES6 for loop functionality. look up "for of loop" - addPlaceId here and 170
+
+      // working one:
+      // const placeIdList = results.map( pool => (
+      //   { coords: [pool.geometry.location.lat(), pool.geometry.location.lng()],
+      //     place_id: pool.place_id,
+      //     keyword: request.keyword}
+      // ) )
+      console.log('placeIdlist: place-id, coords, keyword)', placeIdList);
+      //
       for (const idObject of placeIdList) vm.db.addPlaceId(idObject);
     } ); //end radarSearch
-  }; //end searchCities
-//*******************************************************************************************************
-  //P: html: "query selected cities, add to Radar Table"
-  //googlePlaces object has several methods: findIds (which calls pulse), getPlaceIdList (radar db call), etc.
+  }; //end search cities
+
+
+//******************************************************************************************************
+
   vm.googlePlaces = {
-    findIds(num=1) {
-      const filteredCityList = vm.c.cityList.filter(c => c.include);
-      console.log('filteredCityList', filteredCityList);
+    citiesRadarSearch(num=1) {
+      const filteredCityList = vm.cityTable.cityList.filter(cityTable => cityTable.include);
+      console.log('filtered City List', filteredCityList);
       pulse(searchCities, filteredCityList, vm.citiesLeft, 1100, 0);
     },
     // get PlaceIds from Radar Table (uses no api queries)
     getPlaceIdList() {
       $http.get('/radar').then(
-        res => vm.placeIdsFromRadarTable = res.data,
-        err => console.log('error accessing place id table', err)
+        res => {
+            vm.placeIdsFromRadarTable = res.data;
+            console.log('placeIdsFromRadarTable', placeIdsFromRadarTable);
+        },  err => console.log('error accessing place id table', err)
       )
     },
+
+
+
     //takes a list of place Ids, gets google info for EACH id, adds to db
     getInfoFromIds(placeIdList) {
-      placeIdList = placeIdList.filter( n => n ); //remove empty list items
-
-      //calls vm.googlePlaces.getDetails for each iteration/item in placeIdList
-      //tallies remaining places in vm.placesLeft[0]
-      //waits 1100ms between each iteration
-      //starts at position 0 (beginning) of placeIdList
+      // placeIdList = placeIdList.filter( n => n ); //remove empty list items
+      //calls vm.googlePlaces.getDetails for each in placeIdList
       return pulse(vm.googlePlaces.getDetails, placeIdList, vm.placesLeft, 1100, 0)
     },
     //gets the google details of an item with a google places id property
@@ -100,8 +102,9 @@ app.controller('AdminController', ['$http', function($http) {
         } else {
           console.log('googlePlacesAPI error', status);
         }
-      });
-    },
+      }); //end get Details. googlePlaces API
+    }, //end get Details
+
     //put google place details into format for our DB
     parseDetails(pResult, keyword, requireReview) {
       //check if reviews are required and exist in google data
@@ -114,6 +117,7 @@ app.controller('AdminController', ['$http', function($http) {
         adrCmps[v2]=v1.short_name)
       );
       const loc = pResult.geometry.location;
+      console.log('loc = pResult.geometry.location', loc);
       return {
         name: pResult.name,
         street_address: adrCmps.street_number + ' ' + adrCmps.route,
@@ -136,15 +140,16 @@ app.controller('AdminController', ['$http', function($http) {
 /***************************DATABASE METHODS ***************************/
 
   vm.db = {
-    getAllFacilities() {
+    getFacilitiesForAdmin() { //called in init
       let ms = 0;
       setInterval(()=>ms++, 1);
       $http.get('/facilities/')
       .then( res => {
-        console.log(ms, ':milliseconds for getAllFacilities response');
-        console.log(memorySizeOf(res), ":size of server response");
-        vm.allPools = res.data;},
-             err => console.log('GET pools - error:', err)
+        console.log(ms, ':milliseconds for getFacilitiesForAdmin response');
+        console.log(memorySizeOf(res), ":size of server response to getFacilitiesForAdmin");
+        vm.allPools = res.data;
+        console.log('vm.allPools from admin contrlr', vm.allPools);
+      },   err => console.log('GET pools - error:', err)
       );
     },
     getType() {
@@ -152,15 +157,6 @@ app.controller('AdminController', ['$http', function($http) {
       .then( res => vm.dbType = (res.data ? 'LOCAL' : 'HEROKU') ,
              err => console.log('GET local - error:', err)
       );
-    },
-    addFacility(facility) {
-      $http({
-        method: 'POST',
-        url: '/facilities/',
-        data: facility
-      }).then(
-        res => {  console.log('POST success', res, vm.numAdded++) },
-        err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
     },
     addPlaceId(placeObject) {
       $http({
@@ -171,11 +167,31 @@ app.controller('AdminController', ['$http', function($http) {
         res => vm.numAdded++,
         err => console.log("error adding placeObject: ", placeObject, err, vm.errorCount++) );
     },
+    //
+    // populateFacilityTable(radarPlaceIds) {
+    //   $http({
+    //     method: 'POST',
+    //     url: '/facilityDetails/',
+    //     data: radarPlaceIds
+    //   }).then(
+    //     res => {  console.log('POST success', res, vm.numAdded++) },
+    //     err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
+    // },
+    addFacility(facility) {
+      $http({
+        method: 'POST',
+        url: '/facilities/',
+        data: facility
+      }).then(
+        res => {  console.log('POST success', res, vm.numAdded++) },
+        err => console.log("error adding facility: ", facility, err, vm.errorCount++) );
+    },
+
     // removes entries with place Ids that exist in facilities table
     cleanIdList() {
       $http({
         method: 'DELETE',
-        url: '/radar/allDuplicates/',
+        url: '/radar/alreadyInFacilities/',
       }).then(
         res => console.log('DELETE success'),
         err => console.log("error deleting form placeId list: ", err) );
@@ -192,34 +208,55 @@ app.controller('AdminController', ['$http', function($http) {
       $http({
         method: 'DELETE',
         url: '/facilities/byId/' + id,
-      }).then( // J: removal function in client.js for global accessibility (NOT in client.js - only above - ?)
+      }).then( // J: removal function in client.js for global accessibility (P: umm...? NOT in client.js, only here see below)
         res => { removeObjById(vm.allPools, id) },
         err => console.log("error deleting from placeId list: ", err) );
-    },
-    deleteFromIdList(placeId) {
-      $http({
-        method: 'DELETE',
-        url: '/radar/byId/' + placeId,
-      }).then(
-        res => console.log('DELETE success'),
-        err => console.log("error deleting from placeId list: ", placeId) );
     }
   }
-  /***************************INITIALIZATION ***************************/
+  /****************************UTILITIES************************************/
+      // removes item from object based on .id property - see deleteFacility above
+      function removeObjById(arr, id) {
+        var idx = arr.findIndex(item => item.id === id);
+        ~idx && arr.splice(idx, 1);
+        return idx;
+      };
 
-  // run immediately for initialization
+  //************************* PLSE *****************************
+  function pulse(queryFn, list, remaining, delay, index=0) {
+    if ( (list.length > index) && !vm.abort) {
+      vm.pulsing = true;
+      setTimeout( () => {
+        if (vm.abort) {
+          console.log('aborting pulse');
+          remaining[0] = 0;
+          vm.abort = false;
+          vm.pulsing = false;
+          return;
+        }
+        queryFn(list[index++]);
+        remaining[0] = list.length - index; //for display on DOM
+        //calls itself w/ delay and incremented index
+        pulse(queryFn, list, remaining, delay, index);
+      }, delay);
+    } //end pulsing true if
+  }; //end plse function
+
+  /***************************INITIALIZATION ***************************/
   const init = () => {
-    vm.db.getAllFacilities();
+    vm.db.getFacilitiesForAdmin();
+    // undefinfed at this point - see 151
     vm.db.getType();
 
     $http.get(vm.cityCoordsUrl).then(
-      res => vm.c.cityList = res.data,
+      res => vm.cityTable.cityList = res.data,
       err => console.log('could not find cities JSON', err)
     );
   }
   init();
-/***************************CITY SEARCH FILTER ***************************/
-  vm.c = {
+
+
+/***************************CITY TABLE SEARCH FILTER ***************************/
+  vm.cityTable = {
     currentPage: 0,
     pageSize: 20,
     filtered: [],
@@ -243,19 +280,19 @@ app.controller('AdminController', ['$http', function($http) {
       }
     },
     setSort: function(column) {
-      vm.c.sortReverse = !vm.c.sortReverse;
-      vm.c.sortType = column;
+      vm.cityTable.sortReverse = !vm.cityTable.sortReverse;
+      vm.cityTable.sortType = column;
     },
     pageCheck: function(numResults) {
-      var total = vm.c.totalPages(numResults);
-      if (vm.c.currentPage >= total || ((vm.c.currentPage == -1) && total)) {
-        vm.c.currentPage = total -1 ;
+      var total = vm.cityTable.totalPages(numResults);
+      if (vm.cityTable.currentPage >= total || ((vm.cityTable.currentPage == -1) && total)) {
+        vm.cityTable.currentPage = total -1 ;
       }
     },
     totalPages: function (num) {
       var total = 0;
       if (num) {
-        total = parseInt(((num - 1) / vm.c.pageSize) + 1);
+        total = parseInt(((num - 1) / vm.cityTable.pageSize) + 1);
       }
       return total;
     },
@@ -296,18 +333,12 @@ app.controller('AdminController', ['$http', function($http) {
     vm.totalPages = function (num) {
       var total = 0;
       if (num) {
-        total = parseInt(((num - 1) / vm.c.pageSize) + 1);
+        total = parseInt(((num - 1) / vm.cityTable.pageSize) + 1);
       }
       return total;
     }; //end vm.totalPages
-/****************************UTILITIES************************************/
-  // removes item from object based on .id property
-  function removeObjById(arr, id) {
-    var idx = arr.findIndex(item => item.id === id);
-    ~idx && arr.splice(idx, 1);
-    return idx;
-  };
-//****************************************************************************
+
+//***************************LOG DATA OF POOL - ADMIN DB VIEW *************************************************
   vm.log = data => console.log(data);
 //****************************************************************************
   // computes size of nested objects
