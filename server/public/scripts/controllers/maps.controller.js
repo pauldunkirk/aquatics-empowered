@@ -11,21 +11,21 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   NgMap.getMap().then( map => {
     vm.map = map;
     console.log('Yay! We have a map! vm.map', vm.map);
-    console.log("vm.map.center is undefined until NgMap's geo-callback", vm.map.center);
+    // console.log("vm.map.center is undefined until NgMap's geo-callback", vm.map.center);
     vm.getCurrentCenter = function() {
         console.log('You are at' + vm.map.getCenter());
         vm.map.center = vm.map.getCenter();
-
-        console.log('newCenter -> vm.map.center', vm.map.center);
+        console.log('getCurrentCenter -> vm.map.center', vm.map.center);
         vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
         console.log('mapCenter in getCurrentCenter', vm.mapCenter);
+        console.log('vm.mapCenter', vm.mapCenter);
+        vm.mapCenterLat = vm.mapCenter[0];
+        console.log('vm.mapCenterLat', vm.mapCenterLat);
+        vm.mapCenterLng = vm.mapCenter[1];
+        console.log('vm.mapCenterLng', vm.mapCenterLng);
         getAllFacilities();
       };
-    // console.log('vm.mapCenter', vm.mapCenter);
-    // vm.mapCenterLat = vm.mapCenter[0];
-    // console.log('vm.mapCenterLat', vm.mapCenterLat);
-    // vm.mapCenterLng = vm.mapCenter[1];
-    // console.log('vm.mapCenterLng', vm.mapCenterLng);
+
   });
 
   //*************************************************************
@@ -234,6 +234,64 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       //****************************************************************************
 
 
+      //
+      //
+      //TRYING TO MARRY therapistMap.html just as an exploration of how things work as opposed to a long-term solution
+      //
+      // var infoWindow = new google.maps.InfoWindow();
+      // var googlePlacesAPI = new google.maps.places.PlacesService(vm.map);
+      //
+      // performSearch();
+      //
+      //
+      // function performSearch() {
+      //   var request = {
+      //     bounds: vm.map.getBounds(),
+      //     keyword: 'aquatic therapy'
+      //   };
+      //   googlePlacesAPI.nearbySearch(request, callback);
+      // }
+      //
+      // function callback(results, status) {
+      //   if (status !== google.maps.places.PlacesServiceStatus.OK) {
+      //     console.error(status);
+      //     return;
+      //   }
+      //   for (var i = 0, result; result = results[i]; i++) {
+      //     addMarker(result);
+      //   }
+      // }
+      //
+      //
+      //
+      // function addMarker(place) {
+      //   var marker = new google.maps.Marker({
+      //     vm.map: vm.map,
+      //     position: place.geometry.location,
+      //     icon: {
+      //       url: 'https://developers.google.com/maps/documentation/javascript/images/circle.png',
+      //       anchor: new google.maps.Point(10, 10),
+      //       scaledSize: new google.maps.Size(25, 35)
+      //     }
+      //   });
+      //
+      //   google.maps.event.addListener(marker, 'click', function() {
+      //     googlePlacesAPI.getDetails(place, function(result, status) {
+      //       if (status !== google.maps.places.PlacesServiceStatus.OK) {
+      //         console.error(status);
+      //         return;
+      //       }
+      //       infoWindow.setContent(result.name + '\n ' + result.rating + ' stars ');
+      //
+      //       console.log('result', result);
+      //       infoWindow.open(map, marker);
+      //     });
+      //   });
+      //
+      //   infoWindow.addListener('click', function() {
+      //             infowindow.close();
+      //           });
+      // }
 
 
     }]); //end controller

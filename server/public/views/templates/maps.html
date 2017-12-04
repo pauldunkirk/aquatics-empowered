@@ -37,8 +37,11 @@
           on-click="vm.showDetail(p)"
           ng-if="p.visible"
           />
+
+          <custom-marker position="current" centered="true">
+          </custom-marker>
           <custom-marker no-watcher="false" ng-repeat="cm in vm.customMarkers" position="{{cm.address}}">
-                   <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
+              <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
           </custom-marker>
 
 

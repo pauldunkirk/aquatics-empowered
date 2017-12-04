@@ -22,6 +22,11 @@ body {
   padding: .2em !important;
 }
 
+hr {
+  border-top: 1px solid black !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
 
 .myBorder {
   border: 1px solid black;
@@ -152,55 +157,8 @@ padding: 20px 15px 0;
   height: 500px;
   width: 500px;
 }*/
-/* -------------END MAPS -------------------------------------------------------------*/
 
-
-
-/* -------------CAROUSEL -------------------------------------------------*/
-.carousel-control {
-  width: 3% !important;
-}
-#myCarousel {
-  margin-top: 0;
-}
-/* -------------END CAROUSEL-------------------------------------------------*/
-
-/*----------------whatPeopleSay QUOTES/PICS----------------------------*/
-
-@media (max-width: 767px) {
-  .quoteImage {
-    width: auto !important;
-    }}
-/*(#whatPeopleSay styles also used for "our partners")*/
-#whatPeopleSay {
-  text-align: center;
-  font-weight: bolder;
-  font-family: 'Roboto' !important;
-  word-spacing: .3em;
-  /*padding: 20px;*/
-}
-
-/*--------------------------ADMIN -----------------------------*/
-.columnSort:hover {
-  cursor: pointer;
-}
-td {
-  overflow: hidden;
-  white-space: nowrap;
-}
-.headerRow {
-  background-color: yellow;
-}
-/*--------------------------END ADMIN ---------------------------*/
-
-
-hr {
-  border-top: 1px solid black !important;
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
-}
-
-
+/* -----CUSTOM MAP MARKERS-----*/
 
      .custom-marker {
      }
@@ -280,3 +238,135 @@ hr {
        bottom: -7px;
        left: 50%;
      }
+
+
+/* -------------END MAPS -------------------------------------------------------------*/
+
+
+
+
+/*----------------whatPeopleSay QUOTES/PICS----------------------------*/
+
+@media (max-width: 767px) {
+  .quoteImage {
+    width: auto !important;
+    }}
+/*(#whatPeopleSay styles also used for "our partners")*/
+#whatPeopleSay {
+  text-align: center;
+  font-weight: bolder;
+  font-family: 'Roboto' !important;
+  word-spacing: .3em;
+  /*padding: 20px;*/
+}
+
+/*--------------------------ADMIN -----------------------------*/
+.columnSort:hover {
+  cursor: pointer;
+}
+td {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.headerRow {
+  background-color: yellow;
+}
+/*--------------------------END ADMIN ---------------------------*/
+
+
+
+
+/* -------------CAROUSEL -------------------------------------------------*/
+.carousel-control {
+  width: 3% !important;
+}
+#myCarousel {
+  margin-top: 0;
+}
+/************************************************/
+/*Thank you to https://codepen.io/redfrost/pen/QwWMwb
+for fading rather than sliding carousel, and hiding left/right controls*/
+/* Carousel Fading slide */
+.carousel-fade .carousel-inner { background: #000; }
+.carousel-fade .carousel-control { z-index: 2; }
+.carousel-fade .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+  }
+
+  .carousel-fade .next.left,
+  .carousel-fade .prev.right,
+  .carousel-fade .item.active { opacity: 1; }
+
+  .carousel-fade .active.left,
+  .carousel-fade .active.right {
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+    }
+
+/* Safari Fix */
+@media all and (transform-3d), (-webkit-transform-3d) {
+    .carousel-fade .carousel-inner > .item.next,
+    .carousel-fade .carousel-inner > .item.active.right {
+      opacity: 0;
+      -webkit-transform: translate3d(0, 0, 0);
+              transform: translate3d(0, 0, 0);
+    }
+    .carousel-fade .carousel-inner > .item.prev,
+    .carousel-fade .carousel-inner > .item.active.left {
+      opacity: 0;
+      -webkit-transform: translate3d(0, 0, 0);
+              transform: translate3d(0, 0, 0);
+    }
+    .carousel-fade .carousel-inner > .item.next.left,
+    .carousel-fade .carousel-inner > .item.prev.right,
+    .carousel-fade .carousel-inner > .item.active {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+              transform: translate3d(0, 0, 0);
+    }
+}
+
+/* Removing BS background */
+.carousel .control-box { opacity: 0; }
+a.carousel-control.left  { left: 0; background: none; border: 0;}
+a.carousel-control.right { right: 0; background: none; border: 0;}
+
+
+/* Animation */
+.control-box, a.carousel-control, .carousel-indicators li {
+  -webkit-transition: all 250ms ease;
+  -moz-transition: all 250ms ease;
+  -ms-transition: all 250ms ease;
+  -o-transition: all 250ms ease;
+  transition: all 250ms ease;
+  /* hardware acceleration causes Bootstrap carousel controlbox margin error in webkit */
+  /* Assigning animation to indicator li will make slides flicker */
+  }
+
+/* Hover animation */
+.carousel:hover .control-box { opacity: 1; }
+.carousel:hover a.carousel-control.left { left: 15px; }
+.carousel:hover a.carousel-control.right { right: 15px; }
+
+/* Carousel Indicator */
+/*for now, hiding indicators */
+.carousel-indicators li { border: 0; opacity: 0; }
+/*use this if decide to show them again*/
+/*.carousel-indicators li {
+  background: #9ec2e5;
+  margin: 0 3px;
+  width: 12px;
+  height: 12px;
+  }
+.carousel-indicators li.active {
+  background: #fff;
+  margin: 0 3px;
+  }*/
+
+
+/*************************************************/
