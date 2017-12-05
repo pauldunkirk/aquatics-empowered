@@ -8,21 +8,20 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   vm.markerList = [];
   vm.poolPhotos = {};
   //*************************************************************
-  NgMap.getMap().then( map => {
+  NgMap.getMap().then(function(map) {
     vm.map = map;
     console.log('Yay! We have a map! vm.map', vm.map);
-    // console.log("vm.map.center is undefined until NgMap's geo-callback", vm.map.center);
+    // console.log("vm.map.center is undefined until NgMap's geo-callback and getCenter()", vm.map.center);
     vm.getCurrentCenter = function() {
-        console.log('You are at' + vm.map.getCenter());
+        // console.log('getCurrentCenter -> vm.map.center (buried in closure)', vm.map.center);
         vm.map.center = vm.map.getCenter();
-        console.log('getCurrentCenter -> vm.map.center', vm.map.center);
+        console.log('You are at: vm.map.getCenter()' + vm.map.getCenter());
         vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
-        console.log('mapCenter in getCurrentCenter', vm.mapCenter);
-        console.log('vm.mapCenter', vm.mapCenter);
+        console.log('getCurrentCenter -> vm.mapCenter', vm.mapCenter);
         vm.mapCenterLat = vm.mapCenter[0];
-        console.log('vm.mapCenterLat', vm.mapCenterLat);
+        // console.log('getCurrentCenter -> vm.mapCenterLat', vm.mapCenterLat);
         vm.mapCenterLng = vm.mapCenter[1];
-        console.log('vm.mapCenterLng', vm.mapCenterLng);
+        // console.log('getCurrentCenter -> vm.mapCenterLng', vm.mapCenterLng);
         getAllFacilities();
       };
 
@@ -72,10 +71,14 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       console.log('poolsList[0].distance - distance from center of map to first pool in poolsList', poolsList[0].distance);
       return poolsList;
     };
+
+//****************************************************************************
+    // TODO: different icons - ref see vestigial
+    vm.getIcon = num => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
 // *********************** this is experimental *******
             vm.customMarkers = [
-              {address: "7140 Utica Lane, Chanhassen MN", "class": "my1", "description": "Aquatic Therapists"},
-              {address: "Minneapolis MN", "class": "my2", "description": "Hotels that allow Aquatic Therapy"},
+              {"address": "7140 Utica Lane, Chanhassen MN", "class": "my1", "description": "Aquatic Therapists"},
+              {"address": "Minneapolis MN", "class": "my2", "description": "Hotels that allow Aquatic Therapy"},
             ];
             vm.currentLocation = [
               {"class": "my2", "description": "You are Here"}
@@ -100,18 +103,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       console.log('coordsList[0].distance - distance from center of map of first pool in coordsList', coordsList[0].distance);
       return coordsList;
     };
-    // *********************** this is experimental- not being called *******
-    const getSomeFacilities = (id) => {
-      $http.get('/facilities/getById' + id)
-      .then( res => {
-        vm.somePools = res.data;
-        console.log('vm.somePools', vm.somePools);
-        // vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
-        vm.markerList = createMarkerList(vm.somePools, vm.maxMarkers, vm.mapCenter);
-        console.log('vm.markerList', vm.markerList);
-      }, err => console.log('GET allPools - error:', err)
-    );};
-    // getSomeFacilities();
+
     //**************ANOTHER EXPERIMENTAL - calling for coords and id***************
     const getAllCoordsAndIds = () => {
       $http.get('/facilities/coordsandids')
@@ -132,6 +124,20 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       }, err => console.log('GET allPools - error:', err)
     );};
     // getAllCoordsAndIds();
+
+    // *********************** this is experimental- not being called *******
+    const getSomeFacilities = (id) => {
+      $http.get('/facilities/getById' + id)
+      .then( res => {
+        vm.somePools = res.data;
+        console.log('vm.somePools', vm.somePools);
+        // vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+        vm.markerList = createMarkerList(vm.somePools, vm.maxMarkers, vm.mapCenter);
+        console.log('vm.markerList', vm.markerList);
+      }, err => console.log('GET allPools - error:', err)
+    );};
+    // getSomeFacilities();
+
     //*************working one ************************************************
     const getAllFacilities = () => {
       $http.get('/facilities/')
@@ -143,6 +149,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         console.log('vm.markerList', vm.markerList);
       }, err => console.log('GET allPools - error:', err)
     );};
+    // calling within get Current Center
     // getAllFacilities();
     //******************************************************************
     const getPoolPhotos = (place_id) => {
@@ -214,10 +221,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         vm.map.hideInfoWindow('pool-iw');
         vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
       };
-      //****************************************************************************
-      // TODO: different icons - ref see vestigial
-      vm.getIcon = num => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
-      //****************************************************************************
+        //****************************************************************************
       vm.clickedWebsiteLink = url => window.open(url);
       //****************************************************************************
       //use this instead of google.maps.geometry.spherical.computeDistance() because of API query limit
