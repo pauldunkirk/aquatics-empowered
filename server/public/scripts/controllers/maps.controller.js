@@ -74,7 +74,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
 
 //****************************************************************************
     // TODO: different icons - ref see vestigial
-    vm.getIcon = num => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
+    vm.getIcon = num => 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
 // *********************** this is experimental *******
             vm.customMarkers = [
               {"address": "7140 Utica Lane, Chanhassen MN", "class": "my1", "description": "Aquatic Therapists"},
