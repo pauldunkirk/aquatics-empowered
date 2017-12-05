@@ -11,21 +11,32 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   NgMap.getMap().then(function(map) {
     vm.map = map;
     console.log('Yay! We have a map! vm.map', vm.map);
-    // console.log("vm.map.center is undefined until NgMap's geo-callback and getCenter()", vm.map.center);
+    // vm.map.center is undefined until NgMap's "geo-callback" (see html): which calls get Current Center
+    // which calls .lat and .lng on map.center.
+    // I tried doing this with a .then promise but didn't seem to work
+    // checkout NgMap's README - it uses getCenter() which I realized I didn't need.
     vm.getCurrentCenter = function() {
-        // console.log('getCurrentCenter -> vm.map.center (buried in closure)', vm.map.center);
-        vm.map.center = vm.map.getCenter();
-        console.log('You are at: vm.map.getCenter()' + vm.map.getCenter());
+        console.log('get Current Center -> vm.map.center (buried in closure until getCenter())', vm.map.center);
+        // console.log('You are at: vm.map.getCenter()' + vm.map.getCenter());
+        // vm.map.center = vm.map.getCenter();
+
+        console.log('vm.map.center after getCenter().Still buried in closure. Havent run lat() and lng()', vm.map.center);
         vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
-        console.log('getCurrentCenter -> vm.mapCenter', vm.mapCenter);
+        console.log('get Current Center -> vm.mapCenter', vm.mapCenter);
         vm.mapCenterLat = vm.mapCenter[0];
-        // console.log('getCurrentCenter -> vm.mapCenterLat', vm.mapCenterLat);
+        // console.log('get Current Center -> vm.mapCenterLat', vm.mapCenterLat);
         vm.mapCenterLng = vm.mapCenter[1];
-        // console.log('getCurrentCenter -> vm.mapCenterLng', vm.mapCenterLng);
+        // console.log('get Current Center -> vm.mapCenterLng', vm.mapCenterLng);
         getAllFacilities();
+
       };
 
   });
+
+//https://stackoverflow.com/questions/41063947/angular-1-6-0-possibly-unhandled-rejection-error
+  // .catch(function (error)) {
+  //         // pass the error the the error service
+  //         return errorService.handleError(error);
 
   //*************************************************************
   //see html: ng-repeat="r in vm.poolDetails.reviews

@@ -23,7 +23,7 @@
 
       <div class="center-block" map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}">
 
-        <ng-map id="ngmap" class="center-block gMap myBorder" center="current-position" geo-callback="vm.getCurrentCenter()" zoom="12" on-dragend="vm.newCenter()">
+        <ng-map id="ngmap" class="center-block gMap myBorder" center="current-position" geo-callback="vm.getCurrentCenter()" geo-fallback-center="[44.9778, -93.2650]" zoom="12" on-dragend="vm.newCenter()">
           <!-- ng-click="vm.hideInfoWindowOnClick()" -->
           <!-- center="current-location" zoom="12" -->
           <!-- center="current-position"  geo-fallback-center="[44.9778, -93.2650]"  -->
