@@ -25,9 +25,8 @@
 
         <ng-map id="ngmap" class="center-block gMap myBorder" center="current-position" geo-callback="vm.getCurrentCenter()" geo-fallback-center="[44.9778, -93.2650]" zoom="12" on-dragend="vm.newCenter()">
           <!-- ng-click="vm.hideInfoWindowOnClick()" -->
-          <!-- center="current-location" zoom="12" -->
-          <!-- center="current-position"  geo-fallback-center="[44.9778, -93.2650]"  -->
-<!-- center="{{vm.mapCenter}}" -->
+          <!-- center="current-location" -->
+          <!-- center="{{vm.mapCenter}}" -->
           <marker no-watcher="false"
           ng-repeat="p in vm.markerList"
           position="{{p.position}}"
@@ -40,7 +39,7 @@
 
           <!-- The 'title' shows when hover (as a tooltip)<marker position="current" centered="true" title="You are Here">
           </> -->
-
+          
           <custom-marker no-watcher="false" ng-repeat="cm in vm.currentLocation" position="current">
               <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
           </custom-marker>
@@ -80,7 +79,7 @@
 
     <!-- *********************************************************************       -->
 
-    <!-- marker List#2 or infoListpins(markers) and pool info displayed separate from map-->
+    <!-- marker List#2 or infoList(markers) and pool info displayed separate from map-->
     <div class="row">
       <div class="center-block">
         <div class="col-sm-3 nopadding infoListItem myBorder" style="float:left" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}"

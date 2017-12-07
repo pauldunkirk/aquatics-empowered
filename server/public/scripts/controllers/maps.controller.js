@@ -1,7 +1,7 @@
 app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, NgMap, GeoCoder) {
   const vm = this;
   vm.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&libraries=geometry";
-  const defaultCenter = [44.9778, -93.2650]; //Minneapolis
+  // const defaultCenter = [44.9778, -93.2650]; //Minneapolis
   // vm.mapCenter = defaultCenter;
   vm.mapCenter = [];
   vm.maxMarkers = 12;
@@ -16,28 +16,20 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     // I tried doing this with a .then promise but didn't seem to work
     // checkout NgMap's README - it uses getCenter() which I realized I didn't need.
     vm.getCurrentCenter = function() {
-        console.log('get Current Center -> vm.map.center (buried in closure until getCenter())', vm.map.center);
+        // console.log('get Current Center -> vm.map.center (buried in closure until getCenter())', vm.map.center);
         // console.log('You are at: vm.map.getCenter()' + vm.map.getCenter());
         // vm.map.center = vm.map.getCenter();
-
-        console.log('vm.map.center after getCenter().Still buried in closure. Havent run lat() and lng()', vm.map.center);
+        // console.log('vm.map.center after getCenter().Still buried in closure. Havent run lat() and lng()', vm.map.center);
         vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
         console.log('get Current Center -> vm.mapCenter', vm.mapCenter);
-        vm.mapCenterLat = vm.mapCenter[0];
+        // vm.mapCenterLat = vm.mapCenter[0];
         // console.log('get Current Center -> vm.mapCenterLat', vm.mapCenterLat);
-        vm.mapCenterLng = vm.mapCenter[1];
+        // vm.mapCenterLng = vm.mapCenter[1];
         // console.log('get Current Center -> vm.mapCenterLng', vm.mapCenterLng);
-        getAllFacilities();
-
+        //getAllFacilities();
+        getAllCoordsAndIds();
       };
-
   });
-
-//https://stackoverflow.com/questions/41063947/angular-1-6-0-possibly-unhandled-rejection-error
-  // .catch(function (error)) {
-  //         // pass the error the the error service
-  //         return errorService.handleError(error);
-
   //*************************************************************
   //see html: ng-repeat="r in vm.poolDetails.reviews
   function formatReview(rev) {
@@ -51,10 +43,12 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     // html: markers as marker List, info-window as pool Details (showDetail(p), p in markerList)
     function createMarkerList(allPoolsArray, maxMarkers, center) {
       console.log('createMarkerList center', center);
+      console.log('allPoolsArray', allPoolsArray);
       let poolsList = allPoolsArray.map( function(pool){
         return {
           //value from allPools, key found in poolsList, then markerList, then clicked pool, then poolDetails
           id: pool.id,
+          place_id: pool.google_place_id,
           position: pool.coords,
           latitude: pool.coords[0],
           longitude: pool.coords[1],
@@ -68,7 +62,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
           zip: pool.zip,
           phone: pool.phone,
           visible: true,
-          googleJson: pool.google_places_data,
+          // googleJson: pool.google_places_data,
           // || [] to prevent calling .map on null (throws error)
           reviews: (pool.google_places_data.reviews || []).map(formatReview)
         } // end of reconfiguring allPools, renamed poolsList
@@ -76,37 +70,24 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
       poolsList = poolsList.slice( 0, maxMarkers );
       console.log('poolsList will become markerList', poolsList);
-      console.log('poolsList[0].position', poolsList[0].position);
-      console.log('poolsList[0].latitude', poolsList[0].latitude);
-      console.log('poolsList[0].longitude', poolsList[0].longitude);
-      console.log('poolsList[0].distance - distance from center of map to first pool in poolsList', poolsList[0].distance);
+      console.log('first pool in poolsList[0].position', poolsList[0].position);
+      console.log('first pool in poolsList[0].latitude', poolsList[0].latitude);
+      console.log('first pool in poolsList[0].longitude', poolsList[0].longitude);
+      console.log('first pool in poolsList[0].distance - distance from center of map to first pool in poolsList', poolsList[0].distance);
       return poolsList;
     };
-
-//****************************************************************************
-    // TODO: different icons - ref see vestigial
-    vm.getIcon = num => 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
-// *********************** this is experimental *******
-            vm.customMarkers = [
-              {"address": "7140 Utica Lane, Chanhassen MN", "class": "my1", "description": "Aquatic Therapists"},
-              {"address": "Minneapolis MN", "class": "my2", "description": "Hotels that allow Aquatic Therapy"},
-            ];
-            vm.currentLocation = [
-              {"class": "my2", "description": "You are Here"}
-            ];
-
 // *********************** this is experimental *******
     function createDistanceList(allCoordsArray, maxMarkers, center) {
       let coordsList = allCoordsArray.map( function(pool){
         return {
           id: pool.id,
-          position: pool.coords,
-          latitude: pool.coords[0],
-          longitude: pool.coords[1],
+          // position: pool.coords,
+          // latitude: pool.coords[0],
+          // longitude: pool.coords[1],
           distance: getDistance(pool.coords, center)
         } // end of reconfiguring allCoords, renamed coordsList
       } ); //end of map of allPools
-      coordsList = coordsList.sort( function(a, b) { return a.distance - b.distance });
+      coordsList = coordsList.sort(function(a, b) { return a.distance - b.distance });
       coordsList = coordsList.slice( 0, maxMarkers );
       console.log('coordsList will become markerList', coordsList);
       console.log('coordsList[0].latitude', coordsList[0].latitude);
@@ -120,29 +101,50 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       $http.get('/facilities/coordsandids')
       .then( res => {
         vm.allCoordsAndIds = res.data;
-        console.log('getAllCoordsAndIds -> vm.allCoordsAndIds', vm.allCoordsAndIds);
-        console.log('getAllCoordsAndIds -> vm.mapCenter', vm.mapCenter);
-        console.log('getAllCoordsAndIds -> vm.maxMarkers', vm.maxMarkers);
-        vm.markerList = createDistanceList(vm.allCoordsAndIds, vm.maxMarkers, vm.mapCenter);
-        console.log('vm.markerList', vm.markerList);
-        // vm.poolCoords = vm.allCoordsAndIds[0].coords;
-        // console.log('getAllCoords -> vm.poolCoords', vm.poolCoords);
 
-        // let distanceFromCenter = getDistance(vm.poolCoords, vm.mapCenter);
-        // console.log('getAllCoords ->  distanceFromCenter', distanceFromCenter);
-        // vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
+        // function sortAndSliceIds {
+          let coordArrayToSort = [];
+          for (var i = 0; i < vm.allCoordsAndIds.length; i++) {
+            coordArrayToSort.push(
+            {
+              id: vm.allCoordsAndIds[i].id,
+              coords: vm.allCoordsAndIds[i].coords,
+              distance: getDistance(vm.allCoordsAndIds[i].coords, vm.mapCenter)
+            }
+          );
+        }
+        let sortedCoordArray = coordArrayToSort.sort(function(a, b) { return a.distance - b.distance });
+        let sortedAndSlicedCoordArray = sortedCoordArray.slice(0, vm.maxMarkers);
+        let idsOfWantedPools = [];
+        for (var i = 0; i < sortedAndSlicedCoordArray.length; i++) {
+          idsOfWantedPools.push(sortedAndSlicedCoordArray[i].id);
+        }
+      // }
+      getSelectedPools(idsOfWantedPools);
 
       }, err => console.log('GET allPools - error:', err)
     );};
-    // getAllCoordsAndIds();
+    //getAllCoordsAndIds();
 
+function getSelectedPools(idsOfWantedPools) {
+      $http({
+      method: 'POST',
+      url: '/facilities/getSelected',
+      data: idsOfWantedPools
+    }).then(
+      function(res, err) {
+      vm.selectedPoolArray = res.data;
+      vm.markerList = createMarkerList(vm.selectedPoolArray, vm.maxMarkers, vm.mapCenter);
+      console.log("error getting from db: ", err);
+     }
+    );
+  };
     // *********************** this is experimental- not being called *******
     const getSomeFacilities = (id) => {
       $http.get('/facilities/getById' + id)
       .then( res => {
         vm.somePools = res.data;
         console.log('vm.somePools', vm.somePools);
-        // vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
         vm.markerList = createMarkerList(vm.somePools, vm.maxMarkers, vm.mapCenter);
         console.log('vm.markerList', vm.markerList);
       }, err => console.log('GET allPools - error:', err)
@@ -155,12 +157,12 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       .then( res => {
         vm.allFacilities = res.data;
         console.log('vm.allFacilities', vm.allFacilities);
-        console.log('******************* mapCenter in getAllFacilities', vm.mapCenter);
+        // console.log('******************* mapCenter in get All Facilities', vm.mapCenter);
         vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
-        console.log('vm.markerList', vm.markerList);
+        console.log('vm. marker List', vm.markerList);
       }, err => console.log('GET allPools - error:', err)
     );};
-    // calling within get Current Center
+    // calling above - within get Current Center
     // getAllFacilities();
     //******************************************************************
     const getPoolPhotos = (place_id) => {
@@ -180,11 +182,12 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       vm.showPhotos = false;
       vm.poolDetails = pool; //clicked p in vm.markerList/poolsList
       vm.map.showInfoWindow('pool-iw', pool.id); //pool.id is db id not place_id
-      getPoolPhotos(pool.googleJson.place_id);
+      console.log('pool.place_id', pool.place_id);
+      getPoolPhotos(pool.place_id);
       if (vm.poolPhotos) {
         vm.showSeePhotosButton = true;
       }
-      console.log('pool.googleJson.place_id', pool.googleJson.place_id);
+      console.log('pool.place_id', pool.place_id);
       console.log('selected pool vm.poolDetails', vm.poolDetails);
       console.log('selected pool vm.poolDetails.reviews', vm.poolDetails.reviews);
     };
@@ -225,13 +228,27 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
         vm.showPhotos = false;
         // console.log('newCenter -> vm.mapCenter', vm.mapCenter);
-        vm.mapCenterLat = vm.mapCenter[0];
-        console.log('newCenter -> vm.mapCenterLat', vm.mapCenterLat);
-        vm.mapCenterLng = vm.mapCenter[1];
-        console.log('newCenter -> vm.mapCenterLng', vm.mapCenterLng);
+        // vm.mapCenterLat = vm.mapCenter[0];
+        // console.log('newCenter -> vm.mapCenterLat', vm.mapCenterLat);
+        // vm.mapCenterLng = vm.mapCenter[1];
+        // console.log('newCenter -> vm.mapCenterLng', vm.mapCenterLng);
         vm.map.hideInfoWindow('pool-iw');
         vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
       };
+
+
+      //****************************************************************************
+          // TODO: different icons - ref see vestigial
+          vm.getIcon = num => 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (num+1) + '|0065BD|FFFFFF';
+      // *********************** this is experimental *******
+            vm.customMarkers = [
+                    {"address": "7140 Utica Lane, Chanhassen MN", "class": "my1", "description": "Aquatic Therapists"},
+                    {"address": "Minneapolis MN", "class": "my2", "description": "Hotels that allow Aquatic Therapy"},
+                  ];
+            vm.currentLocation = [
+                    {"class": "my2", "description": "You are Here"}
+                  ];
+
         //****************************************************************************
       vm.clickedWebsiteLink = url => window.open(url);
       //****************************************************************************

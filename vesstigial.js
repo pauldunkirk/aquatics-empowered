@@ -1,3 +1,16 @@
+map.conroller
+// console.log('getAllCoordsAndIds -> vm.allCoordsAndIds', vm.allCoordsAndIds);
+// console.log('getAllCoordsAndIds -> vm.mapCenter', vm.mapCenter);
+// console.log('getAllCoordsAndIds -> vm.maxMarkers', vm.maxMarkers);
+// vm.markerList = createDistanceList(vm.allCoordsAndIds, vm.maxMarkers, vm.mapCenter);
+// console.log('vm.markerList', vm.markerList);
+
+// vm.poolCoords = vm.allCoordsAndIds[0].coords;
+// console.log('getAllCoords -> vm.poolCoords', vm.poolCoords);
+
+// let distanceFromCenter = getDistance(vm.poolCoords, vm.mapCenter);
+// console.log('getAllCoords ->  distanceFromCenter', distanceFromCenter);
+// vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
 
 
 *****************************************************************
