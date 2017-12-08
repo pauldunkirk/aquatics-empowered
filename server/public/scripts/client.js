@@ -1,5 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngMap', ]);
-// var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'ngMap', ]);
+var app = angular.module('myApp', ['ngRoute','ui.bootstrap', 'ngMap', ]);
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider

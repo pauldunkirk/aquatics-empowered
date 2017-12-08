@@ -1,18 +1,53 @@
 /*FF777B  FF4B51*/
 body {
-  background-color: #D2E0F9 !important;
+
+  /*background-color: #D2E0F9 !important;*/
+
+
+  /*background: fixed;
+  background-image:
+  url("../images/Home/boybubbles_wo_button.png"),
+  url("../images/Home/floatinglady_wo_button.png"),
+  url("../images/Home/feet_wo_button.png"),
+  url("../images/Home/beachball_wo_button.png");
+  background-size: 1800px 800px, 1800px 800px, 1800px 800px, 1800px 800px;
+
+     background-position: center bottom, center top, center center, center center;
+     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+     padding: 0px;*/
+
+
+
+/*url("../images/logos/AE_Hi_Res.png"),*/
+
+  /*background-image:  url("../images/water.png");*/
+  /*background-size: 1000px, 1800px;*/
+  /*background-position: center top, center bottom;
+  background-repeat: no-repeat, no-repeat;*/
+
   background: url("../images/water.png") no-repeat fixed center;
   background-size: cover;
   font-family: 'Roboto', sans-serif !important;
   /*ROBOTO not being implemented??*/
 }
+/* -------------CAROUSEL -------------------------------------------------*/
+.carousel-control {
+  width: 3% !important;
+}
+#myCarousel {
+  background: fixed;
+  background-size: cover;
+  /*opacity: 0;*/
+  margin-top: 0;
+}
+
 .container-fluid {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-.homeLogo {
-  max-height: 140px !important;
+.aeHomeLogo {
+  max-height: 200px !important;
   margin: auto !important;
   /*padding: .2em !important;*/
 }
@@ -42,12 +77,16 @@ hr {
 }
 
 /*---------NAV------------------------------------------------*/
+#aeDiveInLink{
+background: none;
+}
+
 .navbar {
-  /*margin-bottom: 50px !important;*/
-  /*background: url("../images/water.png") no-repeat fixed center;*/
-  background-color: #D2E0F9 !important;
-  border-bottom: 2px solid #7D97D0 !important;
-  border-radius: 0 !important;
+   /*(was not using) margin-bottom: 50px !important;
+   (ws not using) background: url("../images/water.png") no-repeat fixed center;*/
+  /*background-color: #D2E0F9 !important;*/
+  /*border-bottom: 2px solid #7D97D0 !important;
+  border-radius: 0 !important;*/
   margin-bottom: 0 !important;
 }
 .navbar-brand {
@@ -62,17 +101,13 @@ hr {
   color: #FF777B !important;
   font-weight: bold;
   font-size: 1.3em;
-  /*line-height: inherit !important;*/
+  /*(was not using) line-height: inherit !important;*/
 }
 .nav-link{
   padding-bottom: 0 !important;
+  background: none;
 }
-/*.navbar-header {
-margin-top: 20px !important;
-}*/
-/*.navbar > li > a {
-padding: 20px 15px 0;
-}*/
+
 .navbar-toggle {
   border-color: transparent !important;
 }
@@ -82,12 +117,23 @@ padding: 20px 15px 0;
   font-weight: bold;
   vertical-align: bottom !important;
 }
+
+
+/*WAS NOT USING*/
+/*.navbar-header {
+margin-top: 20px !important;
+}*/
+/*.navbar > li > a {
+padding: 20px 15px 0;
+}*/
+
+/*WAS NOT USING*/
 /*.navbar-nav li:last-child { background: #D4643F;}
 .navbar-nav li:last-child a { color: #cecccc !important;}
 .navbar-nav li:last-child a:hover { color: white !important;}*/
 
 /*767 and smaller*/
-@media(max-width:767px) {
+/*@media(max-width:767px) {
   .navbar-nav li a {
     color: #FF8686 !important;
     font-size: 1em;
@@ -100,7 +146,7 @@ padding: 20px 15px 0;
   .navbar-brand {
     height: 80px !important;
   }
-}
+}*/
 /*--------------END NAV--------------------------------------------------*/
 
 /* -------------MAPS SEARCH FORM - see myBorder and yellowBackground above -------------------------------------------------*/
@@ -248,13 +294,6 @@ td {
 
 
 
-/* -------------CAROUSEL -------------------------------------------------*/
-.carousel-control {
-  width: 3% !important;
-}
-#myCarousel {
-  margin-top: 0;
-}
 /************************************************/
 /*Thank you to https://codepen.io/redfrost/pen/QwWMwb
 for fading rather than sliding carousel, and hiding left/right controls*/
