@@ -25,6 +25,18 @@ const postAllProps = (postObj, tableColumns) => {
   return { values, refs, keysJoined };
 };
 
+router.get('/coordsandids', function(req, res) {
+  console.log('get facilities');
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('SELECT id, coords FROM facilities;', function(err, result) {
+      done();
+      err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
+      // console.log('result.rows', result.rows);
+    });
+  });
+});
+
 router.post('/', function(req, res) {
   const facilPost = postAllProps(req.body, facilitiesColumns);
   pool.connect( function(err, client, done) {
@@ -65,18 +77,6 @@ router.get('/', function(req, res) {
   });
 });
 
-
-router.get('/coordsandids', function(req, res) {
-  console.log('get facilities');
-  pool.connect(function(err, client, done) {
-    err && res.sendStatus(503);
-    client.query('SELECT id, coords FROM facilities;', function(err, result) {
-      done();
-      err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
-      // console.log('result.rows', result.rows);
-    });
-  });
-});
 
 // router.get('/getById/:id', function(req, res) {
 //   const id = req.params.id;
