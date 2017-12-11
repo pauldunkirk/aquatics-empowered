@@ -1,44 +1,9 @@
 /*FF777B  FF4B51*/
 body {
-
-  /*background-color: #D2E0F9 !important;*/
-
-
-  /*background: fixed;
-  background-image:
-  url("../images/Home/boybubbles_wo_button.png"),
-  url("../images/Home/floatinglady_wo_button.png"),
-  url("../images/Home/feet_wo_button.png"),
-  url("../images/Home/beachball_wo_button.png");
-  background-size: 1800px 800px, 1800px 800px, 1800px 800px, 1800px 800px;
-
-     background-position: center bottom, center top, center center, center center;
-     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-     padding: 0px;*/
-
-
-
-/*url("../images/logos/AE_Hi_Res.png"),*/
-
-  /*background-image:  url("../images/water.png");*/
-  /*background-size: 1000px, 1800px;*/
-  /*background-position: center top, center bottom;
-  background-repeat: no-repeat, no-repeat;*/
-
   background: url("../images/water.png") no-repeat fixed center;
   background-size: cover;
   font-family: 'Roboto', sans-serif !important;
   /*ROBOTO not being implemented??*/
-}
-/* -------------CAROUSEL -------------------------------------------------*/
-.carousel-control {
-  width: 3% !important;
-}
-#myCarousel {
-  background: fixed;
-  background-size: cover;
-  /*opacity: 0;*/
-  margin-top: 0;
 }
 
 .container-fluid {
@@ -47,14 +12,9 @@ body {
 }
 
 .aeHomeLogo {
-  max-height: 200px !important;
+  max-height: 180px !important;
   margin: auto !important;
   /*padding: .2em !important;*/
-}
-.mapsLogo {
-  max-height: 100px !important;
-  margin: auto !important;
-  padding: .2em !important;
 }
 
 hr {
@@ -76,192 +36,26 @@ hr {
   color: #ED5265;
 }
 
-/*---------NAV------------------------------------------------*/
-#aeDiveInLink{
-background: none;
+#wrapper {
+  position: relative;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.navbar {
-   /*(was not using) margin-bottom: 50px !important;
-   (ws not using) background: url("../images/water.png") no-repeat fixed center;*/
-  /*background-color: #D2E0F9 !important;*/
-  /*border-bottom: 2px solid #7D97D0 !important;
-  border-radius: 0 !important;*/
-  margin-bottom: 0 !important;
+#spacerAndQuotesContent {
+  position: relative;
+  z-index: 100;
 }
-.navbar-brand {
-  height: 100px !important;
-  padding: .2em !important;
+#background {
+  position: fixed;
+  z-index: -100;
+  width: 100% !important;
 }
-.navbar-nav{
-  margin-top: 30px !important;
-  padding-top: 3em;
+#opaqueBackgroundDiv{
+  /*background-color: #D2E0F9;*/
+  background: url("../images/water.png");
+  background-size: cover;
 }
-.navbar-nav li a {
-  color: #FF777B !important;
-  font-weight: bold;
-  font-size: 1.3em;
-  /*(was not using) line-height: inherit !important;*/
-}
-.nav-link{
-  padding-bottom: 0 !important;
-  background: none;
-}
-
-.navbar-toggle {
-  border-color: transparent !important;
-}
-.icon-bar {
-  color: #FF4B51 !important;
-  font-size: 1.3em;
-  font-weight: bold;
-  vertical-align: bottom !important;
-}
-
-
-/*WAS NOT USING*/
-/*.navbar-header {
-margin-top: 20px !important;
-}*/
-/*.navbar > li > a {
-padding: 20px 15px 0;
-}*/
-
-/*WAS NOT USING*/
-/*.navbar-nav li:last-child { background: #D4643F;}
-.navbar-nav li:last-child a { color: #cecccc !important;}
-.navbar-nav li:last-child a:hover { color: white !important;}*/
-
-/*767 and smaller*/
-/*@media(max-width:767px) {
-  .navbar-nav li a {
-    color: #FF8686 !important;
-    font-size: 1em;
-    line-height: inherit !important;
-  }
-  .navbar-nav {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-  .navbar-brand {
-    height: 80px !important;
-  }
-}*/
-/*--------------END NAV--------------------------------------------------*/
-
-/* -------------MAPS SEARCH FORM - see myBorder and yellowBackground above -------------------------------------------------*/
-
-
-
-/* -------------MAPS -------------------------------------------------*/
-/*991 and smaller*/
-@media(max-width:991px) {
-  .gMap {
-    height: 400px;
-    width: 900px;
-    margin-top: 5px;
-  }
-  /*.btn {font-size: 20px !important; width: 60%; }*/
-  /*.addressSearch {font-size: 20px !important;}*/
-}
-@media(max-width:767px) {
-  .gMap {
-    height: 300px;
-    width: 700px;
-    margin-top: 5px;
-  }
-  /*.btn {font-size: 20px !important; width: 60%; }*/
-  /*.addressSearch {font-size: 20px !important;}*/
-}
-
-.gMap {
-  height: 400px;
-  width: 1200px;
-  margin-top: 5px;
-}
-
-.infoListItem {
-  background-color: #ffffff;
-  font-size: .8em;
-  /*width: 350px;*/
-  /*padding: 5px;
-  cursor: pointer;*/
-}
-.selectedPool {
-  background-color: #D4643F;
-}
-.rank {
-  padding-top: 5px;
-}
-.nopadding {
-  padding: 0;
-}
-/*.infoWindowPics {
-  height: 150px;
-  width: 200px;
-}
-.hoverInfoWindowPics {
-  height: 500px;
-  width: 500px;
-}*/
-
-/* -----CUSTOM MAP MARKERS-----*/
-
-     .custom-marker {
-     }
-
-     .custom-marker.my1 {
-       font-size: 1.5em;
-       padding: 10px;
-       background: #fff;
-       -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-       border-radius: 4px;
-       border: #7F7F7F solid 1px;
-     }
-     .custom-marker.my1:before {
-       content: '';
-       position: absolute;
-       border-style: solid;
-       border-width: 7px 6px 0;
-       border-color: #7F7F7F transparent;
-       display: block;
-       width: 0;
-       z-index: 0;
-       margin-left: -6px;
-       bottom: -7px;
-       left: 50%;
-     }
-
-     .custom-marker.my2 {
-       font-size: 1.5em;
-       padding: 10px;
-       background: #fff;
-       -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-       border-radius: 4px;
-       border: #7F7F7F solid 1px;
-       background: red;
-     }
-     .custom-marker.my2:before {
-       content: '';
-       position: absolute;
-       border-style: solid;
-       border-width: 7px 6px 0;
-       border-color: #7F7F7F transparent;
-       display: block;
-       width: 0;
-       z-index: 0;
-       margin-left: -6px;
-       bottom: -7px;
-       left: 50%;
-     }
-
-
-/* -------------END MAPS -------------------------------------------------------------*/
-
-
-
 
 /*----------------whatPeopleSay QUOTES/PICS----------------------------*/
 
@@ -278,21 +72,18 @@ padding: 20px 15px 0;
   /*padding: 20px;*/
 }
 
-/*--------------------------ADMIN -----------------------------*/
-.columnSort:hover {
-  cursor: pointer;
-}
-td {
-  overflow: hidden;
-  white-space: nowrap;
-}
-.headerRow {
-  background-color: yellow;
-}
-/*--------------------------END ADMIN ---------------------------*/
 
 
-
+/* -------------CAROUSEL -------------------------------------------------*/
+.carousel-control {
+  width: 3% !important;
+}
+#myCarousel {
+  background: fixed;
+  background-size: cover;
+  /*opacity: 0;*/
+  margin-top: 0;
+}
 
 /************************************************/
 /*Thank you to https://codepen.io/redfrost/pen/QwWMwb
@@ -367,6 +158,7 @@ a.carousel-control.right { right: 0; background: none; border: 0;}
 /* Carousel Indicator */
 /*for now, hiding indicators */
 .carousel-indicators li { border: 0; opacity: 0; }
+
 /*use this if decide to show them again*/
 /*.carousel-indicators li {
   background: #9ec2e5;
@@ -380,4 +172,4 @@ a.carousel-control.right { right: 0; background: none; border: 0;}
   }*/
 
 
-/*************************************************/
+/***********  END CAROUSEL **************************************/

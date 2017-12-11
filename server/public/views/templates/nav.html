@@ -30,12 +30,12 @@
 
 
 <!-- navbar-fixed-top -->
-<nav style="background: none;" ng-controller="NavController as nav" class="navbar-toggleable-xs navbar navbar-default">
+<nav style="background: none;" class="navbar-toggleable-xs navbar navbar-default" ng-controller="NavController as nav">
   <!-- do we need container-fluid? w3c had it-->
   <div class="container-fluid">
 
     <div class="navbar-header">
-      <a href="#!home"><img class="navbar-brand" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
+      <!-- <a href="#!home"><img class="navbar-brand" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a> -->
       <button type="button" class="navbar-toggle" ng-click="nav.toggleNav()">
               <span class="sr-only">Toggle Navigation</span>
               <span class="icon-bar"></span>
@@ -45,12 +45,12 @@
     </div>
 
     <div class="collapse navbar-collapse" uib-collapse="nav.isCollapsed">
-        <ul id="aeDiveInLink" class="nav navbar-nav navbar-right list-unstyled">
+        <ul class="nav navbar-nav list-unstyled">
           <li class="active nav-item"><a class="nav-link" href="#!maps">DIVE IN!!</a></li>
         </ul>
-    </div>
+    </div> <!-- /.navbar-collapse -->
 
-  </div>
+  </div> <!-- /.container-fluid -->
 
 </nav>
 
