@@ -1,6 +1,6 @@
 <!-- BOOTSTRAP 3 not 4-->
 <!-- logo link -->
-      <div class="">
+      <div id="aeHomeLogoAnimation">
         <div class="row">
           <div class="col-sm-12">
             <a href="#!maps"><img class="aeHomeLogo center-block img-fluid" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
@@ -95,12 +95,12 @@ and 'controls' -->
 </div> <!--end background -->
 
 <!-- _________________SPACER AND QUOTES CONTENT DIV ________________-->
-<div id="spacerAndQuotesContent">
+<div id="aeSpacerAndQuotesContent">
 
 <!-- _______________ SPACER DIV  - SAME SIZE AS CAROUSEL _____________ -->
-  <div class="aeSpaceHolderDiv">
-    <div style="opacity: 0;" class="main-slider" >
-      <div class="carousel slide carousel-fade">
+  <div id="aeSpaceHolderDiv">
+    <div  class="main-slider" >
+      <div class="carousel">
           <div class="item active">
               <img src="images/Home/floatinglady_wo_button.png" alt="space holder" style="width:100%;">
           </div>
@@ -109,42 +109,42 @@ and 'controls' -->
   </div> <!-- end space holder -->
 
 <!-- ___________________OPAQUE BACKGROUND DIV________________________ -->
-<div class="homeLogoSlideIn" id="opaqueBackgroundDiv">
+<div id="aeOpaqueBackgroundDivAnimation">
 
 <!-- ___________________FIND A POOL/THERAPIST BUTTONS________________________ -->
 
 
-<nav ng-include="'views/templates/nav.html'"></nav>
+<nav id="navAnimation" class="hidden" ng-include="'views/templates/nav.html'"></nav>
 
-  <div id="buttonsSlideIn" class="row">
+  <div id="homeButtonsAnimation" class="hidden row">
     <span class="col-sm-2">
     </span>
     <span class="">
-      <a href="#!maps" class="col-sm-4 btn btn-default btn-lg" id="homeFindAPoolButton" role="button">FIND A POOL</a>
+      <a href="#!maps" class="aeHomeButtons col-sm-4 btn btn-default btn-lg" id="homeFindAPoolButton" role="button">FIND A POOL</a>
     </span>
     <span class="">
-      <a href="#!therapistMap" class="col-sm-4 btn btn-default btn-lg" id="homeFindATherapistButton" role="button">FIND AN AQUATIC THERAPIST</a>
+      <a href="#!therapistMap" class="aeHomeButtons col-sm-4 btn btn-default btn-lg" id="homeFindATherapistButton" role="button">FIND AN AQUATIC THERAPIST</a>
     </span>
     <span class="col-sm-2">
     </span>
   </div>
 
   <!-- ___________________WHAT PEOPLE SAY CONTAINER________________________ -->
-  <div id="whatPeopleSaySlideIn" class="center-block">
+  <div id="whatPeopleSayAnimation" class="hidden center-block">
     <h2 id="whatPeopleSay">WHAT PEOPLE SAY</h2>
   </div>
 
   <!-- ___________________QUOTES CONTAINER________________________ -->
-  <div id="quotesSlideIn" class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-sm-4">
-        <a href="#!maps"> <img class="img-responsive center-block quoteImage" style="width:100%;" src="images/Home/mary_lg_quote.png" alt=""></a>
+        <a href="#!maps"> <img id="maryQuoteAnimation" class="hidden img-responsive center-block quoteImage" style="width:100%;" src="images/Home/mary_lg_quote.png" alt=""></a>
       </div>
       <div class="col-sm-4">
-        <a href="#!maps"> <img class="img-responsive center-block quoteImage" style="width:100%;" src="images/Home/mindy_lg_quote.png" alt=""></a>
+        <a href="#!maps"> <img id="mindyQuoteAnimation" class="hidden img-responsive center-block quoteImage" style="width:100%;" src="images/Home/mindy_lg_quote.png" alt=""></a>
       </div>
       <div class="col-sm-4">
-        <a href="#!maps"> <img class="img-responsive center-block quoteImage" style="width:100%;" src="images/Home/michael_lg_quote.png" alt=""></a>
+        <a href="#!maps"> <img id="michaelQuoteAnimation" class="hidden img-responsive center-block quoteImage" style="width:100%;" src="images/Home/michael_lg_quote.png" alt=""></a>
       </div>
     </div>
   </div>

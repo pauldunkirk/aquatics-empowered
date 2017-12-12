@@ -7,7 +7,7 @@
   <div class="row"> <!-- begin whole page row -->
     <!-- ******************************************************************** -->
 <!-- Begin Pool Search-->
-    <!-- <div class="row"> 
+    <!-- <div class="row">
       <form ng-submit="vm.poolSearch()" class="center-block text-center">
         <input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
         <button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
@@ -104,8 +104,8 @@
   <!-- *********************************************************************       -->
 
   <div class="">
-    <span class="" ng-show="vm.showPhotos" ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
-      <img ng-src="{{pic}}" >
+    <span style="width:100%;height:500px;" class="" ng-show="vm.showPhotos" ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
+      <img style="float:left;width:50%;height:100%;object-fit:contain;" ng-src="{{pic}}" >
       <!-- class="infoWindowPics" -->
       <!-- ng-class="{hoverInfoWindowPics: hover}" -->
       <!-- ng-mouseenter="hover = true" -->

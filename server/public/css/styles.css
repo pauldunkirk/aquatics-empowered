@@ -1,34 +1,7 @@
 /*FF777B  FF4B51*/
 body {
-  /*background: url("../images/water.png") no-repeat fixed center;
-  background-size: cover;*/
   font-family: 'Roboto', sans-serif !important;
-  /*ROBOTO not being implemented??*/
 }
-
-
-#bodyBackgroundAnimation {
-    background: url("../images/water_3.png") no-repeat fixed center;
-    background-size: cover;
-    /*position: relative;*/
-    animation-name: bodyBackgroundAnimation;
-    animation-duration: 20s;
-    animation-timing-function: ease-in-out;
-    animation-delay: 0s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-@keyframes bodyBackgroundAnimation {
-    0%   {background: url("../images/water_4.png") no-repeat fixed center;}
-    25%  {background: url("../images/water_3.png") no-repeat fixed center; }
-    50%  {background: url("../images/water_4.png") no-repeat fixed center; }
-    75%  {background: url("../images/water_3.png")no-repeat fixed center ; }
-    100% {background: url("../images/water_4.png") no-repeat fixed center;}
-}
-
-
-
 
 .container-fluid {
   padding-left: 0 !important;
@@ -66,7 +39,7 @@ hr {
   padding: 0 !important;
 }
 
-#spacerAndQuotesContent {
+#aeSpacerAndQuotesContent {
   position: relative;
   z-index: 100;
 }
@@ -75,11 +48,14 @@ hr {
   z-index: -100;
   width: 100% !important;
 }
-#opaqueBackgroundDiv{
-  /*background-color: #D2E0F9;*/
+#aeSpaceHolderDiv{
+  opacity: 0;
+}
+#aeOpaqueBackgroundDiv{
   background: url("../images/water.png");
   background-size: cover;
 }
+
 
 /*----------------whatPeopleSay QUOTES/PICS----------------------------*/
 
@@ -108,6 +84,120 @@ hr {
   /*opacity: 0;*/
   margin-top: 0;
 }
+
+
+
+/* -------------ANIMATION -------------------------------------------------*/
+
+.hidden {
+  opacity: 0;
+}
+#aeHomeLogoAnimation {
+  animation-name: aeHomeLogoAnimation;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+} @keyframes aeHomeLogoAnimation {
+  0% { margin-left: 100%; width: 300%; }
+  100% { margin-left: 0%; width: 100%; }
+}
+
+#navAnimation {
+  animation-name: navAnimation;
+  animation-duration: 3s;
+} @keyframes navAnimation{
+  from { opacity:0; }
+  to { opacity: 1; }
+}
+#whatPeopleSayAnimation {
+  animation-name: whatPeopleSayAnimation;
+  animation-duration: 4s;
+} @keyframes whatPeopleSayAnimation {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@keyframes ZZZZZwhatPeopleSayAnimation {
+  from { margin-left: 100%; width: 300%; }
+  to { margin-left: 0%; width: 100%; }
+}
+
+
+#homeButtonsAnimation {
+  animation-duration: 2s;
+  animation-name: homeButtonsAnimation;
+} @keyframes homeButtonsAnimation {
+  from { margin-left: 100%; width: 300%; }
+  to { margin-left: 0%; width: 100%; }
+}
+
+
+#maryQuoteAnimation {
+  animation-name: maryQuoteAnimation;
+  animation-duration: 5s;
+  /* delay messes things up. animation-delay: 3s;*/
+} @keyframes maryQuoteAnimation {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+#mindyQuoteAnimation {
+  animation-name: mindyQuoteAnimation;
+  animation-duration: 3s;
+  /*animation-delay: 0s;*/
+} @keyframes mindyQuoteAnimation {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+#michaelQuoteAnimation {
+  animation-name: michaelQuoteAnimation;
+  animation-duration: 7s;
+  /* delay messes things up. animation-delay: 5s;*/
+} @keyframes michaelQuoteAnimation {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+
+
+
+
+
+#aeOpaqueBackgroundDivAnimation {
+    background: url("../images/water.png")no-repeat fixed center;
+    background-size: cover;
+    /*position: relative;*/
+    animation-name: aeOpaqueBackgroundDivAnimation;
+    animation-duration: 10s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+} @keyframes aeOpaqueBackgroundDivAnimation {
+    0%   {background: url("../images/water_zoomed_in.png"); background-size: cover;}
+    25%  {background: url("../images/water.png"); background-size: cover; }
+    50%  {background: url("../images/water_zoomed_in.png"); background-size: cover;}
+    75%  {background: url("../images/water.png"); background-size: cover;}
+    100% {background: url("../images/water_zoomed_in.png"); background-size: cover;}
+}
+
+#bodyBackgroundAnimation {
+    background: url("../images/water_3.png") no-repeat fixed center;
+    background-size: cover;
+    /*position: relative;*/
+    animation-name: bodyBackgroundAnimation;
+    animation-duration: 20s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+} @keyframes bodyBackgroundAnimation {
+    0%   {background: url("../images/water_4.png") no-repeat fixed center;}
+    25%  {background: url("../images/water_3.png") no-repeat fixed center; }
+    50%  {background: url("../images/water_4.png") no-repeat fixed center; }
+    75%  {background: url("../images/water_3.png")no-repeat fixed center ; }
+    100% {background: url("../images/water_4.png") no-repeat fixed center;}
+}
+
+
+
 
 /************************************************/
 /*Thank you to https://codepen.io/redfrost/pen/QwWMwb
@@ -197,63 +287,3 @@ a.carousel-control.right { right: 0; background: none; border: 0;}
 
 
 /***********  END CAROUSEL **************************************/
-
-/*#homeLogoSlideIn {
-  animation-duration: 3s;
-  animation-name: homeLogoSlideIn;
-  background: url("../images/water.png");
-  background-size: cover;
-}
-@keyframes homeLogoSlideIn {
-  from { margin-left: 100%; width: 300%; }
-  to { margin-left: 0%; width: 100%; }
-}*/
-
-#quotesSlideIn {
-  animation-duration: 3s;
-  animation-name: quotesSlideIn;
-}
-@keyframes quotesSlideIn {
-  from { margin-right: 100%; width: 300%; }
-  to { margin-right: 0%; width: 100%; }
-}
-
-#whatPeopleSaySlideIn {
-  animation-duration: 3s;
-  animation-name: whatPeopleSaySlideIn;
-}
-@keyframes whatPeopleSaySlideIn {
-  from { margin-left: 100%; width: 300%; }
-  to { margin-left: 0%; width: 100%; }
-}
-
-#buttonsSlideIn {
-  animation-duration: 3s;
-  animation-name: buttonsSlideIn;
-}
-@keyframes buttonsSlideIn {
-  from { margin-left: 100%; width: 300%; }
-  to { margin-left: 0%; width: 100%; }
-}
-
-
-
-.homeLogoSlideIn {
-    background: url("../images/water.png")no-repeat fixed center;
-    background-size: cover;
-    /*position: relative;*/
-    animation-name: homeLogoSlideIn;
-    animation-duration: 20s;
-    animation-timing-function: ease-in-out;
-    animation-delay: 0s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-@keyframes homeLogoSlideIn {
-    0%   {background: url("../images/water_zoomed_in.png"); background-size: cover;}
-    25%  {background: url("../images/water.png"); background-size: cover; }
-    50%  {background: url("../images/water_zoomed_in.png"); background-size: cover;}
-    75%  {background: url("../images/water.png"); background-size: cover;}
-    100% {background: url("../images/water_zoomed_in.png"); background-size: cover;}
-}
