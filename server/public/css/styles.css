@@ -31,8 +31,11 @@ hr {
 
 #homeFindAPoolButton {
   color: #ED5265;
+  font-size: 2em;
 }
-
+#homeFindATherapistButton{
+    font-size: 2em;
+}
 #wrapper {
   position: relative;
   margin: 0 !important;
@@ -111,11 +114,12 @@ hr {
 #whatPeopleSayAnimation {
   animation-name: whatPeopleSayAnimation;
   animation-duration: 4s;
-} @keyframes whatPeopleSayAnimation {
+}
+@keyframes zzzzwhatPeopleSayAnimation {
     from {opacity: 0;}
     to {opacity: 1;}
 }
-@keyframes ZZZZZwhatPeopleSayAnimation {
+@keyframes whatPeopleSayAnimation {
   from { margin-left: 100%; width: 300%; }
   to { margin-left: 0%; width: 100%; }
 }
@@ -131,25 +135,31 @@ hr {
 
 
 #maryQuoteAnimation {
+  opacity: 0;
   animation-name: maryQuoteAnimation;
-  animation-duration: 5s;
-  /* delay messes things up. animation-delay: 3s;*/
+  animation-delay: 2s;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
 } @keyframes maryQuoteAnimation {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 #mindyQuoteAnimation {
+  opacity: 0;
   animation-name: mindyQuoteAnimation;
-  animation-duration: 3s;
-  /*animation-delay: 0s;*/
+  animation-delay: 1s;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
 } @keyframes mindyQuoteAnimation {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 #michaelQuoteAnimation {
+  opacity: 0;
   animation-name: michaelQuoteAnimation;
-  animation-duration: 7s;
-  /* delay messes things up. animation-delay: 5s;*/
+  animation-delay: 3s;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
 } @keyframes michaelQuoteAnimation {
   from {opacity: 0;}
   to {opacity: 1;}
@@ -192,7 +202,7 @@ hr {
     0%   {background: url("../images/water_4.png") no-repeat fixed center;}
     25%  {background: url("../images/water_3.png") no-repeat fixed center; }
     50%  {background: url("../images/water_4.png") no-repeat fixed center; }
-    75%  {background: url("../images/water_3.png")no-repeat fixed center ; }
+    75%  {background: url("../images/water_3.png") no-repeat fixed center ; }
     100% {background: url("../images/water_4.png") no-repeat fixed center;}
 }
 
