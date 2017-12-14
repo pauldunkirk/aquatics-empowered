@@ -6,12 +6,14 @@
   <!-- ******************************************************************** -->
   <div class="row"> <!-- begin whole page row -->
     <!-- ******************************************************************** -->
-    <div class="row"> <!-- Begin Pool Search-->
+<!-- Begin Pool Search-->
+    <!-- <div class="row">
       <form ng-submit="vm.poolSearch()" class="center-block text-center">
         <input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
         <button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
       </form>
-    </div> <!-- End Pool Search-->
+    </div>  -->
+    <!-- End Pool Search-->
 
 
 <!-- using this to compare markerList of getAllCoordsAndIds() vs getAllFacilities()   -->
@@ -23,11 +25,11 @@
 
       <div class="center-block" map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}">
 
-        <ng-map id="ngmap" class="center-block gMap myBorder" center="current-position" geo-callback="vm.getCurrentCenter()" zoom="12" on-dragend="vm.newCenter()">
+        <ng-map id="ngmap" class="center-block gMap myBorder" center="current-location" geo-callback="vm.getCurrentCenter()" geo-fallback-center="[44.9778, -93.2650]" zoom="12" on-dragend="vm.newCenter()">
           <!-- ng-click="vm.hideInfoWindowOnClick()" -->
-          <!-- center="current-location" zoom="12" -->
-          <!-- center="current-position"  geo-fallback-center="[44.9778, -93.2650]"  -->
-<!-- center="{{vm.mapCenter}}" -->
+          <!-- center="current-location" -->
+          <!-- center="{{vm.mapCenter}}" -->
+          <!-- center="current-position"  -->
           <marker no-watcher="false"
           ng-repeat="p in vm.markerList"
           position="{{p.position}}"
@@ -37,9 +39,17 @@
           on-click="vm.showDetail(p)"
           ng-if="p.visible"
           />
-          <custom-marker no-watcher="false" ng-repeat="cm in vm.customMarkers" position="{{cm.address}}">
-                   <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
+
+          <!-- The 'title' shows when hover (as a tooltip)<marker position="current" centered="true" title="You are Here">
+          </> -->
+
+          <custom-marker no-watcher="false" ng-repeat="cm in vm.currentLocation" position="current">
+              <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
           </custom-marker>
+
+          <!-- <custom-marker no-watcher="false" ng-repeat="cm in vm.customMarkers" position="{{cm.address}}">
+              <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
+          </custom-marker> -->
 
 
           <info-window id="pool-iw" position="{{vm.poolDetails.position}}">
@@ -72,7 +82,7 @@
 
     <!-- *********************************************************************       -->
 
-    <!-- marker List#2 or infoListpins(markers) and pool info displayed separate from map-->
+    <!-- marker List#2 or infoList(markers) and pool info displayed separate from map-->
     <div class="row">
       <div class="center-block">
         <div class="col-sm-3 nopadding infoListItem myBorder" style="float:left" ng-class="{'selectedPool':vm.poolDetails.id==pool.id}"
@@ -94,8 +104,8 @@
   <!-- *********************************************************************       -->
 
   <div class="">
-    <span class="" ng-show="vm.showPhotos" ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
-      <img ng-src="{{pic}}" >
+    <span style="width:100%;height:500px;" class="" ng-show="vm.showPhotos" ng-repeat="pic in vm.poolPhotos.photoUrlsArray">
+      <img style="float:left;width:50%;height:100%;object-fit:contain;" ng-src="{{pic}}" >
       <!-- class="infoWindowPics" -->
       <!-- ng-class="{hoverInfoWindowPics: hover}" -->
       <!-- ng-mouseenter="hover = true" -->

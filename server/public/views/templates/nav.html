@@ -1,17 +1,79 @@
-<!-- nav navbar-toggleable-xs static-top-->
-<div class="container-fluid">
-<nav ng-controller="NavController as nav" class="navbar navbar-default">
+<!-- <nav ng-controller="LoginController as login" class="navbar navbar-toggleable-xs navbar-inverse static-top">
 
+<div class="navbar-header">
+
+  <a class="navbar-brand" href="http://www.bigtoeandthejam.com" target="_blank"><img alt="Big Toe and the Jam logo" src="css/BTJ_2015_01.svg" class="bigToeLogoLink"></a>
+
+  <button type="button" class="navbar-toggle" ng-click="login.toggleNav()">
+    <span class="sr-only">Toggle Navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+
+</div>
+
+  <ul class="nav navbar-nav navbar-right list-unstyled navbar-collapse" uib-collapse="login.isCollapsed">
+    <li class="nav-item"><a class="nav-link" href="#!requests">Requests</a></li>
+    <li class="nav-item"><a class="nav-link" href="#!gigs">Gigs</a></li>
+    <li class="nav-item"><a class="nav-link" href="#!players">Players</a></li>
+    <li class="nav-item"><a class="nav-link" href="#!mp3s">mp3s</a></li>
+    <li class="nav-item"><a class="nav-link" href="#!charts">Charts</a></li>
+    <li class="nav-item"><a class="nav-link" href="#!contacts">Contacts</a></li>
+    <li class="nav-item"><a class="nav-link" href="#!setlists">Setlists</a></li>
+    <li class="nav-item"><a class="nav-link" href="#!video">Video</a></li>
+    <button type="button" class="btn btn-sm btn-danger navbar-btn" ng-click="login.logOut()">Log Out</button>
+  </ul>
+
+</nav> -->
+
+
+
+<!-- navbar-fixed-top -->
+<nav style="background: none;" class="navbar-toggleable-xs navbar navbar-default" ng-controller="NavController as nav">
+  <!-- do we need container-fluid? w3c had it-->
+  <div class="container-fluid">
 
     <div class="navbar-header">
+      <!-- <a href="#!home"><img class="navbar-brand" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a> -->
       <button type="button" class="navbar-toggle" ng-click="nav.toggleNav()">
-        <span class="sr-only">Toggle Navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+              <span class="sr-only">Toggle Navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
       </button>
-      <a href="#!home"><img class="navbar-brand" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
     </div>
+
+    <div class="collapse navbar-collapse" uib-collapse="nav.isCollapsed">
+        <ul class="nav navbar-nav list-unstyled">
+          <li class="active nav-item"><a class="nav-link" href="#!maps">DIVE IN!!</a></li>
+        </ul>
+    </div> <!-- /.navbar-collapse -->
+
+  </div> <!-- /.container-fluid -->
+
+</nav>
+
+
+
+<!-- <div class="nav navbar-toggleable-xs static-top">
+<nav ng-controller="NavController as nav" class="navbar navbar-default ">
+
+
+    <div class="navbar-header navbar-fixed-top">
+
+      <div class="navbar-header">
+
+
+          <button type="button" class="navbar-toggle" ng-click="nav.toggleNav()">
+                  <span class="sr-only">Toggle Navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+          </button>
+
+          <a href="#!home"><img class="navbar-brand" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
+      </div>
 
     <div class="collapse navbar-collapse" uib-collapse="nav.isCollapsed">
       <ul class="nav navbar-nav navbar-right list-unstyled">
@@ -20,6 +82,7 @@
       </ul>
     </div>
 
+    </div>
 
 </nav>
-</div>
+</div> -->

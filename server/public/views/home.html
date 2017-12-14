@@ -1,145 +1,171 @@
 <!-- BOOTSTRAP 3 not 4-->
-<div class="container-fluid">
-
-
-  <!-- <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
-        <a href="#!maps"><img class="homeLogo center-block img-fluid" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
+<!-- logo link -->
+      <div id="aeHomeLogoAnimation">
+        <div class="row">
+          <div class="col-sm-12">
+            <a href="#!maps"><img class="aeHomeLogo center-block img-fluid" src="images/logos/AE_Hi_Res.png" alt="Aquatics Empowered logo"></a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div> -->
+<!-- end logo link -->
 
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-      <li data-target="#myCarousel" data-slide-to="3"></li>
-      <li data-target="#myCarousel" data-slide-to="4"></li>
-      <li data-target="#myCarousel" data-slide-to="5"></li>
-      <li data-target="#myCarousel" data-slide-to="6"></li>
-      <li data-target="#myCarousel" data-slide-to="7"></li>
-      <li data-target="#myCarousel" data-slide-to="8"></li>
-    </ol>
+<!-- ________WRAPPER CONTAINS VISIBLE AND SPACER CAROUSELS, BUTTONS AND QUOTES____________-->
+<div id="wrapper">
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
+<!-- ___________________  BEGIN BACKGROUND - VISIBLE - CAROUSEL________________________ -->
+<div id="background">
+  <div class="main-slider">
+    <div id="myCarousel" class="carousel slide carousel-fade" data-pause="false" data-ride="carousel">
 
-      <div class="item active">
-        <a href="#!maps">
-          <img src="images/Home/hero1.png" alt="" style="width:100%;">
-        </a>
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
+        <li data-target="#myCarousel" data-slide-to="5"></li>
+        <!-- <li data-target="#myCarousel" data-slide-to="6"></li>
+        <li data-target="#myCarousel" data-slide-to="7"></li>
+        <li data-target="#myCarousel" data-slide-to="8"></li> -->
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+
+        <div class="item active">
+          <a href="#!maps">
+            <img src="images/Home/floatinglady_wo_button.png" alt="" style="width:100%;">
+          </a>
+        </div>
+
+        <div class="item">
+          <a href="#!maps">
+            <img src="images/Home/boybubbles_wo_button.png" alt="" style="width:100%;">
+          </a>
+        </div>
+
+        <div class="item">
+          <a href="#!maps">
+            <img src="images/Home/feet_wo_button.png" alt="" style="width:100%;">
+          </a>
+        </div>
+
+        <div class="item">
+          <a href="#!maps">
+            <img src="images/Home/divingboard_wo_button.png" alt="" style="width:100%;">
+          </a>
+        </div>
+
+        <div class="item">
+          <a href="#!maps">
+            <img src="images/Home/flowers_wo_button.png" alt="" style="width:100%;">
+          </a>
+        </div>
+
+        <div class="item">
+          <a href="#!maps">
+            <img src="images/Home/beachball_wo_button.png" alt="" style="width:100%;">
+          </a>
+        </div>
+
       </div>
+<!-- END CAROUSEL INNER: hero/tagline images -->
 
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero2.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero3.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero4.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero5.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero6.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero7.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero8.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-      <div class="item">
-        <a href="#!maps">
-          <img src="images/Home/hero9.png" alt="" style="width:100%;">
-        </a>
-      </div>
-
-    </div>
-    <!-- END CAROUSEL INNER: hero images and tagline images -->
-
-    <!-- Left and right controls -->
-    <!-- note: had to change normal href to data-target due to AngularRoute issue -->
-    <a class="left carousel-control" data-target="#myCarousel" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" data-target="#myCarousel" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-      <span class="sr-only">Next</span>
-    </a>
-
-  </div>
-  <!-- END MY CAROUSEL ID div which contains 'indicators',
-  'wrapper/inner'(main images as well as logo image-link),
-  and 'controls' (which don't have their own separate div)  -->
+<!-- Left and right controls -->
+<!-- note: had to change normal href to data-target due to AngularRoute issue -->
+<div class="control-box">
+  <a class="left carousel-control" data-target="#myCarousel" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" data-target="#myCarousel" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+    <span class="sr-only">Next</span>
+  </a>
 </div>
+<!-- end left and right controls now with own div -->
+
+</div>
+<!-- END MY CAROUSEL ID div which contains 'indicators',
+'wrapper/inner'(main images as well as logo image-link),
+and 'controls' -->
+</div> <!-- end main slider div-->
+</div> <!--end background -->
+
+<!-- _________________SPACER AND QUOTES CONTENT DIV ________________-->
+<div id="aeSpacerAndQuotesContent">
+
+
+<!-- _______________ SPACER DIV  - SAME SIZE AS CAROUSEL _____________ -->
+  <div id="aeSpaceHolderDiv">
+    <div  class="main-slider" >
+      <div class="carousel">
+          <div class="item active">
+              <img src="images/Home/floatinglady_wo_button.png" alt="space holder" style="width:100%;">
+          </div>
+      </div>
+    </div> <!--end main-slider -->
+  </div> <!-- end space holder -->
+
+<!-- ___________________OPAQUE BACKGROUND DIV________________________ -->
+<div id="aeOpaqueBackgroundDivAnimation">
+
+  <!-- <nav id="navAnimation" class="hidden" ng-include="'views/templates/nav.html'"></nav> -->
 
 
 <!-- ___________________FIND A POOL/THERAPIST BUTTONS________________________ -->
-<div>
-  <a href="#!maps"> <button id="homeFindAPoolButton"class="center-block btn btn-lg myBorder" type="button" name="button">FIND A POOL</button></a>
-</div>
-<div>
-  <a href="#!therapistMap"> <button id="homeFindATherapistButton"class="center-block btn btn-lg myBorder" type="button" name="button">FIND AN AQUATIC THERAPIST</button></a>
-</div>
 
 
-<!-- ___________________WHAT PEOPLE SAY CONTAINER________________________ -->
 
-
-<div class="center-block">
-  <h2 id="whatPeopleSay">WHAT PEOPLE SAY</h2>
-</div>
-
-<!-- ___________________QUOTES CONTAINER________________________ -->
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4">
-      <a href="#!maps"> <img class="img-responsive center-block quoteImage" style="width:100%;" src="images/Home/mary_lg_quote.png" alt=""></a>
-    </div>
-
-    <div class="col-sm-4">
-      <a href="#!maps"> <img class="img-responsive center-block quoteImage" style="width:100%;" src="images/Home/mindy_lg_quote.png" alt=""></a>
-    </div>
-
-    <div class="col-sm-4">
-      <a href="#!maps"> <img class="img-responsive center-block quoteImage" style="width:100%;" src="images/Home/michael_lg_quote.png" alt=""></a>
-    </div>
-
+  <div id="homeButtonsAnimation" class="hidden row">
+    <span class="col-sm-1">
+    </span>
+    <span class="">
+      <a href="#!maps" class="aeHomeButtons col-sm-5 btn btn-default btn-lg" id="homeFindAPoolButton" role="button">FIND A POOL</a>
+    </span>
+    <span class="">
+      <a href="#!therapistMap" class="aeHomeButtons col-sm-5 btn btn-default btn-lg" id="homeFindATherapistButton" role="button">FIND AN AQUATIC THERAPIST</a>
+    </span>
+    <span class="col-sm-1">
+    </span>
   </div>
-</div>
-<!-- ___________________END QUOTES CONTAINER________________________ -->
 
+  <!-- ___________________WHAT PEOPLE SAY CONTAINER________________________ -->
+  <div id="whatPeopleSayAnimation" class="hidden center-block">
+    <h2 id="whatPeopleSay">WHAT PEOPLE SAY</h2>
+  </div>
+
+  <!-- ___________________QUOTES CONTAINER________________________ -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class=" col-sm-4">
+        <a href="#!maps"> <img id="maryQuoteAnimation" class="hidden img-responsive center-block quoteImage" style="width:100%;" src="images/Home/mary_lg_quote.png" alt=""></a>
+      </div>
+      <div class="col-sm-4">
+        <a href="#!maps"> <img id="mindyQuoteAnimation" class="hidden img-responsive center-block quoteImage" style="opacity: 0; width:100%;" src="images/Home/mindy_lg_quote.png" alt=""></a>
+      </div>
+      <div class="col-sm-4">
+        <a href="#!maps"> <img id="michaelQuoteAnimation" class="hidden img-responsive center-block quoteImage" style="width:100%;" src="images/Home/michael_lg_quote.png" alt=""></a>
+      </div>
+    </div>
+  </div>
+  <!-- ___________________END QUOTES CONTAINER________________________ -->
+</div> <!-- end opaqueBackgroundDiv -->
+<!-- ___________________  END OPAQUE BACKGROUND DIV________________________ -->
+</div> <!--end spacerAndQuotesContent: buttons through quotes inside wrapper   -->
+<!-- ___________________  END SPACER AND QUOTES DIV________________________ -->
+</div>  <!--end wrapper -->
+<!-- ___________________  END WRAPPER________________________ -->
 
 <footer ng-include="'views/templates/footer.html'"></footer>
 <!-- <div class="center-block">
-  <h4 id="whatPeopleSay">OUR PARTNERS</h4>
+<h4 id="whatPeopleSay">OUR PARTNERS</h4>
 </div> -->
+
+
+
+
+
+<!-- ************************************************ -->

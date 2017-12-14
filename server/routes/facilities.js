@@ -27,6 +27,18 @@ const postAllProps = (postObj, tableColumns) => {
   return { values, refs, keysJoined };
 };
 
+router.get('/coordsandids', function(req, res) {
+  console.log('get facilities');
+  pool.connect(function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('SELECT id, coords FROM facilities;', function(err, result) {
+      done();
+      err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
+      // console.log('result.rows', result.rows);
+    });
+  });
+});
+
 router.post('/', function(req, res) {
   console.log(req.body);
   const facilPost = postAllProps(req.body, facilitiesColumns);
@@ -36,6 +48,20 @@ router.post('/', function(req, res) {
       facilPost.values, function(err) {
         done();
         err ? console.log('DELETE ERROR', err, res.sendStatus(500)) : res.sendStatus(200);
+      }
+    );
+  });
+}); //end router. post
+
+router.post('/getSelected', function(req, res) {
+  let idsOfWantedPools = req.body;
+  let idString = idsOfWantedPools.join();
+  pool.connect( function(err, client, done) {
+    err && res.sendStatus(503);
+    client.query('SELECT * FROM facilities WHERE id IN (' + idString + ')',
+      function(err, result) {
+        done();
+        err ? console.log('SELECT ERROR', err, res.sendStatus(500)) : res.send(result.rows);
       }
     );
   });
@@ -54,18 +80,6 @@ router.get('/', function(req, res) {
   });
 });
 
-
-router.get('/coordsandids', function(req, res) {
-  console.log('get facilities');
-  pool.connect(function(err, client, done) {
-    err && res.sendStatus(503);
-    client.query('SELECT coords, google_place_id, id FROM facilities;', function(err, result) {
-      done();
-      err ? console.log('GET ERROR', err, res.sendStatus(500)) : res.send(result.rows);
-      // console.log('result.rows', result.rows);
-    });
-  });
-});
 
 // router.get('/getById/:id', function(req, res) {
 //   const id = req.params.id;
