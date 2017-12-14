@@ -189,7 +189,7 @@ hr {
 }
 
 #bodyBackgroundAnimation {
-    background: url("../images/water_3.png") no-repeat fixed center;
+    background: url("../images/water_3.png") ;
     background-size: cover;
     /*position: relative;*/
     animation-name: bodyBackgroundAnimation;
@@ -197,13 +197,13 @@ hr {
     animation-timing-function: ease-in-out;
     animation-delay: 0s;
     animation-iteration-count: infinite;
-    animation-direction: alternate;
+    /*animation-direction: alternate;*/
 } @keyframes bodyBackgroundAnimation {
-    0%   {background: url("../images/water_4.png") no-repeat fixed center;}
-    25%  {background: url("../images/water_3.png") no-repeat fixed center; }
-    50%  {background: url("../images/water_4.png") no-repeat fixed center; }
-    75%  {background: url("../images/water_3.png") no-repeat fixed center ; }
-    100% {background: url("../images/water_4.png") no-repeat fixed center;}
+    0%   {background: url("../images/water_4.png")   ;}
+    25%  {background: url("../images/water_3.png")   ; }
+    50%  {background: url("../images/water_4.png")   ; }
+    75%  {background: url("../images/water_3.png")    ; }
+    100% {background: url("../images/water_4.png")   ;}
 }
 
 
