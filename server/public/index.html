@@ -11,13 +11,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="/css/styles.css"/>
+    <link rel="stylesheet" href="/css/mapNavAdminStyles.css"/>
 
     <script src="/vendor/jquery-3.2.1.min.js"></script>
     <script src="/vendor/angular.js"></script>
     <script src="/vendor/angular-route.min.js"></script>
     <script src="/vendor/ng-map.min.js"></script>
     <script src="/vendor/bootstrap.min.js"></script>
-    <!-- <script src="/vendor/ui-bootstrap.js"></script> -->
+    <script src="/vendor/ui-bootstrap.js"></script>
 
     <script src="scripts/client.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAlpI__XCJRk774DrR8FMBBaFpEJdkH1o&libraries=places"></script>
@@ -29,12 +30,12 @@
     <script src="scripts/controllers/nav.controller.js"></script>
     <script src="scripts/controllers/maps.controller.js"></script>
     <script src="scripts/controllers/home.controller.js"></script>
-    <!-- <script src="scripts/controllers/home2.controller.js"></script> -->
+    <script src="scripts/controllers/home2.controller.js"></script>
     <script src="scripts/controllers/admin.controller.js" async></script>
 
 </head>
 
-<body ng-app="myApp">
+<body class="container-fluid" id="bodyBackgroundAnimation" ng-app="myApp">
   <main ng-view></main>
 </body>
 
