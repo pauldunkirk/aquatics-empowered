@@ -6,6 +6,14 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+CREATE FUNCTION field(anyelement, VARIADIC anyarray) RETURNS integer AS $$
+  SELECT
+    COALESCE(
+     ( SELECT i FROM generate_subscripts($2, 1) gs(i)
+       WHERE $2[i] = $1 ),
+     0);
+$$ LANGUAGE SQL STABLE;
+
 CREATE TABLE google_radar_results (
 	id serial primary key,
 	coords float[2],

@@ -58,7 +58,7 @@ router.post('/getSelected', function(req, res) {
   let idString = idsOfWantedPools.join();
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
-    client.query('SELECT * FROM facilities WHERE id IN (' + idString + ')',
+    client.query('SELECT * FROM facilities WHERE id IN (' + idString + ') ORDER BY FIELD(id, ' + idString + ')',
       function(err, result) {
         done();
         err ? console.log('SELECT ERROR', err, res.sendStatus(500)) : res.send(result.rows);

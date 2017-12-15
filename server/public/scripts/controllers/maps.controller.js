@@ -20,9 +20,9 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   const getAllCoordsAndIds = () => {
     $http.get('/facilities/coordsandids')
     .then( res => {
-      let allCoordsAndIds = res.data;
-      console.log('Coords And Ids of all pools in db (not sorted)', allCoordsAndIds);
-      sortAndSliceIds(allCoordsAndIds);
+      vm.allCoordsAndIds = res.data;
+      console.log('Coords And Ids of all pools in db (not sorted)', vm.allCoordsAndIds);
+      sortAndSliceIds(vm.allCoordsAndIds);
     }, err => console.log('GET allPools - error:', err)
   );}; // end getAllCoordsAndIds
 
@@ -45,7 +45,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     for (var i = 0; i < sortedAndSlicedCoordArray.length; i++) {
       idsOfWantedPools.push(sortedAndSlicedCoordArray[i].id);
     };// end for loop
-    console.log('idsOfWantedPools (is sorted by distance)', idsOfWantedPools);
+    console.log('idsOfWantedPools (sorted by distance)', idsOfWantedPools);
     getSelectedPools(idsOfWantedPools);
   }; // end sortAndSliceIds
 
@@ -58,8 +58,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
     }).then(
       function(res, err) {
         vm.selectedPoolsArray = res.data;
-        console.log('selectedPoolsArray, (no longer sorted by distance)', vm.selectedPoolsArray);
-        vm.markerList = createMarkerList(vm.selectedPoolsArray, vm.maxMarkers, vm.mapCenter);
+        console.log('selectedPoolsArray, (sort retained)', vm.selectedPoolsArray);
+        vm.markerList = createMarkerList(vm.selectedPoolsArray);
         if (err) {
           console.log("error getting from db: ", err);
         };}
@@ -77,8 +77,8 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
       }};
       //creates Marker List from Pools List when calling in various places
       // html: markers as marker List, info-window as pool Details (showDetail(p), p in markerList)
-      function createMarkerList(chosenPoolsArray, maxMarkers, center) {
-        console.log('createMarkerList center', center);
+      function createMarkerList(chosenPoolsArray) {
+        //console.log('createMarkerList center', center);
         console.log('chosenPoolsArray, (not sorted at this point)', chosenPoolsArray);
         let poolsList = chosenPoolsArray.map( function(pool){
           return {
@@ -92,7 +92,6 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
             website: pool.url,
             street_address: pool.street_address,
             city: pool.city,
-            distance: getDistance(pool.coords, center),
             state: pool.state,
             type: pool.pool_type,
             zip: pool.zip,
@@ -103,9 +102,9 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
             reviews: (pool.google_places_data.reviews || []).map(formatReview)
           } // end of reconfiguring allPools, renamed poolsList
         } ); //end of map of allPools
-        poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
-        poolsList = poolsList.slice( 0, maxMarkers );
-        console.log('poolsList (sorted at this point) will become markerList', poolsList);
+        //poolsList = poolsList.sort( function(a, b) { return a.distance - b.distance });
+        //poolsList = poolsList.slice( 0, maxMarkers );
+        console.log('poolsList', poolsList);
         // console.log('first pool in poolsList[0].position', poolsList[0].position);
         // console.log('first pool in poolsList[0].latitude', poolsList[0].latitude);
         // console.log('first pool in poolsList[0].longitude', poolsList[0].longitude);
@@ -117,20 +116,22 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         if (vm.addr && vm.map) {
           GeoCoder.geocode({address: vm.addr}) //ref see vestigial
           .then( (results, status) => {
-            console.log('results', results);
-            let coords = results[0].geometry.location; //results[0]==Google's 'best guess'
-            vm.mapCenter = [coords.lat(), coords.lng()];
-            vm.showPhotos = false;
-            getAllCoordsAndIds();
-            // vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
+            
+              console.log('results', results[0]);
+              vm.map.setCenter(results[0].geometry.location); //results[0]==Google's 'best guess'
+              vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
+              console.log('mapcenter: ', vm.mapCenter);
+              vm.showPhotos = false;
+              getAllCoordsAndIds();
+
           });}};
           //****************************************************************************
           //html: on-dragend  -hide Info Window only here (from Ng-Map)
-          vm.newCenter = () => {
+      vm.newCenter = () => {
             // console.log('newCenter -> vm.map', vm.map);
             console.log('newCenter -> vm.map.center', vm.map.center);
             vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
-            getAllCoordsAndIds();
+            sortAndSliceIds(vm.allCoordsAndIds);
             vm.showPhotos = false;
             // console.log('newCenter -> vm.mapCenter', vm.mapCenter);
             // vm.mapCenterLat = vm.mapCenter[0];
