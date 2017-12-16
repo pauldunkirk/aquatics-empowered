@@ -27,11 +27,16 @@
 <!-- Begin Pool Search-->
     <div class="row">
       <form ng-submit="vm.poolSearch()" class="center-block text-center">
-        <input ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
+        <input places-auto-complete types="['geocode']" ng-model="vm.addr" type="text" class="btn btn-lg myBorder" placeholder="CITY OR ZIP CODE"/>
         <button type="submit" class="btn btn-lg myBorder yellowBackground">GET POOLS</button>
       </form>
+
+
+
     </div>
-<!-- End Pool Search-->
+    <!--try adding this in  <input above: places-auto-complete types="['geocode']" -->
+  <!-- End Pool Search-->
+
 
 
 <!-- using this to compare markerList of getAllCoordsAndIds() vs getAllFacilities()   -->
@@ -60,10 +65,16 @@
 
           <!-- The 'title' shows when hover (as a tooltip)<marker position="current" centered="true" title="You are Here">
           </> -->
-
-          <custom-marker no-watcher="false" ng-repeat="cm in vm.currentLocation" position="current">
+          <custom-marker ng-repeat="cm in vm.markerAtCenter" position="{{vm.mapCenter}}">
               <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
           </custom-marker>
+
+          <custom-marker ng-repeat="cm in vm.currentLocation" position="current">
+              <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
+          </custom-marker>
+
+
+
 
           <!-- <custom-marker no-watcher="false" ng-repeat="cm in vm.customMarkers" position="{{cm.address}}">
               <div class="{{cm.class}}"><div>{{cm.description}}</div> </div>
@@ -77,6 +88,7 @@
                 <button ng-show="vm.showSeePhotosButton" class="btn btn-lg btn-primary" ng-click="vm.showPhotos=true"> See Photos</button>
               </h2>
               <h4>{{vm.poolDetails.street_address}}, {{vm.poolDetails.city}}  {{vm.poolDetails.phone}}</h4>
+              <!-- <p>{{vm.poolDetails.distance}}</p> -->
               <p><a ng-click="vm.clickedWebsiteLink(vm.poolDetails.website)">Website</a></p>
 
               <div ng-repeat="r in vm.poolDetails.reviews">

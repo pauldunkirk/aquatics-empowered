@@ -16,7 +16,9 @@ const postAllProps = (postObj, tableColumns) => {
   let values = [];
   let refs = '';
   let keysJoined = keys.join(', ');
+  console.log('keysJoined ' + keysJoined);
   for (let i = 0; i < keys.length; i++) {
+    //console.log(i + '(' + keys[i] + ') postObj:' + postObj[keys[i]]);
     values.push(postObj[keys[i]]);
     refs += ('$' + (i+1) + ', ');
   }
@@ -38,6 +40,7 @@ router.get('/coordsandids', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+  console.log(req.body);
   const facilPost = postAllProps(req.body, facilitiesColumns);
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
@@ -55,7 +58,7 @@ router.post('/getSelected', function(req, res) {
   let idString = idsOfWantedPools.join();
   pool.connect( function(err, client, done) {
     err && res.sendStatus(503);
-    client.query('SELECT * FROM facilities WHERE id IN (' + idString + ')',
+    client.query('SELECT * FROM facilities WHERE id IN (' + idString + ') ORDER BY FIELD(id, ' + idString + ')',
       function(err, result) {
         done();
         err ? console.log('SELECT ERROR', err, res.sendStatus(500)) : res.send(result.rows);
