@@ -126,11 +126,14 @@ hr {
 
 
 #homeButtonsAnimation {
-  animation-duration: 2s;
+  opacity: 0;
   animation-name: homeButtonsAnimation;
+  animation-delay: 2s;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
 } @keyframes homeButtonsAnimation {
-  from { margin-left: 100%; width: 300%; }
-  to { margin-left: 0%; width: 100%; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 

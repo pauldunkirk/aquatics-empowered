@@ -20,11 +20,11 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
   const getAllCoordsAndIds = () => {
     $http.get('/facilities/coordsandids')
     .then( res => {
-      let allCoordsAndIds = res.data;
-      console.log('Coords And Ids of all pools in db (not sorted)', allCoordsAndIds);
-      sortAndSliceIds(allCoordsAndIds);
+      vm.allCoordsAndIds = res.data;
+      console.log('Coords And Ids of all pools in db (not sorted)', vm.allCoordsAndIds);
+      sortAndSliceIds(vm.allCoordsAndIds);
     }, err => console.log('GET allPools - error:', err)
-  );}; // end getAllCoordsAndIds
+  );}; // end get AllC oords And Ids
 
   //*************************************************************
   function sortAndSliceIds(allCoordsAndIds) {
@@ -117,9 +117,14 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
         if (vm.addr && vm.map) {
           GeoCoder.geocode({address: vm.addr}) //ref see vestigial
           .then( (results, status) => {
-            console.log('results', results);
+            console.log('results best guess', results);
             let coords = results[0].geometry.location; //results[0]==Google's 'best guess'
-            vm.mapCenter = [coords.lat(), coords.lng()];
+            console.log('coords of result of best guess, buried in closure', coords);
+            vm.map.center = [coords.lat(), coords.lng()];
+            console.log('vm.mapCenter', vm.mapCenter);
+            console.log('vm.map.center', vm.map.center);
+            // this causes no new pins - withiout it, new pins but map stays
+            // vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
             vm.showPhotos = false;
             getAllCoordsAndIds();
             // vm.markerList = createMarkerList(vm.allFacilities, vm.maxMarkers, vm.mapCenter);
@@ -128,7 +133,7 @@ app.controller('MapsController', ['$http', 'NgMap', 'GeoCoder', function($http, 
           //html: on-dragend  -hide Info Window only here (from Ng-Map)
           vm.newCenter = () => {
             // console.log('newCenter -> vm.map', vm.map);
-            console.log('newCenter -> vm.map.center', vm.map.center);
+            console.log('newCenter -> vm.map.center buried in closure', vm.map.center);
             vm.mapCenter = [vm.map.center.lat(), vm.map.center.lng()];
             getAllCoordsAndIds();
             vm.showPhotos = false;
