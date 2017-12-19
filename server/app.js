@@ -11,6 +11,18 @@ const photos = require('./routes/photos');
 const radar = require('./routes/radar');
 let isLocal = require('./config/config.js').local;
 
+app.use((req, res, next) => {
+    if(req.header('x-forwarded-proto')) {
+        if(req.header('x-forwarded-proto') !== 'https') {
+            res.redirect(`https://${req.header('host')}${req.url}`);
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
+
 
 // app.configure('production', => {
 //   app.use((req, res, next) => {
