@@ -46,7 +46,8 @@
     <!-- ***********************  MAP  ********************************************* -->
     <div class="row"> <!-- begin map w/ markers, info-window -->
 
-      <!-- <div class="center-block" map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}"> -->
+      <div class="center-block" >
+      <!-- map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}" -->
 
         <ng-map id="ngmap" class="center-block gMap myBorder"
           center="current-location" geo-callback="vm.getCurrentCenter()" geo-fallback-center="[44.9778, -93.2650]"

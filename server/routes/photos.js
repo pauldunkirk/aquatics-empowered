@@ -24,8 +24,8 @@ router.get('/:place_id', (req, pics_res) => {
         for (var i = 0; i < photoReferencesArray.length; i++) {
             photoParamsArray.push({
                 photoreference: photoReferencesArray[i].photo_reference,
-                maxheight: 500,
-                maxwidth: 500
+                maxheight: 1000,
+                maxwidth: 1000
             });
         }
 				console.log('*********************************** photoParamsArray', photoParamsArray);

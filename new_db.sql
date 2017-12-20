@@ -1,4 +1,10 @@
-
+CREATE FUNCTION field(anyelement, VARIADIC anyarray) RETURNS integer AS $$
+  SELECT
+    COALESCE(
+     ( SELECT i FROM generate_subscripts($2, 1) gs(i)
+       WHERE $2[i] = $1 ),
+     0);
+$$ LANGUAGE SQL STABLE;
 
 
 CREATE OR REPLACE FUNCTION update_timestamp()
@@ -47,3 +53,66 @@ CREATE TABLE facilities (
 CREATE TRIGGER update_facilities_changetimestamp BEFORE UPDATE
 ON facilities FOR EACH ROW EXECUTE PROCEDURE
 update_timestamp();
+
+
+
+Pauls-MacBook-Air:bcae paulcdunkirk$ heroku addons:create heroku-postgresql:hobby-basic --app aquaticsemp
+Creating heroku-postgresql:hobby-basic on ⬢ aquaticsemp... !
+ ▸    Invalid credentials provided.
+Enter your Heroku credentials:
+Email: pauldunkirk@gmail.com
+Password: **********
+Creating heroku-postgresql:hobby-basic on ⬢ aquaticsemp... $9/month
+Database has been created and is available
+ ! This database is empty. If upgrading, you can transfer
+ ! data from another database with pg:copy
+Created postgresql-round-49014 as HEROKU_POSTGRESQL_CYAN_URL
+Use heroku addons:docs heroku-postgresql to view documentation
+Pauls-MacBook-Air:bcae paulcdunkirk$ heroku pg:copy DATABASE_URL HEROKU_POSTGRESQL_CYAN_URL --app aquaticsemp
+ ▸    WARNING: Destructive action
+ ▸    This command will remove all data from
+ ▸    CYAN
+ ▸    Data from DATABASE will then be
+ ▸    transferred to CYAN
+ ▸    To proceed, type aquaticsemp or
+ ▸    re-run this command with --confirm
+ ▸    aquaticsemp
+
+> aquaticsemp
+Starting copy of DATABASE to CYAN... done
+Copying... done
+Pauls-MacBook-Air:bcae paulcdunkirk$ heroku pg:promote HEROKU_POSTGRESQL_CYAN
+ ▸    No app specified
+Pauls-MacBook-Air:bcae paulcdunkirk$ heroku pg:promote HEROKU_POSTGRESQL_CYAN --app aquaticsemp
+Ensuring an alternate alias for existing DATABASE_URL... HEROKU_POSTGRESQL_COPPER_URL
+Promoting postgresql-round-49014 to DATABASE_URL on ⬢ aquaticsemp... done
+Pauls-MacBook-Air:bcae paulcdunkirk$
+
+Pauls-MacBook-Air:bcae paulcdunkirk$  heroku pg:info --app aquaticsemp
+=== DATABASE_URL, HEROKU_POSTGRESQL_CYAN_URL
+Plan:                  Hobby-basic
+Status:                Available
+Connections:           0/20
+PG Version:            10.1
+Created:               2017-12-20 00:54 UTC
+Data Size:             8.7 MB
+Tables:                2
+Rows:                  164/10000000 (In compliance)
+Fork/Follow:           Unsupported
+Rollback:              Unsupported
+Continuous Protection: Off
+Add-on:                postgresql-round-49014
+
+=== HEROKU_POSTGRESQL_COPPER_URL
+Plan:                  Hobby-dev
+Status:                Available
+Connections:           0/20
+PG Version:            9.6.4
+Created:               2017-08-31 01:42 UTC
+Data Size:             9.7 MB
+Tables:                2
+Rows:                  143/10000 (In compliance)
+Fork/Follow:           Unsupported
+Rollback:              Unsupported
+Continuous Protection: Off
+Add-on:                postgresql-metric-79730
