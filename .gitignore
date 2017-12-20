@@ -1,4 +1,4 @@
 node_modules
 server/firebase-service-account.json
-nps.gov.txt
 .env
+ignoredFiles
