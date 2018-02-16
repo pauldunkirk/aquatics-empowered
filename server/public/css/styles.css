@@ -9,7 +9,7 @@ body {
 }
 
 .aeHomeLogo {
-  max-height: 180px !important;
+  max-height: 120px !important;
   margin: auto !important;
   /*padding: .2em !important;*/
 }
@@ -31,10 +31,10 @@ hr {
 
 #homeFindAPoolButton {
   color: #ED5265;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 #homeFindATherapistButton{
-    font-size: 2em;
+    font-size: 1.5em;
 }
 #wrapper {
   position: relative;
@@ -174,7 +174,8 @@ hr {
 
 
 #aeOpaqueBackgroundDivAnimation {
-    background: url("../images/water.png")no-repeat fixed center;
+    background-color: white;
+    /* background: url("../images/water.png")no-repeat fixed center; */
     background-size: cover;
     /*position: relative;*/
     /* animation-name: aeOpaqueBackgroundDivAnimation;

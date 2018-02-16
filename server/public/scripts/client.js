@@ -11,7 +11,7 @@ app.config(['$routeProvider', function($routeProvider) {
      controller: 'MapsController',
      controllerAs: 'vm'
   }).when('/admin', {
-     templateUrl: '/views/templates/admin.html',
+     templateUrl: '/views/admin.html',
      controller: 'AdminController',
      controllerAs: 'vm'
   }).when('/testMap', {
