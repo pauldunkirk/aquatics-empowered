@@ -37,39 +37,25 @@ app.controller('HomeController', ['$location', function($location) {
           windowHeight
         var init = function () {
           elements = document.getElementsByClassName('hidden');
-          // console.log('elements', elements);
+          console.log('elements', elements);
           windowHeight = window.innerHeight;
-          // console.log('windowHeight', windowHeight);
+          console.log('windowHeight', windowHeight);
           listenForScrollAndResize();
-        } //end init
-
+        }
         var listenForScrollAndResize = function () {
           window.addEventListener('scroll', checkPosition);
           window.addEventListener('resize', init);
-        } //end listenForScrollAndResize
+        }
         var checkPosition = function () {
           for (var i = 0; i < elements.length; i++) {
             var posFromTop = elements[i].getBoundingClientRect().top;
-            // console.log('?posFromTop always 0?', posFromTop, elements);
+            console.log('?posFromTop always 0?', posFromTop, elements);
             if (posFromTop - windowHeight <= 0) {
               elements[i].className = elements[i].className.replace('hidden', 'willUseIdOnThatElement')
-            } //end if
-          } //end for
-        } //end checkPosition
-
-        return { init: init } //end return init
-
-      } //end animateHTML
+              }
+            }
+          }
+        return { init: init }
+      }
       animateHTML().init()
-
-
-
-
-
-
-
-
-
-
-
-  }]);
+}]);

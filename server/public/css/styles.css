@@ -1,304 +1,92 @@
 /*FF777B  FF4B51*/
-body {
+/* body {
   font-family: 'Roboto', sans-serif !important;
 }
 
 .container-fluid {
   padding-left: 0 !important;
   padding-right: 0 !important;
-}
-
-.aeHomeLogo {
-  max-height: 120px !important;
-  margin: auto !important;
-  /*padding: .2em !important;*/
-}
-
-hr {
-  border-top: 1px solid black !important;
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
-}
-
-.myBorder {
-  border: 1px solid black;
-  border-radius: 0 !important;
-}
-
-.yellowBackground {
-  background-color: #F6B201;
-}
-
-#homeFindAPoolButton {
-  color: #ED5265;
-  font-size: 1.5em;
-}
-#homeFindATherapistButton{
-    font-size: 1.5em;
-}
-#wrapper {
-  position: relative;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-#aeSpacerAndQuotesContent {
-  position: relative;
-  z-index: 100;
-}
-#background {
-  position: fixed;
-  z-index: -100;
-  width: 100% !important;
-}
-#aeSpaceHolderDiv{
-  opacity: 0;
-}
-#aeOpaqueBackgroundDiv{
-  background: url("../images/water.png");
-  background-size: cover;
-}
-
-
-/*----------------whatPeopleSay QUOTES/PICS----------------------------*/
-
-@media (max-width: 767px) {
-  .quoteImage {
-    width: auto !important;
-    }}
-/*(#whatPeopleSay styles also used for "our partners")*/
-#whatPeopleSay {
-  text-align: center;
-  font-weight: bolder;
-  font-family: 'Roboto' !important;
-  word-spacing: .3em;
-  /*padding: 20px;*/
-}
-
-
-
-/* -------------CAROUSEL -------------------------------------------------*/
-.carousel-control {
-  width: 3% !important;
-}
-#myCarousel {
-  background: fixed;
-  background-size: cover;
-  /*opacity: 0;*/
-  margin-top: 0;
-}
-
-
-
-/* -------------ANIMATION -------------------------------------------------*/
-
-.hidden {
-  opacity: 0;
-}
-#aeHomeLogoAnimation {
-  animation-name: aeHomeLogoAnimation;
-  animation-duration: 2s;
-  animation-timing-function: ease;
-} @keyframes aeHomeLogoAnimation {
-  0% { margin-left: 100%; width: 300%; }
-  100% { margin-left: 0%; width: 100%; }
-}
-
-#navAnimation {
-  animation-name: navAnimation;
-  animation-duration: 3s;
-} @keyframes navAnimation{
-  from { opacity:0; }
-  to { opacity: 1; }
-}
-#whatPeopleSayAnimation {
-  animation-name: whatPeopleSayAnimation;
-  animation-duration: 4s;
-}
-@keyframes zzzzwhatPeopleSayAnimation {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-@keyframes whatPeopleSayAnimation {
-  from { margin-left: 100%; width: 300%; }
-  to { margin-left: 0%; width: 100%; }
-}
-
-
-#homeButtonsAnimation {
-  opacity: 0;
-  animation-name: homeButtonsAnimation;
-  animation-delay: 2s;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
-} @keyframes homeButtonsAnimation {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-
-#maryQuoteAnimation {
-  opacity: 0;
-  animation-name: maryQuoteAnimation;
-  animation-delay: 2s;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
-} @keyframes maryQuoteAnimation {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-#mindyQuoteAnimation {
-  opacity: 0;
-  animation-name: mindyQuoteAnimation;
-  animation-delay: 1s;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
-} @keyframes mindyQuoteAnimation {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-#michaelQuoteAnimation {
-  opacity: 0;
-  animation-name: michaelQuoteAnimation;
-  animation-delay: 3s;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
-} @keyframes michaelQuoteAnimation {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-
-
-
-
-
-#aeOpaqueBackgroundDivAnimation {
-    background-color: white;
-    /* background: url("../images/water.png")no-repeat fixed center; */
-    background-size: cover;
-    /*position: relative;*/
-    /* animation-name: aeOpaqueBackgroundDivAnimation;
-    animation-duration: 10s;
-    animation-timing-function: ease-in-out;
-    animation-delay: 0s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate; */
-}
-/* @keyframes aeOpaqueBackgroundDivAnimation {
-    0%   {background: url("../images/water_zoomed_in.png"); background-size: cover;}
-    25%  {background: url("../images/water.png"); background-size: cover; }
-    50%  {background: url("../images/water_zoomed_in.png"); background-size: cover;}
-    75%  {background: url("../images/water.png"); background-size: cover;}
-    100% {background: url("../images/water_zoomed_in.png"); background-size: cover;}
 } */
 
-#bodyBackgroundAnimation {
-    background: url("../images/water_3.png") ;
+/* .aeHomeLogo {
+  max-height: 120px !important;
+  margin: auto !important; */
+  /*padding: .2em !important;*/
+/* } */
+
+
+
+/* #bodyBackgroundAnimation {
+    background: url("../images/water.png") ;
     background-size: cover;
-    /*position: relative;*/
-    animation-name: bodyBackgroundAnimation;
-    animation-duration: 20s;
-    animation-timing-function: ease-in-out;
-    animation-delay: 0s;
-    animation-iteration-count: infinite;
-    /*animation-direction: alternate;*/
-} @keyframes bodyBackgroundAnimation {
-    0%   {background: url("../images/water_4.png")   ;}
-    25%  {background: url("../images/water_3.png")   ; }
-    50%  {background: url("../images/water_4.png")   ; }
-    75%  {background: url("../images/water_3.png")    ; }
-    100% {background: url("../images/water_4.png")   ;}
-}
+  } */
 
 
+  /*
+   * Start Bootstrap - Full Width Pics (http://startbootstrap.com/)
+   * Copyright 2013-2016 Start Bootstrap
+   * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+   */
 
-
-/************************************************/
-/*Thank you to https://codepen.io/redfrost/pen/QwWMwb
-for fading rather than sliding carousel, and hiding left/right controls*/
-/* Carousel Fading slide */
-.carousel-fade .carousel-inner { background: #000; }
-.carousel-fade .carousel-control { z-index: 2; }
-.carousel-fade .item {
-  opacity: 0;
-  -webkit-transition-property: opacity;
-  -moz-transition-property: opacity;
-  -o-transition-property: opacity;
-  transition-property: opacity;
+  body {
+      margin-top: 50px;
+      /* Required margin for .navbar-fixed-top.
+      Remove if using .navbar-static-top. Change if height of navigation changes. */
   }
 
-  .carousel-fade .next.left,
-  .carousel-fade .prev.right,
-  .carousel-fade .item.active { opacity: 1; }
-
-  .carousel-fade .active.left,
-  .carousel-fade .active.right {
-    left: 0;
-    opacity: 0;
-    z-index: 1;
-    }
-
-/* Safari Fix */
-@media all and (transform-3d), (-webkit-transform-3d) {
-    .carousel-fade .carousel-inner > .item.next,
-    .carousel-fade .carousel-inner > .item.active.right {
-      opacity: 0;
-      -webkit-transform: translate3d(0, 0, 0);
-              transform: translate3d(0, 0, 0);
-    }
-    .carousel-fade .carousel-inner > .item.prev,
-    .carousel-fade .carousel-inner > .item.active.left {
-      opacity: 0;
-      -webkit-transform: translate3d(0, 0, 0);
-              transform: translate3d(0, 0, 0);
-    }
-    .carousel-fade .carousel-inner > .item.next.left,
-    .carousel-fade .carousel-inner > .item.prev.right,
-    .carousel-fade .carousel-inner > .item.active {
-      opacity: 1;
-      -webkit-transform: translate3d(0, 0, 0);
-              transform: translate3d(0, 0, 0);
-    }
-}
-
-/* Removing BS background */
-.carousel .control-box { opacity: 0; }
-a.carousel-control.left  { left: 0; background: none; border: 0;}
-a.carousel-control.right { right: 0; background: none; border: 0;}
-
-
-/* Animation */
-.control-box, a.carousel-control, .carousel-indicators li {
-  -webkit-transition: all 400ms ease;
-  -moz-transition: all 400ms ease;
-  -ms-transition: all 400ms ease;
-  -o-transition: all 400ms ease;
-  transition: all 400ms ease;
-  /* hardware acceleration causes Bootstrap carousel controlbox margin error in webkit */
-  /* Assigning animation to indicator li will make slides flicker */
+  .waterBackground,
+  .floatingLadyBackground {
+      text-align: center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
   }
 
-/* Hover animation */
-.carousel:hover .control-box { opacity: 1; }
-.carousel:hover a.carousel-control.left { left: 15px; }
-.carousel:hover a.carousel-control.right { right: 15px; }
-
-/* Carousel Indicator */
-/*for now, hiding indicators */
-.carousel-indicators li { border: 0; opacity: 0; }
-
-/*use this if decide to show them again*/
-/*.carousel-indicators li {
-  background: #9ec2e5;
-  margin: 0 3px;
-  width: 12px;
-  height: 12px;
+  .waterBackground {
+  	background: url('../images/water.png') no-repeat center center scroll;
+    background-size: cover;
+      /* padding: 100px 0; */
   }
-.carousel-indicators li.active {
-  background: #fff;
-  margin: 0 3px;
-  }*/
 
+  .floatingLadyBackground {
+  	background: url('../images/Home/floatinglady_wo_button.png') no-repeat center center scroll;
+    background-size: cover;
+      /* height: 450px; */
+  }
 
-/***********  END CAROUSEL **************************************/
+  .img-center {
+  	margin: 0 auto;
+  }
+
+  section {
+      padding: 75px 0;
+  }
+
+  .section-heading {
+      margin: 30px 0;
+      font-size: 4em;
+  }
+
+  .section-lead {
+      margin: 30px 0;
+  }
+
+  .section-paragraph {
+      margin: 30px 0;
+  }
+
+  footer {
+      margin: 50px 0;
+  }
+
+  @media(max-width:768px) {
+      section {
+          padding-top: 25px;
+          padding-bottom: 25px;
+      }
+
+      .section-heading {
+          font-size: 2em;
+      }
+  }

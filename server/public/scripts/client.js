@@ -6,26 +6,6 @@ app.config(['$routeProvider', function($routeProvider) {
      templateUrl: '/views/home.html',
      controller: 'HomeController',
      controllerAs: 'vm'
-  }).when('/maps', {
-     templateUrl: '/views/templates/maps.html',
-     controller: 'MapsController',
-     controllerAs: 'vm'
-  }).when('/admin', {
-     templateUrl: '/views/admin.html',
-     controller: 'AdminController',
-     controllerAs: 'vm'
-  }).when('/testMap', {
-     templateUrl: '/views/templates/testMap.html',
-     controller: 'HomeController',
-     controllerAs: 'vm'
-  }).when('/therapistMap', {
-     templateUrl: '/views/templates/therapistMap.html',
-     controller: 'HomeController',
-     controllerAs: 'vm'
-  }).when('/therapistRegister', {
-     templateUrl: '/views/templates/therapistRegister.html',
-     controller: 'HomeController',
-     controllerAs: 'vm'
  }).otherwise({
     redirectTo: '/home'
  });
